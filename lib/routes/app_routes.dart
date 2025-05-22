@@ -1,12 +1,16 @@
 import 'package:go_router/go_router.dart';
-import 'package:ring_link/pages/onboarding&Splash/onboarding_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_home_screen.dart';
+import 'package:ring_link/pages/common_pages/choose_role_screen/choose_role_screen.dart';
+import 'package:ring_link/pages/common_pages/email_vefication_screen/email_verification_screen.dart';
+import 'package:ring_link/pages/common_pages/onboarding&Splash/onboarding_screen.dart';
+import 'package:ring_link/pages/common_pages/registration_screen/registration_screen.dart';
 import 'package:ring_link/routes/app_route_names.dart';
 import 'package:ring_link/routes/app_route_paths.dart';
 
-import '../pages/login_screen/login_screen.dart';
+import '../pages/common_pages/login_screen/login_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutePaths.login,
+  initialLocation: AppRoutePaths.artistHomeScreen,
   routes: [
     GoRoute(
       path: AppRoutePaths.onBoarding,
@@ -18,15 +22,25 @@ final GoRouter appRouter = GoRouter(
       name: AppRouteNames.login,
       builder: (context, state) => LoginScreen(),
     ),
-    // GoRoute(
-    //   path: AppRoutePaths.register,
-    //   name: AppRouteNames.register,
-    //   builder: (context, state) => SignUpScreen(),
-    // ),
-    // GoRoute(
-    //   path: AppRoutePaths.navbar,
-    //   name: AppRouteNames.navbar,
-    //   builder: (context, state) => Navbar(),
-    // ),
+    GoRoute(
+      path: AppRoutePaths.registeration,
+      name: AppRouteNames.registeration,
+      builder: (context, state) => RegistrationScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.emailverification,
+      name: AppRouteNames.emailverification,
+      builder: (context, state) => EmailVerificationScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.chooserole,
+      name: AppRouteNames.chooserole,
+      builder: (context, state) => ChooseRoleScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.artistHomeScreen,
+      name: AppRouteNames.artistHomeScreen,
+      builder: (context, state) => ArtistHomeScreen(),
+    ),
   ],
 );

@@ -6,10 +6,10 @@ import 'package:ring_link/utils/num_txt.dart';
 
 import 'package:ring_link/widgets/components.dart';
 
-import '../../utils/library.dart';
+import '../../../utils/library.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class RegistrationScreen extends StatelessWidget {
+  RegistrationScreen({super.key});
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                   appLogo(width: 100, height: 100),
                   (context.screenHeight * 0.03).heightBox,
                   Text(
-                    "Welcome Back, Fighter!",
+                    "Join RingLink",
                     style: context.headlineLarge,
                     textAlign: textAlignCenter,
                   ),
@@ -37,6 +37,16 @@ class LoginScreen extends StatelessWidget {
                       key: formkey,
                       child: Column(
                         children: [
+                          CustomTextFormField(
+                            prefixIcon: Iconsax.user,
+                            hintText: nameHint,
+                            onChanged: (value) {},
+                            fillColor: Colors.transparent,
+                            borderColor: AppColors.lightGrey,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: Validator.validateName,
+                          ),
+                          20.heightBox,
                           CustomTextFormField(
                             prefixIcon: Iconsax.sms,
                             hintText: emailHint,
@@ -53,6 +63,20 @@ class LoginScreen extends StatelessWidget {
                               prefixIcon: Iconsax.lock,
                               obscureText: true,
                               hintText: passwordHint,
+                              onChanged: (value) {},
+                              fillColor: Colors.transparent,
+                              borderColor: AppColors.lightGrey,
+                              keyboardType: TextInputType.visiblePassword,
+                              validator: Validator.validatePassword,
+                            ),
+                          ),
+                          20.heightBox,
+                          BlocProvider(
+                            create: (context) => TextFieldCubit(),
+                            child: CustomTextFormField(
+                              prefixIcon: Iconsax.lock,
+                              obscureText: true,
+                              hintText: "Enter your confirm password",
                               onChanged: (value) {},
                               fillColor: Colors.transparent,
                               borderColor: AppColors.lightGrey,
@@ -81,16 +105,10 @@ class LoginScreen extends StatelessWidget {
                                     visualDensity: VisualDensity.compact,
                                   ),
                                   Text(
-                                    'Remember me',
+                                    'I agree to the Terms & Conditions',
                                     style: context.bodyMedium,
                                   ),
                                 ],
-                              ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Text('Forgot Password?',
-                                    style: context.bodyLarge!.copyWith(
-                                        color: AppColors.primaryColor)),
                               ),
                             ],
                           ),
@@ -99,9 +117,9 @@ class LoginScreen extends StatelessWidget {
                             width: context.screenWidth * 0.9,
                             height: context.screenHeight * 0.06,
                             child: RoundButton(
-                              text: "Log In",
+                              text: "Create An Account",
                               onPressed: () {},
-                              fontsize: 20,
+                              fontsize: 18,
                               backgroundColor: AppColors.buttonColor,
                             ),
                           ),
@@ -109,10 +127,10 @@ class LoginScreen extends StatelessWidget {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                text: "Don’t have an account? ",
+                                text: "Already, have an account? ",
                                 style: context.bodyMedium),
                             TextSpan(
-                                text: "Sign up",
+                                text: "Sign In",
                                 style: context.bodyLarge!
                                     .copyWith(color: AppColors.primaryColor)),
                           ])),

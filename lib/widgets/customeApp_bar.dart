@@ -1,48 +1,59 @@
-// import 'package:auction_app/app/modules/modules.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ring_link/utils/context_ext.dart';
+import 'package:ring_link/utils/paddings.dart';
 
-// class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-//   final double height;
+class CustomAppBar extends StatelessWidget {
+  final String title;
+  final VoidCallback? onBack;
 
-//   const CustomAppBar({super.key, this.height = kToolbarHeight});
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    this.onBack,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisSize: MainAxisSize.min,
-//       children: [
-//         AppBar(
-//           surfaceTintColor: Colors.transparent,
-//           backgroundColor: Colors.transparent,
-//           leading: Padding(
-//             padding:
-//                 const EdgeInsets.only(left: 18, top: 12, bottom: 12, right: 4),
-//             child: Icon(
-//               Iconsax.menu_1,
-//               color: Vx.white,
-//             ).box.roundedSM.color(AppColors.primaryColor).make(),
-//           ),
-//           centerTitle: false,
-//           title: appLogo(
-//             width: context.width * 0.3,
-//             height: context.height * 0.07,
-//           ).box.height(context.height * 0.07).width(context.width * 0.3).make(),
-//           actions: [
-//             const Icon(Iconsax.notification),
-//             const SizedBox(width: 20),
-//             const Icon(Iconsax.setting_2).box.make().onTap(() {
-//               Get.toNamed(Routes.SETTINGS);
-//             }),
-//             const SizedBox(width: 10),
-//           ],
-//         ),
-//         Divider(
-//             height: 1,
-//             thickness: 1,
-//             color: Colors.grey[300]), 
-//       ],
-//     );
-//   }
-
-//   @override
-//   Size get preferredSize => Size.fromHeight(height + 1);
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding20,
+      child: SizedBox(
+        height: 35,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: Text(
+                title,
+                style: context.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                width: 35,
+                height: 35,
+                decoration: BoxDecoration(
+                  color: const Color(0xff212429),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    onPressed: onBack ?? () => context.pop(),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      size: 20,
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

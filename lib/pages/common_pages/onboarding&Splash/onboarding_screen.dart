@@ -3,7 +3,7 @@ import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/appLogo.dart';
 import 'package:ring_link/widgets/components.dart';
 
-import '../../utils/library.dart';
+import '../../../utils/library.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});

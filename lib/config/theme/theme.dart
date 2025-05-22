@@ -54,6 +54,8 @@ class AppThemes {
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: AppColors.primaryColor,
+    appBarTheme:
+        AppBarTheme(backgroundColor: AppColors.scaffoldBackgroundColorDark),
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColors.primaryColor),
     brightness: Brightness.dark,
