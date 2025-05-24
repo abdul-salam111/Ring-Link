@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Primary Colors
   static const primaryColor = Color(0xFF325CF7); // Example: Purple
-  static const primaryLightColor = Color(0xFF2767F4);
+  static const secondaryColor = Color(0xFF496EF3);
   static const primaryDarkColor = Color(0xFF05387A);
   static const lightgreycardColor = Color(0xff1C1F23);
   // Secondary Colors
-  static const secondaryColor = Color(0xFF08AD36); // Example: Teal
+
   static const secondaryLightColor = Color(0xFF66FFF9);
   static const secondaryDarkColor = Color(0xFF00A896);
 

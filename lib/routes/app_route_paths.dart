@@ -7,7 +7,7 @@ class AppRoutePaths {
   static const String emailverification = '/emailverification';
   static const String chooserole = '/chooserole';
 
-
   //artists pages
   static const String artistHomeScreen = '/artistHomeScreen';
+  static const String trainerFilter = '/trainerFilter';
 }
