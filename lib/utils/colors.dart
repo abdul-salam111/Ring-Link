@@ -4,6 +4,7 @@ class AppColors {
   // Primary Colors
   static const primaryColor = Color(0xFF325CF7); // Example: Purple
   static const secondaryColor = Color(0xFF496EF3);
+  
   static const primaryDarkColor = Color(0xFF05387A);
   static const lightgreycardColor = Color(0xff1C1F23);
   // Secondary Colors

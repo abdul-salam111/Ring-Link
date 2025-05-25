@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ring_link/pages/artist_pages/artist_home_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_details_screen/artist_details_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_home_screen/artist_home_screen.dart';
+import 'package:ring_link/pages/artist_pages/trainer_profile_screen_for_artist/trainer_profile_screen.dart';
 import 'package:ring_link/pages/common_pages/choose_role_screen/choose_role_screen.dart';
 import 'package:ring_link/pages/common_pages/email_vefication_screen/email_verification_screen.dart';
 import 'package:ring_link/pages/common_pages/navbar/navbar.dart';
@@ -12,7 +14,7 @@ import 'package:ring_link/routes/app_route_paths.dart';
 import '../pages/common_pages/login_screen/login_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutePaths.navbar,
+  initialLocation: AppRoutePaths.trainerProfileScreenForArtist,
   routes: [
     GoRoute(
       path: AppRoutePaths.onBoarding,
@@ -57,8 +59,8 @@ final GoRouter appRouter = GoRouter(
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
-              begin: const Offset(0, 1), 
-              end: Offset.zero, 
+              begin: const Offset(0, 1),
+              end: Offset.zero,
             ).animate(CurvedAnimation(
               parent: animation,
               curve: Curves.easeOut,
@@ -68,6 +70,16 @@ final GoRouter appRouter = GoRouter(
         },
         transitionDuration: const Duration(milliseconds: 400),
       ),
+    ),
+    GoRoute(
+      path: AppRoutePaths.artistDetails,
+      name: AppRouteNames.artistDetails,
+      builder: (context, state) => ArtistDetailsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.trainerProfileScreenForArtist,
+      name: AppRouteNames.trainerProfileScreenForArtist,
+      builder: (context, state) => TrainerProfileScreenForArtist(),
     ),
   ],
 );

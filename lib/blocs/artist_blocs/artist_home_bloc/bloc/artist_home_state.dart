@@ -40,10 +40,10 @@ class ArtistHomeState extends Equatable {
       locations: locations ?? this.locations,
       selectedLevel: selectedLevel ?? this.selectedLevel,
       selectedRange: selectedRange ?? this.selectedRange,
-      minimumRating: this.minimumRating,
-      avialibility: this.avialibility,
-      sessionType: this.sessionType,
-      virtualTraining: this.virtualTraining,
+      minimumRating: minimumRating ?? this.minimumRating,
+      avialibility: avialibility ?? this.avialibility,
+      sessionType: sessionType ?? this.sessionType,
+      virtualTraining: virtualTraining ?? this.virtualTraining,
     );
   }
 

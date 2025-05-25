@@ -8,7 +8,7 @@ import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
 
-import '../../routes/routes.dart';
+import '../../../routes/routes.dart';
 
 class ArtistHomeScreen extends StatefulWidget {
   const ArtistHomeScreen({super.key});
@@ -815,14 +815,94 @@ class _TrainerFilterState extends State<TrainerFilter> {
                                           context
                                               .read<ArtistHomeBloc>()
                                               .add(SelectVirtualTraining(val));
-                               
                                         }),
                                   );
                                 },
                               )
                             ],
                           ),
+                          20.heightBox,
+                          Text(
+                            "Session Type",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(color: Colors.white),
+                          ),
                           10.heightBox,
+                          BlocBuilder<ArtistHomeBloc, ArtistHomeState>(
+                              buildWhen: (previous, current) =>
+                                  previous.avialibility != current.avialibility,
+                              builder: (context, state) {
+                                return Material(
+                                  child: DropdownButtonFormField<String>(
+                                    style: context.bodyMedium!
+                                        .copyWith(color: Colors.white),
+                                    decoration: InputDecoration(
+                                        prefixIcon: Icon(Iconsax.user),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 15),
+                                        hintText: 'Select Availbility',
+                                        hintStyle: context.bodyMedium!
+                                            .copyWith(color: Colors.white),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            borderSide: BorderSide(
+                                                color: AppColors.lightGrey)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            borderSide: BorderSide(
+                                                color: AppColors.lightGrey)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            borderSide: BorderSide(
+                                                color:
+                                                    AppColors.primaryColor))),
+                                    items: ["Morining", "Afternoon", "Evening"]
+                                        .map((option) {
+                                      return DropdownMenuItem(
+                                        value: option,
+                                        child: Text(option),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        context
+                                            .read<ArtistHomeBloc>()
+                                            .add(SelectAvailability(value));
+                                      }
+                                    },
+                                  ),
+                                );
+                              }),
+                          20.heightBox,
+                          Row(
+                            mainAxisAlignment: mainAxisSpaceBetween,
+                            children: [
+                              SizedBox(
+                                width: context.screenWidth * 0.4,
+                                height: 45,
+                                child: RoundButton(
+                                  text: "Reset",
+                                  onPressed: () {},
+                                  backgroundColor: AppColors.lightgreycardColor,
+                                ),
+                              ),
+                              SizedBox(
+                                width: context.screenWidth * 0.4,
+                                height: 45,
+                                child: RoundButton(
+                                  text: "Apply",
+                                  onPressed: () {},
+                                  backgroundColor: AppColors.secondaryColor,
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),

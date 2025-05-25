@@ -1,0 +1,557 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:ring_link/blocs/artist_blocs/trainer_profile_for_artist/trainer_profile_artist/bloc/trainer_profile_artist_bloc.dart';
+import 'package:ring_link/utils/library.dart';
+import 'package:ring_link/utils/num_txt.dart';
+import 'package:ring_link/widgets/components.dart';
+
+class TrainerProfileScreenForArtist extends StatefulWidget {
+  const TrainerProfileScreenForArtist({super.key});
+
+  @override
+  State<TrainerProfileScreenForArtist> createState() =>
+      _TrainerProfileScreenForArtistState();
+}
+
+class _TrainerProfileScreenForArtistState
+    extends State<TrainerProfileScreenForArtist> {
+  late TrainerProfileArtistBloc trainerProfileArtistBloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    trainerProfileArtistBloc = TrainerProfileArtistBloc();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) => trainerProfileArtistBloc,
+        child: Column(
+          crossAxisAlignment: crossAxisStart,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.blue.withAlpha((0.03 * 255).toInt()),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40))),
+              child: Padding(
+                padding: screenPadding,
+                child: Column(
+                  children: [
+                    50.heightBox,
+                    Row(
+                      mainAxisAlignment: mainAxisSpaceBetween,
+                      children: [
+                        Container(
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff212429),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: IconButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                size: 20,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "Stephanie Nicol",
+                          style: context.bodyLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff212429),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: IconButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              icon: const Icon(
+                                Icons.more_vert,
+                                size: 20,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    20.heightBox,
+                    Row(
+                      crossAxisAlignment: crossAxisCenter,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                              "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
+                          radius: 30,
+                        ),
+                        10.widthBox,
+                        Column(
+                          crossAxisAlignment: crossAxisStart,
+                          children: [
+                            5.heightBox,
+                            Text(
+                              "Stephanie Nicol",
+                              style: context.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                            3.heightBox,
+                            Text(
+                              "Jiu-Jitsu",
+                              style: context.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Text(
+                          "\$50/hr",
+                          style: context.headlineSmall!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                    10.heightBox,
+                    Row(
+                      mainAxisAlignment: mainAxisSpaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/icons/setting.png",
+                              height: (context.screenWidth <= 420) ? 20 : 30,
+                              width: (context.screenWidth <= 420) ? 20 : 30,
+                            ),
+                            5.widthBox,
+                            Text(
+                              "10+ years",
+                              style: context.bodyLarge!.copyWith(
+                                  fontSize:
+                                      (context.screenWidth <= 420) ? 14 : 16),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/icons/location.png",
+                              height: (context.screenWidth <= 420) ? 14 : 20,
+                              width: (context.screenWidth <= 420) ? 14 : 20,
+                            ),
+                            5.widthBox,
+                            Text(
+                              "Brazalian",
+                              style: context.bodyLarge!.copyWith(
+                                  fontSize:
+                                      (context.screenWidth <= 420) ? 14 : 16),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Row(
+                              children: List.generate(
+                                  5,
+                                  (index) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                        size: (context.screenWidth <= 420)
+                                            ? 14
+                                            : 22,
+                                      )),
+                            ),
+                            Text(
+                              "5.0",
+                              style: context.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xffBCBABA)),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    20.heightBox,
+                    Row(
+                      mainAxisAlignment: mainAxisSpaceAround,
+                      children: [
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff212429),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: IconButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              icon: Icon(
+                                Iconsax.message_text,
+                                size: 20,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: context.screenWidth * 0.5,
+                          height: 45,
+                          child: RoundButton(
+                            text: "Book a Session",
+                            onPressed: () {},
+                            backgroundColor: AppColors.secondaryColor,
+                          ),
+                        ),
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff212429),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: IconButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              icon: Icon(
+                                Iconsax.share,
+                                size: 20,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    30.heightBox,
+                  ],
+                ),
+              ),
+            ),
+            20.heightBox,
+            Padding(
+              padding: screenPadding,
+              child: Column(
+                children: [
+                  Container(
+                    padding: defaultPadding,
+                    height: 65,
+                    decoration: BoxDecoration(
+                      color: AppColors.lightgreycardColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        BlocBuilder<TrainerProfileArtistBloc,
+                            TrainerProfileArtistState>(
+                          buildWhen: (previous, current) =>
+                              previous.currentTabIndex !=
+                              current.currentTabIndex,
+                          builder: (context, state) {
+                            return Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.read<TrainerProfileArtistBloc>().add(
+                                      ChangeTrainerProfileTab(
+                                          currentTabIndex: 0));
+                                },
+                                child: Container(
+                                  padding: padding10,
+                                  decoration: BoxDecoration(
+                                    color: state.currentTabIndex == 0
+                                        ? AppColors.secondaryColor
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "About",
+                                      style: context.bodyLarge!.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        10.widthBox,
+                        BlocBuilder<TrainerProfileArtistBloc,
+                            TrainerProfileArtistState>(
+                          buildWhen: (previous, current) =>
+                              previous.currentTabIndex !=
+                              current.currentTabIndex,
+                          builder: (context, state) {
+                            return Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.read<TrainerProfileArtistBloc>().add(
+                                      ChangeTrainerProfileTab(
+                                          currentTabIndex: 1));
+                                },
+                                child: Container(
+                                  padding: padding10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: state.currentTabIndex == 1
+                                        ? AppColors.secondaryColor
+                                        : Colors.transparent,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Pricing",
+                                      style: context.bodyLarge!.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        10.widthBox,
+                        BlocBuilder<TrainerProfileArtistBloc,
+                            TrainerProfileArtistState>(
+                          buildWhen: (previous, current) =>
+                              previous.currentTabIndex !=
+                              current.currentTabIndex,
+                          builder: (context, state) {
+                            return Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.read<TrainerProfileArtistBloc>().add(
+                                      ChangeTrainerProfileTab(
+                                          currentTabIndex: 2));
+                                },
+                                child: Container(
+                                  padding: padding10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: state.currentTabIndex == 2
+                                        ? AppColors.secondaryColor
+                                        : Colors.transparent,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Reviews",
+                                      style: context.bodyLarge!.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  BlocBuilder<TrainerProfileArtistBloc,
+                      TrainerProfileArtistState>(
+                    builder: (context, state) {
+                      if (state.currentTabIndex == 0) {
+                        return SingleChildScrollView(
+                            child: Column(
+                          crossAxisAlignment: crossAxisStart,
+                          children: [
+                            20.heightBox,
+                            Text(
+                              "Short Bio",
+                              style: context.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            10.heightBox,
+                            Text(
+                              "Meet Stephanie Nico With over 6 years of experience in [MMA specialization], [Trainer Name] has trained fighters from beginners to pros, helping them sharpen their skills and build confidence inside the cage.",
+                              style: context.bodyMedium,
+                              textAlign: textAlignJustify,
+                            ),
+                            20.heightBox,
+                            Text(
+                              "Credentials",
+                              style: context.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            20.heightBox,
+                            Row(
+                              crossAxisAlignment: crossAxisStart,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                                    height: 80,
+                                    width: 80,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                10.widthBox,
+                                Column(
+                                  crossAxisAlignment: crossAxisStart,
+                                  children: [
+                                    Text(
+                                      "Certified UFC Coach",
+                                      style: context.bodyLarge!.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    5.heightBox,
+                                    Text(
+                                      "Black Belt in BJJ",
+                                      style: context.bodySmall!.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    5.heightBox,
+                                    Text(
+                                      "10+ years Coaching",
+                                      style: context.bodySmall!.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ));
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                  BlocBuilder<TrainerProfileArtistBloc,
+                      TrainerProfileArtistState>(
+                    builder: (context, state) {
+                      return state.currentTabIndex == 1
+                          ? Align(
+                              alignment: topLeft,
+                              child: ListView(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                children: [
+                                  20.heightBox,
+                                  Text(
+                                    "Hourly Rate",
+                                    style: context.bodyLarge!
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  10.heightBox,
+                                  Text(
+                                    "\$50/hr",
+                                    style: context.headlineSmall!
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  20.heightBox,
+                                  Text(
+                                    "Session Type",
+                                    style: context.bodyLarge!
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  Wrap(
+                                    spacing: 5,
+                                    runSpacing: 5,
+                                    children: [
+                                      _buildOutlinedButton(
+                                          "Individual Session"),
+                                      _buildOutlinedButton("Group Training"),
+                                      _buildOutlinedButton("Virtual Training"),
+                                    ],
+                                  ),
+                                  20.heightBox,
+                                  Text(
+                                    "Available Slots",
+                                    style: context.bodyLarge!
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  5.heightBox,
+                                  Text(
+                                    "Sunady, Wednesday, 5 PM - 7 PM",
+                                    style: context.bodySmall!
+                                        .copyWith(color: Colors.grey),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  20.heightBox,
+                                  Text(
+                                    "Training Location",
+                                    style: context.bodyLarge!
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  5.heightBox,
+                                  
+                                ],
+                              ),
+                            )
+                          : SizedBox.shrink();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOutlinedButton(String title) {
+    return SizedBox(
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: AppColors.lightGrey),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Text(
+          title,
+          style: context.bodySmall!.copyWith(color: Colors.white),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
