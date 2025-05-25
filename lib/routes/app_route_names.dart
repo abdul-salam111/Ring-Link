@@ -16,4 +16,10 @@ class AppRouteNames {
   static const String trainerFilter = 'trainerFilter';
   static const String artistDetails = 'artistDetails';
   static const String trainerProfileScreenForArtist = 'trainerProfileScreenForArtist';
+  
+
+  //trainer pages
+  static const String trainerHomeScreen = 'trainerHomeScreen';
+  
+
 }

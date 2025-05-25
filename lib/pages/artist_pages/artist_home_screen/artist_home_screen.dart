@@ -7,6 +7,7 @@ import 'package:ring_link/blocs/artist_blocs/artist_home_bloc/bloc/artist_home_b
 import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
+import 'package:ring_link/widgets/custom_tab_bar.dart';
 
 import '../../../routes/routes.dart';
 
@@ -42,40 +43,11 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                 child: Column(
                   children: [
                     10.heightBox,
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 22,
-                          backgroundImage: NetworkImage(
-                              "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
-                        ),
-                        10.widthBox,
-                        Column(
-                          mainAxisAlignment: mainAxisCenter,
-                          crossAxisAlignment: crossAxisStart,
-                          children: [
-                            Text(
-                              "Welcome, Back!",
-                              style: context.bodyLarge,
-                            ),
-                            Text(
-                              "Ready to level up your training",
-                              style: context.displayLarge,
-                            )
-                          ],
-                        ),
-                        Spacer(),
-                        Container(
-                            decoration: BoxDecoration(
-                                color: AppColors.lightgreycardColor,
-                                borderRadius: BorderRadius.circular(50)),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Iconsax.notification5,
-                                  color: Colors.white,
-                                )))
-                      ],
+                    WelcomeHeader(
+                      subtitle: "Ready to level up your training",
+                      imageUrl:
+                          "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                      onNotificationTap: () {},
                     ),
                     20.heightBox,
                     Row(
@@ -122,100 +94,25 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                       ],
                     ),
                     20.heightBox,
-                    Container(
-                      padding: defaultPadding,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        color: AppColors.lightgreycardColor,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Row(
-                        children: [
-                          BlocBuilder<ArtistHomeBloc, ArtistHomeState>(
-                            buildWhen: (previous, current) =>
-                                previous.currentTabIndex !=
-                                current.currentTabIndex,
-                            builder: (context, state) {
-                              return Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context.read<ArtistHomeBloc>().add(
-                                        ArtistHomeTabChanged(
-                                            currentTabIndex: 0));
-                                  },
-                                  child: Container(
-                                    padding: padding10,
-                                    decoration: BoxDecoration(
-                                      color: state.currentTabIndex == 0
-                                          ? AppColors.secondaryColor
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Find a Trainer",
-                                        style: context.bodyLarge!.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          10.widthBox,
-                          BlocBuilder<ArtistHomeBloc, ArtistHomeState>(
-                            buildWhen: (previous, current) =>
-                                previous.currentTabIndex !=
-                                current.currentTabIndex,
-                            builder: (context, state) {
-                              return Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context.read<ArtistHomeBloc>().add(
-                                        ArtistHomeTabChanged(
-                                            currentTabIndex: 1));
-                                  },
-                                  child: Container(
-                                    padding: padding10,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: state.currentTabIndex == 1
-                                          ? AppColors.secondaryColor
-                                          : Colors.transparent,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Book a Session",
-                                        style: context.bodyLarge!.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+                    BlocBuilder<ArtistHomeBloc, ArtistHomeState>(
+                      buildWhen: (previous, current) =>
+                          previous.currentTabIndex != current.currentTabIndex,
+                      builder: (context, state) {
+                        return CustomTabBar(
+                          tabs: const ["Find a Trainer", "Book a Session"],
+                          selectedIndex: state.currentTabIndex,
+                          onTabSelected: (index) {
+                            context.read<ArtistHomeBloc>().add(
+                                  ArtistHomeTabChanged(currentTabIndex: index),
+                                );
+                          },
+                        );
+                      },
                     ),
                     20.heightBox,
-                    Row(
-                      mainAxisAlignment: mainAxisSpaceBetween,
-                      children: [
-                        Text("Recommended Trainers",
-                            style: context.headlineSmall!.copyWith(
-                              fontWeight: FontWeight.w600,
-                            )),
-                        Text("See All",
-                            style: context.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.normal,
-                            )),
-                      ],
+                    SectionHeaderWithAction(
+                      title: "Recommended Trainers",
+                      onSeeAllTap: () {},
                     ),
                     20.heightBox,
                     SizedBox(

@@ -8,4 +8,6 @@ export './customeApp_bar.dart';
 export './popup.dart';
 export './deletePopUp.dart';
 export './custom_app_bar_sec.dart';
-
+export './welcome_header.dart';
+export './custom_tab_bar.dart';
+export './recommended_header.dart';

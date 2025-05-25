@@ -14,6 +14,8 @@ import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
 
+import '../../../widgets/custom_tab_bar.dart';
+
 class TrainerProfileScreenForArtist extends StatefulWidget {
   const TrainerProfileScreenForArtist({super.key});
 
@@ -85,7 +87,9 @@ class _TrainerProfileScreenForArtistState
                   child: Column(
                     children: [
                       50.heightBox,
-                   CustomAppBarSec(title: 'Stephanie',),
+                      CustomAppBarSec(
+                        title: 'Stephanie',
+                      ),
                       20.heightBox,
                       Row(
                         crossAxisAlignment: crossAxisCenter,
@@ -249,420 +253,312 @@ class _TrainerProfileScreenForArtistState
               20.heightBox,
               Padding(
                 padding: screenPadding,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: defaultPadding,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        color: AppColors.lightgreycardColor,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Row(
+                child: BlocBuilder<TrainerProfileArtistBloc,
+                    TrainerProfileArtistState>(
+                  buildWhen: (previous, current) =>
+                      previous.currentTabIndex != current.currentTabIndex,
+                  builder: (context, state) {
+                    return CustomTabBar(
+                      tabs: const ["About", "Pricing", "Reviews"],
+                      selectedIndex: state.currentTabIndex,
+                      onTabSelected: (index) {
+                        context.read<TrainerProfileArtistBloc>().add(
+                              ChangeTrainerProfileTab(currentTabIndex: index),
+                            );
+                      },
+                    );
+                  },
+                ),
+              ),
+              BlocBuilder<TrainerProfileArtistBloc, TrainerProfileArtistState>(
+                builder: (context, state) {
+                  if (state.currentTabIndex == 0) {
+                    return Padding(
+                      padding: screenPadding,
+                      child: Column(
+                        crossAxisAlignment: crossAxisStart,
                         children: [
-                          BlocBuilder<TrainerProfileArtistBloc,
-                              TrainerProfileArtistState>(
-                            buildWhen: (previous, current) =>
-                                previous.currentTabIndex !=
-                                current.currentTabIndex,
-                            builder: (context, state) {
-                              return Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context
-                                        .read<TrainerProfileArtistBloc>()
-                                        .add(ChangeTrainerProfileTab(
-                                            currentTabIndex: 0));
-                                  },
-                                  child: Container(
-                                    padding: padding10,
-                                    decoration: BoxDecoration(
-                                      color: state.currentTabIndex == 0
-                                          ? AppColors.secondaryColor
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "About",
-                                        style: context.bodyLarge!.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                          20.heightBox,
+                          Text(
+                            "Short Bio",
+                            style: context.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
-                          10.widthBox,
-                          BlocBuilder<TrainerProfileArtistBloc,
-                              TrainerProfileArtistState>(
-                            buildWhen: (previous, current) =>
-                                previous.currentTabIndex !=
-                                current.currentTabIndex,
-                            builder: (context, state) {
-                              return Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context
-                                        .read<TrainerProfileArtistBloc>()
-                                        .add(ChangeTrainerProfileTab(
-                                            currentTabIndex: 1));
-                                  },
-                                  child: Container(
-                                    padding: padding10,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: state.currentTabIndex == 1
-                                          ? AppColors.secondaryColor
-                                          : Colors.transparent,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Pricing",
-                                        style: context.bodyLarge!.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                          10.heightBox,
+                          Text(
+                            "Meet Stephanie Nico With over 6 years of experience in [MMA specialization], [Trainer Name] has trained fighters from beginners to pros, helping them sharpen their skills and build confidence inside the cage.",
+                            style: context.bodyMedium,
+                            textAlign: textAlignJustify,
                           ),
-                          10.widthBox,
-                          BlocBuilder<TrainerProfileArtistBloc,
-                              TrainerProfileArtistState>(
-                            buildWhen: (previous, current) =>
-                                previous.currentTabIndex !=
-                                current.currentTabIndex,
-                            builder: (context, state) {
-                              return Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context
-                                        .read<TrainerProfileArtistBloc>()
-                                        .add(ChangeTrainerProfileTab(
-                                            currentTabIndex: 2));
-                                  },
-                                  child: Container(
-                                    padding: padding10,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: state.currentTabIndex == 2
-                                          ? AppColors.secondaryColor
-                                          : Colors.transparent,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Reviews",
-                                        style: context.bodyLarge!.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                          20.heightBox,
+                          Text(
+                            "Credentials",
+                            style: context.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                    BlocBuilder<TrainerProfileArtistBloc,
-                        TrainerProfileArtistState>(
-                      builder: (context, state) {
-                        if (state.currentTabIndex == 0) {
-                          return Column(
+                          20.heightBox,
+                          Row(
                             crossAxisAlignment: crossAxisStart,
                             children: [
-                              20.heightBox,
-                              Text(
-                                "Short Bio",
-                                style: context.bodyLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              10.heightBox,
-                              Text(
-                                "Meet Stephanie Nico With over 6 years of experience in [MMA specialization], [Trainer Name] has trained fighters from beginners to pros, helping them sharpen their skills and build confidence inside the cage.",
-                                style: context.bodyMedium,
-                                textAlign: textAlignJustify,
-                              ),
-                              20.heightBox,
-                              Text(
-                                "Credentials",
-                                style: context.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                                  height: 80,
+                                  width: 80,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              20.heightBox,
-                              Row(
+                              10.widthBox,
+                              Column(
                                 crossAxisAlignment: crossAxisStart,
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
-                                      height: 80,
-                                      width: 80,
-                                      fit: BoxFit.cover,
+                                  Text(
+                                    "Certified UFC Coach",
+                                    style: context.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  10.widthBox,
-                                  Column(
-                                    crossAxisAlignment: crossAxisStart,
-                                    children: [
-                                      Text(
-                                        "Certified UFC Coach",
-                                        style: context.bodyLarge!.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      5.heightBox,
-                                      Text(
-                                        "Black Belt in BJJ",
-                                        style: context.bodySmall!.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      5.heightBox,
-                                      Text(
-                                        "10+ years Coaching",
-                                        style: context.bodySmall!.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
+                                  5.heightBox,
+                                  Text(
+                                    "Black Belt in BJJ",
+                                    style: context.bodySmall!.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  5.heightBox,
+                                  Text(
+                                    "10+ years Coaching",
+                                    style: context.bodySmall!.copyWith(
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
-                          );
-                        }
-                        return SizedBox.shrink();
-                      },
-                    ),
-                    BlocBuilder<TrainerProfileArtistBloc,
-                        TrainerProfileArtistState>(
-                      builder: (context, state) {
-                        return state.currentTabIndex == 1
-                            ? Column(
-                                crossAxisAlignment: crossAxisStart,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
+              ),
+              BlocBuilder<TrainerProfileArtistBloc, TrainerProfileArtistState>(
+                builder: (context, state) {
+                  return state.currentTabIndex == 1
+                      ? Padding(
+                          padding: screenPadding,
+                          child: Column(
+                            crossAxisAlignment: crossAxisStart,
+                            children: [
+                              20.heightBox,
+                              Text(
+                                "Hourly Rate",
+                                style: context.bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              10.heightBox,
+                              Text(
+                                "\$50/hr",
+                                style: context.headlineSmall!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              20.heightBox,
+                              Text(
+                                "Session Type",
+                                style: context.bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              Wrap(
+                                spacing: 5,
+                                runSpacing: 5,
                                 children: [
-                                  20.heightBox,
-                                  Text(
-                                    "Hourly Rate",
-                                    style: context.bodyLarge!
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  10.heightBox,
-                                  Text(
-                                    "\$50/hr",
-                                    style: context.headlineSmall!
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  20.heightBox,
-                                  Text(
-                                    "Session Type",
-                                    style: context.bodyLarge!
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  Wrap(
-                                    spacing: 5,
-                                    runSpacing: 5,
-                                    children: [
-                                      _buildOutlinedButton(
-                                          "Individual Session"),
-                                      _buildOutlinedButton("Group Training"),
-                                      _buildOutlinedButton("Virtual Training"),
-                                    ],
-                                  ),
-                                  20.heightBox,
-                                  Text(
-                                    "Available Slots",
-                                    style: context.bodyLarge!
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  5.heightBox,
-                                  Text(
-                                    "Sunady, Wednesday, 5 PM - 7 PM",
-                                    style: context.bodySmall!
-                                        .copyWith(color: Colors.grey),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  20.heightBox,
-                                  Text(
-                                    "Training Location",
-                                    style: context.bodyLarge!
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  5.heightBox,
-                                  // In your Pricing tab section where the map is:
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: SizedBox(
-                                      width: context.screenWidth * 0.9,
-                                      height: 200,
-                                      child: IgnorePointer(
-                                        // Add this widget
-                                        ignoring:
-                                            false, // Set to true if you want to disable all gestures
-                                        child: GoogleMap(
-                                          gestureRecognizers: <Factory<
-                                              OneSequenceGestureRecognizer>>{
-                                            Factory<
-                                                OneSequenceGestureRecognizer>(
-                                              () => EagerGestureRecognizer(),
-                                            ),
-                                          }.toSet(),
-                                          key: const ValueKey('google_map_key'),
-                                          markers: _markers,
-                                          mapType: MapType.normal,
-                                          initialCameraPosition: _kGooglePlex,
-                                          onMapCreated:
-                                              (GoogleMapController controller) {
-                                            _controller.complete(controller);
-                                          },
-                                          zoomGesturesEnabled: true,
-                                          scrollGesturesEnabled: true,
-                                          rotateGesturesEnabled: true,
-                                          tiltGesturesEnabled: true,
-                                          myLocationEnabled: true,
-                                          myLocationButtonEnabled: true,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  _buildOutlinedButton("Individual Session"),
+                                  _buildOutlinedButton("Group Training"),
+                                  _buildOutlinedButton("Virtual Training"),
                                 ],
-                              )
-                            : SizedBox.shrink();
-                      },
-                    ),
-                    BlocBuilder<TrainerProfileArtistBloc,
-                        TrainerProfileArtistState>(
-                      buildWhen: (previous, current) =>
-                          previous.currentTabIndex != current.currentTabIndex,
-                      builder: (context, state) {
-                        return state.currentTabIndex == 2
-                            ? Align(
-                                alignment: topLeft,
-                                child: Column(
-                                  crossAxisAlignment: crossAxisStart,
-                                  children: [
-                                    20.heightBox,
-                                    Row(
-                                      mainAxisAlignment: mainAxisSpaceBetween,
-                                      children: [
-                                        Text(
-                                          "Recent Reviews",
-                                          style: context.bodyLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
+                              ),
+                              20.heightBox,
+                              Text(
+                                "Available Slots",
+                                style: context.bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              5.heightBox,
+                              Text(
+                                "Sunady, Wednesday, 5 PM - 7 PM",
+                                style: context.bodySmall!
+                                    .copyWith(color: Colors.grey),
+                                textAlign: TextAlign.center,
+                              ),
+                              20.heightBox,
+                              Text(
+                                "Training Location",
+                                style: context.bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              5.heightBox,
+                              // In your Pricing tab section where the map is:
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 200,
+                                  child: IgnorePointer(
+                                    // Add this widget
+                                    ignoring:
+                                        false, // Set to true if you want to disable all gestures
+                                    child: GoogleMap(
+                                      gestureRecognizers: <Factory<
+                                          OneSequenceGestureRecognizer>>{
+                                        Factory<OneSequenceGestureRecognizer>(
+                                          () => EagerGestureRecognizer(),
                                         ),
-                                        Text(
-                                          "See More",
-                                          style: context.bodyMedium!.copyWith(
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
+                                      }.toSet(),
+                                      key: const ValueKey('google_map_key'),
+                                      markers: _markers,
+                                      mapType: MapType.normal,
+                                      initialCameraPosition: _kGooglePlex,
+                                      onMapCreated:
+                                          (GoogleMapController controller) {
+                                        _controller.complete(controller);
+                                      },
+                                      zoomGesturesEnabled: true,
+                                      scrollGesturesEnabled: true,
+                                      rotateGesturesEnabled: true,
+                                      tiltGesturesEnabled: true,
+                                      myLocationEnabled: true,
+                                      myLocationButtonEnabled: true,
                                     ),
-                                    ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        itemCount: 10,
-                                        itemBuilder: (index, cont) {
-                                          return Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 5),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: AppColors
-                                                      .lightgreycardColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              padding: defaultPadding,
-                                              child: Column(
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SizedBox.shrink();
+                },
+              ),
+              BlocBuilder<TrainerProfileArtistBloc, TrainerProfileArtistState>(
+                buildWhen: (previous, current) =>
+                    previous.currentTabIndex != current.currentTabIndex,
+                builder: (context, state) {
+                  return state.currentTabIndex == 2
+                      ? Padding(
+                          padding: screenPadding,
+                          child: Align(
+                            alignment: topLeft,
+                            child: Column(
+                              crossAxisAlignment: crossAxisStart,
+                              children: [
+                                20.heightBox,
+                                Row(
+                                  mainAxisAlignment: mainAxisSpaceBetween,
+                                  children: [
+                                    Text(
+                                      "Recent Reviews",
+                                      style: context.bodyLarge!.copyWith(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "See More",
+                                      style: context.bodyMedium!.copyWith(
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                                ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    itemCount: 10,
+                                    itemBuilder: (index, cont) {
+                                      return Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  AppColors.lightgreycardColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          padding: defaultPadding,
+                                          child: Column(
+                                            crossAxisAlignment: crossAxisStart,
+                                            children: [
+                                              Row(
                                                 crossAxisAlignment:
-                                                    crossAxisStart,
+                                                    crossAxisCenter,
                                                 children: [
-                                                  Row(
+                                                  CircleAvatar(
+                                                    backgroundImage:
+                                                        CachedNetworkImageProvider(
+                                                            "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
+                                                  ),
+                                                  10.widthBox,
+                                                  Column(
                                                     crossAxisAlignment:
-                                                        crossAxisCenter,
+                                                        crossAxisStart,
                                                     children: [
-                                                      CircleAvatar(
-                                                        backgroundImage:
-                                                            CachedNetworkImageProvider(
-                                                                "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
+                                                      Text(
+                                                        "Abdul Salam",
+                                                        style: context
+                                                            .bodySmall!
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
                                                       ),
-                                                      10.widthBox,
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            crossAxisStart,
+                                                      Row(
                                                         children: [
-                                                          Text(
-                                                            "Abdul Salam",
-                                                            style: context
-                                                                .bodySmall!
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                          ),
                                                           Row(
-                                                            children: [
-                                                              Row(
-                                                                children: List
-                                                                    .generate(5,
-                                                                        (index) {
-                                                                  return Icon(
-                                                                    Icons.star,
-                                                                    color: Colors
-                                                                        .amber,
-                                                                    size: 15,
-                                                                  );
-                                                                }),
-                                                              ),
-                                                              5.widthBox,
-                                                              Text(
-                                                                "Mar 5, 2025",
-                                                                style: context
-                                                                    .bodySmall,
-                                                              )
-                                                            ],
+                                                            children:
+                                                                List.generate(5,
+                                                                    (index) {
+                                                              return Icon(
+                                                                Icons.star,
+                                                                color: Colors
+                                                                    .amber,
+                                                                size: 15,
+                                                              );
+                                                            }),
                                                           ),
+                                                          5.widthBox,
+                                                          Text(
+                                                            "Mar 5, 2025",
+                                                            style: context
+                                                                .bodySmall,
+                                                          )
                                                         ],
                                                       ),
                                                     ],
                                                   ),
-                                                  10.heightBox,
-                                                  Text(
-                                                    "Great coach! Very patient and explains techniques well. Only wish the gym had more equipment.",
-                                                    style: context.bodySmall,
-                                                    textAlign: textAlignJustify,
-                                                  ),
                                                 ],
                                               ),
-                                            ),
-                                          );
-                                        })
-                                  ],
-                                ),
-                              )
-                            : SizedBox.shrink();
-                      },
-                    )
-                  ],
-                ),
-              ),
+                                              10.heightBox,
+                                              Text(
+                                                "Great coach! Very patient and explains techniques well. Only wish the gym had more equipment.",
+                                                style: context.bodySmall,
+                                                textAlign: textAlignJustify,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    })
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox.shrink();
+                },
+              )
             ],
           ),
         ),
