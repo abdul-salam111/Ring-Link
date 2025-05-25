@@ -1,4 +1,4 @@
-package com.example.ring_link
+package com.ringlink.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -8,7 +8,7 @@ import 'package:ring_link/utils/num_txt.dart';
 
 import 'package:ring_link/widgets/components.dart';
 
-import '../../utils/library.dart';
+import '../../../utils/library.dart';
 
 class TrainerHomeScreen extends StatefulWidget {
   const TrainerHomeScreen({super.key});
@@ -106,7 +106,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                       },
                     ),
                     20.heightBox,
-                    SectionHeaderWithAction(
+                    RecommendedHeader(
                       title: "Recommended Artists",
                       onSeeAllTap: () {},
                     ),
@@ -191,11 +191,104 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                       onPressed: () {},
                                       backgroundColor: AppColors.secondaryColor,
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             );
                           }),
+                    ),
+                    30.heightBox,
+                    RecommendedHeader(
+                      title: "Upcoming Sessions",
+                      onSeeAllTap: () {},
+                    ),
+                    20.heightBox,
+                    SizedBox(
+                      height: context.screenHeight * 0.12,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: context.screenWidth * 0.9,
+                            margin: const EdgeInsets.only(right: 13),
+                            padding: defaultPadding,
+                            decoration: BoxDecoration(
+                              color: AppColors.lightgreycardColor,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CachedNetworkImage(
+                                    width: context.screenWidth * 0.25,
+                                    height: context.screenHeight * 0.12,
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                        "https://img.freepik.com/free-photo/handsome-carefree-guy-dancing-hip-hop-having-fun_176420-21699.jpg?semt=ais_hybrid&w=740",
+                                  ),
+                                ),
+                                10.widthBox,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text("Dance Class",
+                                              style: context.headlineSmall!
+                                                  .copyWith(
+                                                fontWeight: FontWeight.w600,
+                                              )),
+                                          Spacer(),
+                                          Container(
+                                            width: context.screenWidth * 0.22,
+                                            height: 25,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: AppColors.secondaryColor
+                                                    .withAlpha(
+                                                        (0.2 * 255).toInt())),
+                                            child: Center(
+                                              child: Text(
+                                                "Confirmed",
+                                                style: context.bodySmall,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      6.heightBox,
+                                      Text(
+                                        "Group Class",
+                                        style: context.bodySmall,
+                                      ),
+                                      6.heightBox,
+                                      Row(
+                                        children: [
+                                          Icon(Iconsax.calendar,
+                                              color: AppColors.secondaryColor,
+                                              size: 18),
+                                          5.widthBox,
+                                          Text(
+                                            "26 July 2025  11:20Pm",
+                                            style: context.bodySmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),

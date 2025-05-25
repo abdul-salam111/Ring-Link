@@ -110,7 +110,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                       },
                     ),
                     20.heightBox,
-                    SectionHeaderWithAction(
+                    RecommendedHeader(
                       title: "Recommended Trainers",
                       onSeeAllTap: () {},
                     ),

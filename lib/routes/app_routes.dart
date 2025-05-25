@@ -9,14 +9,15 @@ import 'package:ring_link/pages/common_pages/inbox_screen/inbox_screen.dart';
 import 'package:ring_link/pages/common_pages/navbar/navbar.dart';
 import 'package:ring_link/pages/common_pages/onboarding&Splash/onboarding_screen.dart';
 import 'package:ring_link/pages/common_pages/registration_screen/registration_screen.dart';
-import 'package:ring_link/pages/trainer_pages/trainer_home_screen.dart';
+import 'package:ring_link/pages/trainer_pages/artist_profile_for_trainer/artist_profile_for_trainer.dart';
+import 'package:ring_link/pages/trainer_pages/trainer_home_screen/trainer_home_screen.dart';
 import 'package:ring_link/routes/app_route_names.dart';
 import 'package:ring_link/routes/app_route_paths.dart';
 
 import '../pages/common_pages/login_screen/login_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutePaths.trainerHomeScreen,
+  initialLocation: AppRoutePaths.artistProfileForTrainer,
   routes: [
     GoRoute(
       path: AppRoutePaths.onBoarding,
@@ -83,15 +84,20 @@ final GoRouter appRouter = GoRouter(
       name: AppRouteNames.trainerProfileScreenForArtist,
       builder: (context, state) => TrainerProfileScreenForArtist(),
     ),
-     GoRoute(
+    GoRoute(
       path: AppRoutePaths.inboxScreen,
       name: AppRouteNames.inboxScreen,
       builder: (context, state) => InboxScreen(),
     ),
-     GoRoute(
+    GoRoute(
       path: AppRoutePaths.trainerHomeScreen,
       name: AppRouteNames.trainerHomeScreen,
       builder: (context, state) => TrainerHomeScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.artistProfileForTrainer,
+      name: AppRouteNames.artistProfileForTrainer,
+      builder: (context, state) => ArtistProfileForTrainer(),
     ),
   ],
 );

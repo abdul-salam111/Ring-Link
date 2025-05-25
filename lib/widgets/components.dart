@@ -11,3 +11,4 @@ export './custom_app_bar_sec.dart';
 export './welcome_header.dart';
 export './custom_tab_bar.dart';
 export './recommended_header.dart';
+export './profile_headere_section.dart';
