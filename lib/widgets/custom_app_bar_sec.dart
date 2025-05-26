@@ -7,11 +7,11 @@ class CustomAppBarSec extends StatelessWidget {
   final VoidCallback? onMore;
 
   const CustomAppBarSec({
-    Key? key,
+    super.key,
     required this.title,
     this.onBack,
     this.onMore,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
