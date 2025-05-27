@@ -1,44 +1,32 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:ring_link/blocs/common_blocs/loginBloc/bloc/login_bloc.dart';
+import 'package:ring_link/blocs/artist_blocs/artist_registration_bloc/bloc/artist_registration_bloc.dart';
 import 'package:ring_link/main.dart';
-import 'package:ring_link/models/artists/get_models/get_artist_details.dart';
-import 'package:ring_link/routes/routes.dart';
-import 'package:ring_link/services/storage.dart';
+import 'package:ring_link/routes/app_route_names.dart';
+import 'package:ring_link/utils/enums.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
-import '../../../utils/enums.dart';
+
 import '../../../utils/library.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+class ArtistRegistrationScreen extends StatefulWidget {
+  ArtistRegistrationScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ArtistRegistrationScreen> createState() =>
+      _ArtistRegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
   final formkey = GlobalKey<FormState>();
-
-  late LoginBloc loginBloc;
+  late ArtistRegistrationBloc artistRegistrationBloc;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loginBloc = LoginBloc(getIt());
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    loginBloc.close();
+    artistRegistrationBloc = ArtistRegistrationBloc(getIt());
   }
 
   @override
@@ -48,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         context.focusScope.unfocus();
       },
       child: BlocProvider(
-        create: (context) => loginBloc,
+        create: (context) => artistRegistrationBloc,
         child: Scaffold(
           body: SafeArea(
             child: SingleChildScrollView(
@@ -60,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     appLogo(width: 100, height: 100),
                     (context.screenHeight * 0.03).heightBox,
                     Text(
-                      "Welcome Back, Fighter!",
+                      "Join RingLink",
                       style: context.headlineLarge,
                       textAlign: textAlignCenter,
                     ),
@@ -69,7 +57,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: formkey,
                         child: Column(
                           children: [
-                            BlocBuilder<LoginBloc, LoginState>(
+                            BlocBuilder<ArtistRegistrationBloc,
+                                ArtistRegistrationState>(
+                              buildWhen: (previous, current) =>
+                                  previous.username != current.username,
+                              builder: (context, state) {
+                                return CustomTextFormField(
+                                  prefixIcon: Iconsax.user,
+                                  hintText: nameHint,
+                                  onChanged: (value) {
+                                    context.read<ArtistRegistrationBloc>().add(
+                                          UsernameChanged(value),
+                                        );
+                                  },
+                                  fillColor: Colors.transparent,
+                                  borderColor: AppColors.lightGrey,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: Validator.validateName,
+                                );
+                              },
+                            ),
+                            20.heightBox,
+                            BlocBuilder<ArtistRegistrationBloc,
+                                ArtistRegistrationState>(
                               buildWhen: (previous, current) =>
                                   previous.email != current.email,
                               builder: (context, state) {
@@ -77,7 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   prefixIcon: Iconsax.sms,
                                   hintText: emailHint,
                                   onChanged: (value) {
-                                    loginBloc.add(EmailChangedLogin(value));
+                                    context.read<ArtistRegistrationBloc>().add(
+                                          EmailChanged(value),
+                                        );
                                   },
                                   fillColor: Colors.transparent,
                                   borderColor: AppColors.lightGrey,
@@ -89,7 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             20.heightBox,
                             BlocProvider(
                               create: (context) => TextFieldCubit(),
-                              child: BlocBuilder<LoginBloc, LoginState>(
+                              child: BlocBuilder<ArtistRegistrationBloc,
+                                  ArtistRegistrationState>(
                                 buildWhen: (previous, current) =>
                                     previous.password != current.password,
                                 builder: (context, state) {
@@ -98,8 +111,39 @@ class _LoginScreenState extends State<LoginScreen> {
                                     obscureText: true,
                                     hintText: passwordHint,
                                     onChanged: (value) {
-                                      loginBloc
-                                          .add(PasswordChangedLogin(value));
+                                      context
+                                          .read<ArtistRegistrationBloc>()
+                                          .add(
+                                            PasswordChanged(value),
+                                          );
+                                    },
+                                    fillColor: Colors.transparent,
+                                    borderColor: AppColors.lightGrey,
+                                    keyboardType: TextInputType.visiblePassword,
+                                    validator: Validator.validatePassword,
+                                  );
+                                },
+                              ),
+                            ),
+                            20.heightBox,
+                            BlocProvider(
+                              create: (context) => TextFieldCubit(),
+                              child: BlocBuilder<ArtistRegistrationBloc,
+                                  ArtistRegistrationState>(
+                                buildWhen: (previous, current) =>
+                                    previous.confirmPassword !=
+                                    current.confirmPassword,
+                                builder: (context, state) {
+                                  return CustomTextFormField(
+                                    prefixIcon: Iconsax.lock,
+                                    obscureText: true,
+                                    hintText: "Enter your confirm password",
+                                    onChanged: (value) {
+                                      context
+                                          .read<ArtistRegistrationBloc>()
+                                          .add(
+                                            ConfirmPasswordChanged(value),
+                                          );
                                     },
                                     fillColor: Colors.transparent,
                                     borderColor: AppColors.lightGrey,
@@ -111,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             5.heightBox,
                             Row(
-                              mainAxisAlignment: mainAxisSpaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
@@ -131,54 +175,69 @@ class _LoginScreenState extends State<LoginScreen> {
                                       visualDensity: VisualDensity.compact,
                                     ),
                                     Text(
-                                      'Remember me',
+                                      'I agree to the Terms & Conditions',
                                       style: context.bodyMedium,
                                     ),
                                   ],
                                 ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Text('Forgot Password?',
-                                      style: context.bodyLarge!.copyWith(
-                                          color: AppColors.primaryColor)),
-                                ),
                               ],
                             ),
                             (context.screenHeight * 0.05).heightBox,
-                            BlocListener<LoginBloc, LoginState>(
+                            BlocListener<ArtistRegistrationBloc,
+                                ArtistRegistrationState>(
                               listenWhen: (previous, current) =>
                                   previous.apiStatus != current.apiStatus,
-                              listener: (context, state) async {
+                              listener: (context, state) {
                                 if (state.apiStatus == ApiStatus.success) {
-                                  final userType = await storage
-                                      .readValues(StorageKeys.userType);
-                                  GetArtistDetails? getArtistDetails =
-                                      GetArtistDetails.fromJson(
-                                    jsonDecode(await storage.readValues(
-                                            StorageKeys.artistDetails) ??
-                                        '{}'),
-                                  );
-                                  if (getArtistDetails.userType != null) {
-                                    context.pushReplacementNamed(
-                                        AppRouteNames.navbar);
-                                  } else if (userType != null &&
-                                      (getArtistDetails.userType != null &&
-                                          getArtistDetails.userType != "")) {
-                                    context.pushReplacementNamed(
-                                        AppRouteNames.navbar);
-                                  } else {
-                                    context.pushReplacementNamed(
-                                        AppRouteNames.chooserole);
-                                  }
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return CustomScanDialog(
+                                          iconBackgroundColor:
+                                              AppColors.secondaryColor,
+                                          continueButtonText: "Verify",
+                                          isOneButton: true,
+                                          titleColor: AppColors.primaryColor,
+                                          title: "Verify Email!",
+                                          icon: Iconsax.send_2,
+                                          onContinue: () {
+                                            openGmail();
+                                            context.pop();
+                                            context.pop();
+                                          },
+                                          description:
+                                              'Please check your email for verification',
+                                          onCancel: () {
+                                            context.pop();
+                                          },
+                                        );
+                                      });
                                 }
                                 if (state.apiStatus == ApiStatus.error) {
-                                  Utils.anotherFlushbar(
-                                      context,
-                                      state.message.toString(),
-                                      AppColors.errorColor);
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return CustomScanDialog(
+                                          iconBackgroundColor:
+                                              AppColors.errorColor,
+                                          continueButtonText: "Retry",
+                                          isOneButton: true,
+                                          titleColor: AppColors.errorColor,
+                                          title: "Registration Failed!",
+                                          icon: Icons.close,
+                                          onContinue: () {
+                                            context.pop();
+                                          },
+                                          description: state.message,
+                                          onCancel: () {
+                                            context.pop();
+                                          },
+                                        );
+                                      });
                                 }
                               },
-                              child: BlocBuilder<LoginBloc, LoginState>(
+                              child: BlocBuilder<ArtistRegistrationBloc,
+                                  ArtistRegistrationState>(
                                 buildWhen: (previous, current) =>
                                     previous.apiStatus != current.apiStatus,
                                 builder: (context, state) {
@@ -187,13 +246,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height: context.screenHeight * 0.06,
                                     child: RoundButton(
                                       isLoading:
-                                          state.apiStatus == ApiStatus.loading,
-                                      text: "Log In",
+                                          state.apiStatus == ApiStatus.loading
+                                              ? true
+                                              : false,
+                                      text: "Create An Account",
                                       onPressed: () {
                                         if (formkey.currentState!.validate()) {
                                           context
-                                              .read<LoginBloc>()
-                                              .add(OnLoginUserEvent());
+                                              .read<ArtistRegistrationBloc>()
+                                              .add(OnArtistRegistrationEvent());
                                         }
                                       },
                                       fontsize: 18,
@@ -206,15 +267,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             20.heightBox,
                             GestureDetector(
                               onTap: () {
-                                context.pushNamed(AppRouteNames.registeration);
+                                context.pushNamed(AppRouteNames.login);
                               },
                               child: RichText(
                                   text: TextSpan(children: [
                                 TextSpan(
-                                    text: "Don’t have an account? ",
+                                    text: "Already, have an account? ",
                                     style: context.bodyMedium),
                                 TextSpan(
-                                    text: "Sign up",
+                                    text: "Sign In",
                                     style: context.bodyLarge!.copyWith(
                                         color: AppColors.primaryColor)),
                               ])),

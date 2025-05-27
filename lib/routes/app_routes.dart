@@ -8,7 +8,8 @@ import 'package:ring_link/pages/common_pages/email_vefication_screen/email_verif
 import 'package:ring_link/pages/common_pages/inbox_screen/inbox_screen.dart';
 import 'package:ring_link/pages/common_pages/navbar/navbar.dart';
 import 'package:ring_link/pages/common_pages/onboarding&Splash/onboarding_screen.dart';
-import 'package:ring_link/pages/common_pages/registration_screen/registration_screen.dart';
+import 'package:ring_link/pages/common_pages/onboarding&Splash/splash_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_registration_screen/artist_registration_screen.dart';
 import 'package:ring_link/pages/trainer_pages/artist_profile_for_trainer/artist_profile_for_trainer.dart';
 import 'package:ring_link/pages/trainer_pages/trainer_home_screen/trainer_home_screen.dart';
 import 'package:ring_link/routes/app_route_names.dart';
@@ -17,12 +18,17 @@ import 'package:ring_link/routes/app_route_paths.dart';
 import '../pages/common_pages/login_screen/login_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutePaths.artistProfileForTrainer,
+  initialLocation: AppRoutePaths.splash,
   routes: [
     GoRoute(
       path: AppRoutePaths.onBoarding,
       name: AppRouteNames.onBoarding,
       builder: (context, state) => OnboardingScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.splash,
+      name: AppRouteNames.splash,
+      builder: (context, state) => SplashScreen(),
     ),
     GoRoute(
       path: AppRoutePaths.login,
@@ -32,7 +38,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutePaths.registeration,
       name: AppRouteNames.registeration,
-      builder: (context, state) => RegistrationScreen(),
+      builder: (context, state) => ArtistRegistrationScreen(),
     ),
     GoRoute(
       path: AppRoutePaths.emailverification,

@@ -1,60 +1,169 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:ring_link/utils/library.dart';
 
+// class CustomScanDialog extends StatelessWidget {
+//   final String title;
+//   final String description;
+//   final Color titleColor;
+//   final Color descriptionColor;
+//   final String cancelButtonText;
+//   final Color cancelButtonColor;
+//   final Color cancelTextColor;
+//   final VoidCallback onCancel;
+//   final String continueButtonText;
+//   final Color continueButtonColor;
+//   final Color continueTextColor;
+//   final VoidCallback onContinue;
+//   final IconData icon;
+//   final Color iconBackgroundColor;
+//   final bool? isOneButton;
 
+//   const CustomScanDialog({
+//     super.key,
+//     required this.title,
+//     required this.description,
+//     this.titleColor = const Color(0xFF3A873B),
+//     this.descriptionColor = const Color(0xFF999999),
+//     this.cancelButtonText = "Annulla",
+//     this.cancelButtonColor = const Color(0xFFE8EDF2),
+//     this.cancelTextColor = const Color(0xFF9FA9B3),
+//     required this.onCancel,
+//     this.continueButtonText = "Continua",
+//     this.isOneButton = false,
+//     this.continueButtonColor = const Color(0xFF3A873B),
+//     this.continueTextColor = Colors.white,
+//     required this.onContinue,
+//     this.icon = Icons.check,
+//     this.iconBackgroundColor = const Color(0xFF3A873B),
+//   });
 
-import '../utils/library.dart';
-import 'round_button.dart';
-
-class CustomSuccessDialog extends StatelessWidget {
-  final String icon;
-  final String title;
-  final String message;
-  final VoidCallback onConfirm;
-
-  const CustomSuccessDialog({
-    super.key,
-    required this.title,
-    required this.message,
-    required this.onConfirm,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: padding20,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              icon,
-              height: context.screenHeight * 0.2,
-              width: context.screenWidth * 0.3,
-            ),
-            Text(
-              title,
-              style: context.titleSmall!.copyWith(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              message,
-              style: context.bodySmall!.copyWith(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-            RoundButton(
-              text: "Ok",
-              onPressed: onConfirm,
-              radius: 5,
-              backgroundColor: AppColors.secondaryColor,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Dialog(
+//       backgroundColor: Colors.transparent,
+//       child: Stack(
+//         clipBehavior: Clip.none,
+//         alignment: Alignment.topCenter,
+//         children: [
+//           Container(
+//             margin: const EdgeInsets.only(top: 60),
+//             padding:
+//                 const EdgeInsets.only(top: 60, left: 24, right: 24, bottom: 16),
+//             decoration: BoxDecoration(
+//               color: Colors.white,
+//               borderRadius: BorderRadius.circular(16),
+//               boxShadow: [
+//                 BoxShadow(
+//                   color: Colors.black.withOpacity(0.05),
+//                   blurRadius: 20,
+//                   offset: const Offset(0, 10),
+//                 ),
+//               ],
+//             ),
+//             child: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 Text(
+//                   title,
+//                   style: TextStyle(
+//                     fontSize: 24,
+//                     fontWeight: FontWeight.w800,
+//                     color: titleColor,
+//                   ),
+//                   textAlign: TextAlign.center,
+//                 ),
+//                 const SizedBox(height: 12),
+//                 Text(
+//                   description,
+//                   style: TextStyle(
+//                     fontSize: 15,
+//                     color: descriptionColor,
+//                     height: 1.5,
+//                   ),
+//                   textAlign: TextAlign.center,
+//                 ),
+//                 const SizedBox(height: 24),
+//                 isOneButton != true
+//                     ? Row(
+//                         children: [
+//                           Expanded(
+//                             child: ElevatedButton(
+//                               onPressed: onCancel,
+//                               style: ElevatedButton.styleFrom(
+//                                 backgroundColor: cancelButtonColor,
+//                                 foregroundColor: cancelTextColor,
+//                                 padding:
+//                                     const EdgeInsets.symmetric(vertical: 14),
+//                                 shape: RoundedRectangleBorder(
+//                                   borderRadius: BorderRadius.circular(8),
+//                                 ),
+//                                 textStyle: const TextStyle(
+//                                   fontWeight: FontWeight.w700,
+//                                   fontSize: 16,
+//                                 ),
+//                               ),
+//                               child: Text(cancelButtonText),
+//                             ),
+//                           ),
+//                           const SizedBox(width: 16),
+//                           Expanded(
+//                             child: ElevatedButton(
+//                               onPressed: onContinue,
+//                               style: ElevatedButton.styleFrom(
+//                                 backgroundColor: continueButtonColor,
+//                                 foregroundColor: continueTextColor,
+//                                 padding:
+//                                     const EdgeInsets.symmetric(vertical: 14),
+//                                 shape: RoundedRectangleBorder(
+//                                   borderRadius: BorderRadius.circular(8),
+//                                 ),
+//                                 textStyle: const TextStyle(
+//                                   fontWeight: FontWeight.w700,
+//                                   fontSize: 16,
+//                                 ),
+//                               ),
+//                               child: Text(continueButtonText),
+//                             ),
+//                           ),
+//                         ],
+//                       )
+//                     : Center(
+//                         child: SizedBox(
+//                           width: 150,
+//                           child: ElevatedButton(
+//                             onPressed: () {
+//                               context.pop();
+//                             },
+//                             style: ElevatedButton.styleFrom(
+//                               backgroundColor: AppColors.secondaryColor,
+//                               foregroundColor: continueTextColor,
+//                               padding: const EdgeInsets.symmetric(vertical: 14),
+//                               shape: RoundedRectangleBorder(
+//                                 borderRadius: BorderRadius.circular(8),
+//                               ),
+//                               textStyle: const TextStyle(
+//                                 fontWeight: FontWeight.w700,
+//                                 fontSize: 16,
+//                               ),
+//                             ),
+//                             child: Text("Riprova"),
+//                           ),
+//                         ),
+//                       ),
+//               ],
+//             ),
+//           ),
+//           Positioned(
+//             top: 0,
+//             child: CircleAvatar(
+//               radius: 45,
+//               backgroundColor: iconBackgroundColor,
+//               child: Icon(icon, size: 48, color: Colors.white),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

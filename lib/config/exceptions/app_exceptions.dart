@@ -12,8 +12,7 @@ class AppException implements Exception {
 
 // No Internet Exception
 class NoInternetException extends AppException {
-  NoInternetException([String? message])
-      : super(message, "No Internet Connection: ");
+  NoInternetException([String? message]) : super(message, "");
 }
 
 // Unauthorized Exception
@@ -36,7 +35,7 @@ class FetchDataException extends AppException {
 
 // Bad Request Exception
 class BadRequestException extends AppException {
-  BadRequestException([String? message]) : super(message, "Invalid Request: ");
+  BadRequestException([String? message]) : super(message, "");
 }
 
 // Resource Not Found Exception
@@ -58,7 +57,7 @@ class ServiceUnavailableException extends AppException {
 
 // Invalid Input Exception
 class InvalidInputException extends AppException {
-  InvalidInputException([String? message]) : super(message, "Invalid Input: ");
+  InvalidInputException([String? message]) : super(message, "");
 }
 
 // Forbidden Exception
@@ -76,4 +75,8 @@ class TooManyRequestsException extends AppException {
 class MethodNotAllowedException extends AppException {
   MethodNotAllowedException([String? message])
       : super(message, "Method Not Allowed: ");
+}
+
+class EmailAlreadyExist extends AppException {
+  EmailAlreadyExist([String? message]) : super(message, "");
 }

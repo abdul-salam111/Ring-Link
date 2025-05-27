@@ -7,8 +7,6 @@ import 'package:ring_link/blocs/artist_blocs/artist_home_bloc/bloc/artist_home_b
 import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
-import 'package:ring_link/widgets/custom_tab_bar.dart';
-
 import '../../../routes/routes.dart';
 
 class ArtistHomeScreen extends StatefulWidget {
@@ -22,7 +20,6 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
   late ArtistHomeBloc artistHomeBloc;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     artistHomeBloc = ArtistHomeBloc();
   }
@@ -116,7 +113,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                     ),
                     20.heightBox,
                     SizedBox(
-                      height: context.screenHeight * 0.36,
+                      height: context.screenWidth > 420
+                          ? context.screenHeight * 0.36
+                          : context.screenHeight * 0.38,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: 5,
@@ -141,7 +140,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                   ),
                                   15.heightBox,
                                   Text("Stephanie Nicol",
-                                      style: context.headlineSmall!.copyWith(
+                                      style: context.bodyMedium!.copyWith(
                                         fontWeight: FontWeight.w600,
                                       )),
                                   5.heightBox,
@@ -156,7 +155,12 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                             size: 18,
                                           ),
                                           5.widthBox,
-                                          Text("Jiu-Jitsu"),
+                                          Text(
+                                            "Jiu-Jitsu",
+                                            style: context.screenWidth > 420
+                                                ? context.bodyMedium
+                                                : context.displayLarge,
+                                          ),
                                         ],
                                       ),
                                       Row(
@@ -167,7 +171,12 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                             size: 18,
                                           ),
                                           5.widthBox,
-                                          Text("Pakistan"),
+                                          Text(
+                                            "Pakistan",
+                                            style: context.screenWidth > 420
+                                                ? context.bodyMedium
+                                                : context.displayLarge,
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -184,12 +193,17 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                             size: 18,
                                           ),
                                           5.widthBox,
-                                          Text("Availability"),
+                                          Text(
+                                            "Availability",
+                                            style: context.screenWidth > 420
+                                                ? context.bodyMedium
+                                                : context.displayLarge,
+                                          ),
                                         ],
                                       ),
                                       Text(
                                         "\$50/hr",
-                                        style: context.headlineSmall!.copyWith(
+                                        style: context.bodyMedium!.copyWith(
                                             fontWeight: FontWeight.bold),
                                       )
                                     ],
@@ -197,9 +211,10 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                   10.heightBox,
                                   SizedBox(
                                     width: double.infinity,
-                                    height: 40,
+                                    height: context.screenWidth > 420 ? 45 : 35,
                                     child: RoundButton(
-                                      fontsize: 19,
+                                      fontsize:
+                                          context.screenWidth > 420 ? 19 : 14,
                                       radius: 15,
                                       text: "Book Now",
                                       onPressed: () {},
@@ -261,16 +276,21 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text("Dance Class",
-                                          style:
-                                              context.headlineSmall!.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                          )),
+                                          style: context.screenWidth > 420
+                                              ? context.headlineSmall!.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                )
+                                              : context.bodyMedium!.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                )),
                                       6.heightBox,
                                       Row(
                                         children: [
                                           Text(
                                             "Coaching",
-                                            style: context.bodySmall,
+                                            style: context.screenWidth > 420
+                                                ? context.bodySmall
+                                                : context.displayLarge,
                                           ),
                                           const Spacer(),
                                           Row(
@@ -282,7 +302,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                               5.widthBox,
                                               Text(
                                                 "Pakistan",
-                                                style: context.bodySmall,
+                                                style: context.screenWidth > 420
+                                                    ? context.bodySmall
+                                                    : context.displayLarge,
                                               ),
                                             ],
                                           ),
@@ -297,7 +319,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                           5.widthBox,
                                           Text(
                                             "26 July 2025  11:20Pm",
-                                            style: context.bodySmall,
+                                            style: context.screenWidth > 420
+                                                ? context.bodySmall
+                                                : context.displayLarge,
                                           ),
                                         ],
                                       ),
@@ -309,7 +333,8 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                           );
                         },
                       ),
-                    )
+                    ),
+                    20.heightBox,
                   ],
                 ),
               ),

@@ -1,10 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ring_link/config/theme/theme.dart';
+import 'package:ring_link/firebase_options.dart';
 import 'package:ring_link/routes/app_routes.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+import 'repositories/artist_repositories/artist_auth_repository/artist_auth_repository.dart';
 
+final getIt = GetIt.instance;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  serviceslocator();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -19,4 +28,10 @@ class MyApp extends StatelessWidget {
       routerConfig: appRouter,
     );
   }
+}
+
+void serviceslocator() {
+  // auth repo
+  getIt.registerLazySingleton<ArtistAuthRepository>(() => ArtistAuthRepository());
+  
 }

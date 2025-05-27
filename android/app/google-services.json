@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "328772657811",
+    "project_id": "ringlink-v1-mvp",
+    "storage_bucket": "ringlink-v1-mvp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328772657811:android:ea9f118e2d00f9d0b66366",
+        "android_client_info": {
+          "package_name": "com.ringlink.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328772657811-75p8s77qb52tvcuh5kpg36066oigq9dt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtqX0LhCg5T_u5xhCjvgO18GudbO6nG94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328772657811-75p8s77qb52tvcuh5kpg36066oigq9dt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

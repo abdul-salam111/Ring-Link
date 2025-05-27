@@ -48,13 +48,16 @@ class CustomTabBar extends StatelessWidget {
                   borderRadius: borderRadius,
                 ),
                 child: Center(
-                  child: Text(
-                    tabs[index],
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
+                  child: Text(tabs[index],
+                      style: context.screenWidth > 420
+                          ? Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              )
+                          : Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              )),
                 ),
               ),
             ),
