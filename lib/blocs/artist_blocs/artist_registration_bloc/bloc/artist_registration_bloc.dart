@@ -18,6 +18,7 @@ class ArtistRegistrationBloc
     on<ConfirmPasswordChanged>(changeConfirmPassword);
     on<UsernameChanged>(changeUsername);
     on<OnArtistRegistrationEvent>(onArtistRegistrationEvent);
+    on<TermsAndConditionsAgreed>(onTermsAndConditionAgree);
   }
 
   void changeEmail(EmailChanged event, Emitter<ArtistRegistrationState> emit) {
@@ -32,6 +33,12 @@ class ArtistRegistrationBloc
   void changeConfirmPassword(
       ConfirmPasswordChanged event, Emitter<ArtistRegistrationState> emit) {
     emit(state.copyWith(confirmPassword: event.confirmpassword));
+  }
+
+  void onTermsAndConditionAgree(
+      TermsAndConditionsAgreed event, Emitter<ArtistRegistrationState> emit) {
+    emit(state.copyWith(
+        termsAndConditionsAgreed: event.termsAndConditionsAgreed));
   }
 
   void changeUsername(

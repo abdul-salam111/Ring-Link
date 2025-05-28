@@ -13,6 +13,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<EmailChangedLogin>(changeEmail);
     on<PasswordChangedLogin>(changePassword);
     on<OnLoginUserEvent>(onLoginUser);
+    on<RememberMeEvent>(onRememberMe);
   }
 
   void changeEmail(EmailChangedLogin event, Emitter<LoginState> emit) {
@@ -21,6 +22,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void changePassword(PasswordChangedLogin event, Emitter<LoginState> emit) {
     emit(state.copyWith(password: event.password));
+  }
+
+  void onRememberMe(RememberMeEvent event, Emitter<LoginState> emit) {
+    emit(state.copyWith(rememberMe: event.rememberMe));
   }
 
   Future<void> onLoginUser(

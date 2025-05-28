@@ -24,7 +24,6 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
   late ArtistRegistrationBloc artistRegistrationBloc;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     artistRegistrationBloc = ArtistRegistrationBloc(getIt());
   }
@@ -159,20 +158,32 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Checkbox(
-                                      value: false,
-                                      onChanged: (value) {},
-                                      side:
-                                          const BorderSide(color: Colors.white),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      checkColor: Colors.black,
-                                      activeColor: Colors.white,
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      visualDensity: VisualDensity.compact,
+                                    BlocBuilder<ArtistRegistrationBloc,
+                                        ArtistRegistrationState>(
+                                      buildWhen: (previous, current) =>
+                                          previous.termsAndConditionsAgreed !=
+                                          current.termsAndConditionsAgreed,
+                                      builder: (context, state) {
+                                        return Checkbox(
+                                          value: state.termsAndConditionsAgreed,
+                                          onChanged: (value) {
+                                            artistRegistrationBloc.add(
+                                                TermsAndConditionsAgreed(
+                                                    value!));
+                                          },
+                                          side: const BorderSide(
+                                              color: Colors.white),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                          ),
+                                          checkColor: Colors.black,
+                                          activeColor: Colors.white,
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          visualDensity: VisualDensity.compact,
+                                        );
+                                      },
                                     ),
                                     Text(
                                       'I agree to the Terms & Conditions',

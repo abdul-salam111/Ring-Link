@@ -49,7 +49,7 @@ class OnboardingScreen extends StatelessWidget {
                 onPressed: () async {
                   await storage.setValues(
                       StorageKeys.onboardingCompleted, true.toString());
-                  context.goNamed(AppRouteNames.login);
+                  context.goNamed(AppRouteNames.chooserole);
                 },
                 fontsize: 16,
                 backgroundColor: AppColors.buttonColor,

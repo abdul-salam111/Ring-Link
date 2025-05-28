@@ -115,20 +115,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Checkbox(
-                                      value: false,
-                                      onChanged: (value) {},
-                                      side:
-                                          const BorderSide(color: Colors.white),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      checkColor: Colors.black,
-                                      activeColor: Colors.white,
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      visualDensity: VisualDensity.compact,
+                                    BlocBuilder<LoginBloc, LoginState>(
+                                      buildWhen: (previous, current) =>
+                                          previous.rememberMe !=
+                                          current.rememberMe,
+                                      builder: (context, state) {
+                                        return Checkbox(
+                                          value: state.rememberMe,
+                                          onChanged: (value) {
+                                            loginBloc
+                                                .add(RememberMeEvent(value!));
+                                          },
+                                          side: const BorderSide(
+                                              color: Colors.white),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                          ),
+                                          checkColor: Colors.black,
+                                          activeColor: Colors.white,
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          visualDensity: VisualDensity.compact,
+                                        );
+                                      },
                                     ),
                                     Text(
                                       'Remember me',

@@ -43,4 +43,13 @@ class UsernameChanged extends ArtistRegistrationEvent {
   List<Object> get props => [username];
 }
 
+class TermsAndConditionsAgreed extends ArtistRegistrationEvent {
+  final bool termsAndConditionsAgreed;
+
+  const TermsAndConditionsAgreed(this.termsAndConditionsAgreed);
+
+  @override
+  List<Object> get props => [termsAndConditionsAgreed];
+}
+
 class OnArtistRegistrationEvent extends ArtistRegistrationEvent {}
