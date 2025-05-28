@@ -5,7 +5,7 @@ import 'package:ring_link/config/theme/theme.dart';
 import 'package:ring_link/firebase_options.dart';
 import 'package:ring_link/routes/app_routes.dart';
 
-import 'repositories/artist_repositories/artist_auth_repository/artist_auth_repository.dart';
+import 'repositories/common_repositories/auth_repository.dart';
 
 final getIt = GetIt.instance;
 void main() async {
@@ -32,6 +32,5 @@ class MyApp extends StatelessWidget {
 
 void serviceslocator() {
   // auth repo
-  getIt.registerLazySingleton<ArtistAuthRepository>(() => ArtistAuthRepository());
-  
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
 }

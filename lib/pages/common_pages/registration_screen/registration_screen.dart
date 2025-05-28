@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:ring_link/blocs/artist_blocs/artist_registration_bloc/bloc/artist_registration_bloc.dart';
+import 'package:ring_link/blocs/common_blocs/registration_bloc/bloc/registration_bloc.dart';
 import 'package:ring_link/main.dart';
 import 'package:ring_link/routes/app_route_names.dart';
 import 'package:ring_link/utils/enums.dart';
@@ -11,21 +11,20 @@ import 'package:ring_link/widgets/components.dart';
 
 import '../../../utils/library.dart';
 
-class ArtistRegistrationScreen extends StatefulWidget {
-  ArtistRegistrationScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  RegistrationScreen({super.key});
 
   @override
-  State<ArtistRegistrationScreen> createState() =>
-      _ArtistRegistrationScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   final formkey = GlobalKey<FormState>();
-  late ArtistRegistrationBloc artistRegistrationBloc;
+  late RegistrationBloc artistRegistrationBloc;
   @override
   void initState() {
     super.initState();
-    artistRegistrationBloc = ArtistRegistrationBloc(getIt());
+    artistRegistrationBloc = RegistrationBloc(getIt());
   }
 
   @override
@@ -56,8 +55,7 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                         key: formkey,
                         child: Column(
                           children: [
-                            BlocBuilder<ArtistRegistrationBloc,
-                                ArtistRegistrationState>(
+                            BlocBuilder<RegistrationBloc, RegistrationState>(
                               buildWhen: (previous, current) =>
                                   previous.username != current.username,
                               builder: (context, state) {
@@ -65,7 +63,7 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                                   prefixIcon: Iconsax.user,
                                   hintText: nameHint,
                                   onChanged: (value) {
-                                    context.read<ArtistRegistrationBloc>().add(
+                                    context.read<RegistrationBloc>().add(
                                           UsernameChanged(value),
                                         );
                                   },
@@ -77,8 +75,7 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                               },
                             ),
                             20.heightBox,
-                            BlocBuilder<ArtistRegistrationBloc,
-                                ArtistRegistrationState>(
+                            BlocBuilder<RegistrationBloc, RegistrationState>(
                               buildWhen: (previous, current) =>
                                   previous.email != current.email,
                               builder: (context, state) {
@@ -86,7 +83,7 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                                   prefixIcon: Iconsax.sms,
                                   hintText: emailHint,
                                   onChanged: (value) {
-                                    context.read<ArtistRegistrationBloc>().add(
+                                    context.read<RegistrationBloc>().add(
                                           EmailChanged(value),
                                         );
                                   },
@@ -100,8 +97,8 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                             20.heightBox,
                             BlocProvider(
                               create: (context) => TextFieldCubit(),
-                              child: BlocBuilder<ArtistRegistrationBloc,
-                                  ArtistRegistrationState>(
+                              child: BlocBuilder<RegistrationBloc,
+                                  RegistrationState>(
                                 buildWhen: (previous, current) =>
                                     previous.password != current.password,
                                 builder: (context, state) {
@@ -110,9 +107,7 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                                     obscureText: true,
                                     hintText: passwordHint,
                                     onChanged: (value) {
-                                      context
-                                          .read<ArtistRegistrationBloc>()
-                                          .add(
+                                      context.read<RegistrationBloc>().add(
                                             PasswordChanged(value),
                                           );
                                     },
@@ -127,8 +122,8 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                             20.heightBox,
                             BlocProvider(
                               create: (context) => TextFieldCubit(),
-                              child: BlocBuilder<ArtistRegistrationBloc,
-                                  ArtistRegistrationState>(
+                              child: BlocBuilder<RegistrationBloc,
+                                  RegistrationState>(
                                 buildWhen: (previous, current) =>
                                     previous.confirmPassword !=
                                     current.confirmPassword,
@@ -138,9 +133,7 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                                     obscureText: true,
                                     hintText: "Enter your confirm password",
                                     onChanged: (value) {
-                                      context
-                                          .read<ArtistRegistrationBloc>()
-                                          .add(
+                                      context.read<RegistrationBloc>().add(
                                             ConfirmPasswordChanged(value),
                                           );
                                     },
@@ -158,8 +151,8 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    BlocBuilder<ArtistRegistrationBloc,
-                                        ArtistRegistrationState>(
+                                    BlocBuilder<RegistrationBloc,
+                                        RegistrationState>(
                                       buildWhen: (previous, current) =>
                                           previous.termsAndConditionsAgreed !=
                                           current.termsAndConditionsAgreed,
@@ -194,8 +187,7 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                               ],
                             ),
                             (context.screenHeight * 0.05).heightBox,
-                            BlocListener<ArtistRegistrationBloc,
-                                ArtistRegistrationState>(
+                            BlocListener<RegistrationBloc, RegistrationState>(
                               listenWhen: (previous, current) =>
                                   previous.apiStatus != current.apiStatus,
                               listener: (context, state) {
@@ -247,8 +239,8 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                                       });
                                 }
                               },
-                              child: BlocBuilder<ArtistRegistrationBloc,
-                                  ArtistRegistrationState>(
+                              child: BlocBuilder<RegistrationBloc,
+                                  RegistrationState>(
                                 buildWhen: (previous, current) =>
                                     previous.apiStatus != current.apiStatus,
                                 builder: (context, state) {
@@ -264,8 +256,8 @@ class _ArtistRegistrationScreenState extends State<ArtistRegistrationScreen> {
                                       onPressed: () {
                                         if (formkey.currentState!.validate()) {
                                           context
-                                              .read<ArtistRegistrationBloc>()
-                                              .add(OnArtistRegistrationEvent());
+                                              .read<RegistrationBloc>()
+                                              .add(OnUserRegistrationEvent());
                                         }
                                       },
                                       fontsize: 18,

@@ -41,3 +41,13 @@ enum UserType {
   artist,
   trainer,
 }
+
+extension LocalStorageGetters on LocalStorage {
+  Future<String?> get userType async {
+    return await readValues(StorageKeys.userType);
+  }
+
+  Future<String?> get userId async {
+    return await readValues(StorageKeys.userId);
+  }
+}

@@ -2,8 +2,6 @@ class CreateArtistModel {
   String? artistName;
   String? artistEmail;
   DateTime? createdAt;
-  String? artistPassword;
-  String? artistConfirmPassword;
   String? artistUserId;
   String? userType;
   String? artistTagline;
@@ -18,8 +16,6 @@ class CreateArtistModel {
     this.artistName,
     this.artistEmail,
     this.createdAt,
-    this.artistPassword,
-    this.artistConfirmPassword,
     this.artistUserId,
     this.userType,
     this.artistTagline,
@@ -38,8 +34,7 @@ class CreateArtistModel {
         createdAt: json["created_at"] != null
             ? DateTime.parse(json["created_at"])
             : null,
-        artistPassword: json['artist_password'],
-        artistConfirmPassword: json['artist_confirm_password'],
+
         artistUserId: json['artist_user_id'],
         userType: json['user_type'],
         artistTagline: json['artist_tagline'],
@@ -55,8 +50,7 @@ class CreateArtistModel {
         "artist_name": artistName,
         "artist_email": artistEmail,
         "created_at": createdAt?.toIso8601String(),
-        "artist_password": artistPassword,
-        "artist_confirm_password": artistConfirmPassword,
+
         "artist_user_id": artistUserId,
         "user_type": userType,
         "artist_tagline": artistTagline,

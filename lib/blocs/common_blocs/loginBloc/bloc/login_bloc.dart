@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:ring_link/repositories/artist_repositories/artist_auth_repository/artist_auth_repository.dart';
+import 'package:ring_link/repositories/common_repositories/auth_repository.dart';
 import 'package:ring_link/services/services_manager.dart';
 import 'package:ring_link/utils/enums.dart';
 
@@ -8,7 +8,7 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  ArtistAuthRepository artistAuthRepository;
+  AuthRepository artistAuthRepository;
   LoginBloc(this.artistAuthRepository) : super(LoginState()) {
     on<EmailChangedLogin>(changeEmail);
     on<PasswordChangedLogin>(changePassword);
@@ -36,9 +36,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final password = state.password.toString().trim();
       await artistAuthRepository
           .signInArtistWithEmailAndPassword(email: email, password: password)
-          .then((getartistDetails) async {
-        await SessionController().saveUserInStorage(getartistDetails);
+          .then((getUserDetails) async {
+        await SessionController().saveUserInStorage(getUserDetails);
         await SessionController().getUserfromSharedpref();
+
         emit(state.copyWith(
             message: "LoggedIn Successfully", apiStatus: ApiStatus.success));
       });

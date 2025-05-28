@@ -5,7 +5,6 @@ import 'package:ring_link/blocs/common_blocs/choose_role_Bloc/bloc/chooserole_bl
 import 'package:ring_link/main.dart';
 import 'package:ring_link/routes/routes.dart';
 import 'package:ring_link/services/storage.dart';
-import 'package:ring_link/utils/enums.dart';
 import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
@@ -170,39 +169,25 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
               ),
             ),
             Spacer(),
-            BlocListener<ChooseroleBloc, ChooseroleState>(
-              listener: (context, state) {
-                if (state.apiStatus == ApiStatus.success) {
-                  context.pushNamed(AppRouteNames.navbar);
-                } else if (state.apiStatus == ApiStatus.error) {
-                  Utils.anotherFlushbar(
-                      context, state.message, AppColors.errorColor);
-                }
+            BlocBuilder<ChooseroleBloc, ChooseroleState>(
+              buildWhen: (previous, current) =>
+                  previous.chooseRole != current.chooseRole,
+              builder: (context, state) {
+                return SizedBox(
+                  width: context.screenWidth * 0.9,
+                  height: context.screenHeight * 0.06,
+                  child: RoundButton(
+                    text: "Continue",
+                    onPressed: () async {
+                      await storage.setValues(
+                          StorageKeys.userType, state.chooseRole.name);
+                      context.pushNamed(AppRouteNames.login);
+                    },
+                    fontsize: 16,
+                    backgroundColor: AppColors.buttonColor,
+                  ),
+                );
               },
-              child: BlocBuilder<ChooseroleBloc, ChooseroleState>(
-                buildWhen: (previous, current) =>
-                    previous.apiStatus != current.apiStatus,
-                builder: (context, state) {
-                  return SizedBox(
-                    width: context.screenWidth * 0.9,
-                    height: context.screenHeight * 0.06,
-                    child: RoundButton(
-                      isLoading:
-                          state.apiStatus == ApiStatus.loading ? true : false,
-                      text: "Continue",
-                      onPressed: () async {
-                        await storage.setValues(
-                            StorageKeys.userType, state.chooseRole.name);
-                        context
-                            .read<ChooseroleBloc>()
-                            .add(ChoosedRoleEvent(role: state.chooseRole));
-                      },
-                      fontsize: 16,
-                      backgroundColor: AppColors.buttonColor,
-                    ),
-                  );
-                },
-              ),
             ),
             20.heightBox,
           ],

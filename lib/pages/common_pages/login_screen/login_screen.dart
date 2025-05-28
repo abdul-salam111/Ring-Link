@@ -1,16 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/common_blocs/loginBloc/bloc/login_bloc.dart';
 import 'package:ring_link/main.dart';
-import 'package:ring_link/models/artists/get_models/get_artist_details.dart';
 import 'package:ring_link/routes/routes.dart';
-import 'package:ring_link/services/storage.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
 import '../../../utils/enums.dart';
@@ -160,26 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   previous.apiStatus != current.apiStatus,
                               listener: (context, state) async {
                                 if (state.apiStatus == ApiStatus.success) {
-                                  final userType = await storage
-                                      .readValues(StorageKeys.userType);
-                                  GetArtistDetails? getArtistDetails =
-                                      GetArtistDetails.fromJson(
-                                    jsonDecode(await storage.readValues(
-                                            StorageKeys.artistDetails) ??
-                                        '{}'),
-                                  );
-                                  if (getArtistDetails.userType != null) {
-                                    context.pushReplacementNamed(
-                                        AppRouteNames.navbar);
-                                  } else if (userType != null &&
-                                      (getArtistDetails.userType != null &&
-                                          getArtistDetails.userType != "")) {
-                                    context.pushReplacementNamed(
-                                        AppRouteNames.navbar);
-                                  } else {
-                                    context.pushReplacementNamed(
-                                        AppRouteNames.chooserole);
-                                  }
+                                  context.pushReplacementNamed(
+                                      AppRouteNames.navbar);
                                 }
                                 if (state.apiStatus == ApiStatus.error) {
                                   Utils.anotherFlushbar(

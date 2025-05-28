@@ -16,12 +16,3 @@ class ChooseRoleChanged extends ChooseroleEvent {
   List<Object> get props => [chooseRole];
 }
 
-//continue with the role selection events as needed
-class ChoosedRoleEvent extends ChooseroleEvent {
-  final UserType role;
-
-  const ChoosedRoleEvent({required this.role});
-
-  @override
-  List<Object> get props => [role];
-}

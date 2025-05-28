@@ -1,3 +1,3 @@
 final String artistCollection = 'artists';
-final String artistPostsCollection = 'trainers';
+final String trainerCollection = 'trainers';
 final String usersCollection = 'users';

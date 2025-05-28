@@ -1,6 +1,6 @@
-part of 'artist_registration_bloc.dart';
+part of 'registration_bloc.dart';
 
-class ArtistRegistrationState extends Equatable {
+class RegistrationState extends Equatable {
   final String? email;
   final String? username;
   final String? password;
@@ -8,7 +8,7 @@ class ArtistRegistrationState extends Equatable {
   final ApiStatus apiStatus;
   final String message;
   final bool termsAndConditionsAgreed;
-  const ArtistRegistrationState({
+  const RegistrationState({
     this.email = "",
     this.password = "",
     this.apiStatus = ApiStatus.initial,
@@ -19,7 +19,7 @@ class ArtistRegistrationState extends Equatable {
   });
 
   //copywith method to create a new instance with updated values
-  ArtistRegistrationState copyWith({
+  RegistrationState copyWith({
     String? email,
     String? username,
     String? password,
@@ -28,7 +28,7 @@ class ArtistRegistrationState extends Equatable {
     ApiStatus? apiStatus,
     String? message,
   }) {
-    return ArtistRegistrationState(
+    return RegistrationState(
       email: email ?? this.email,
       username: username ?? this.username,
       password: password ?? this.password,

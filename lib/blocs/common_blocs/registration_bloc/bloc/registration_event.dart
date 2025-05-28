@@ -1,13 +1,13 @@
-part of 'artist_registration_bloc.dart';
+part of 'registration_bloc.dart';
 
-abstract class ArtistRegistrationEvent extends Equatable {
-  const ArtistRegistrationEvent();
+abstract class RegistrationEvent extends Equatable {
+  const RegistrationEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class EmailChanged extends ArtistRegistrationEvent {
+class EmailChanged extends RegistrationEvent {
   final String email;
 
   const EmailChanged(this.email);
@@ -16,7 +16,7 @@ class EmailChanged extends ArtistRegistrationEvent {
   List<Object> get props => [email];
 }
 
-class PasswordChanged extends ArtistRegistrationEvent {
+class PasswordChanged extends RegistrationEvent {
   final String password;
 
   const PasswordChanged(this.password);
@@ -25,7 +25,7 @@ class PasswordChanged extends ArtistRegistrationEvent {
   List<Object> get props => [password];
 }
 
-class ConfirmPasswordChanged extends ArtistRegistrationEvent {
+class ConfirmPasswordChanged extends RegistrationEvent {
   final String confirmpassword;
 
   const ConfirmPasswordChanged(this.confirmpassword);
@@ -34,7 +34,7 @@ class ConfirmPasswordChanged extends ArtistRegistrationEvent {
   List<Object> get props => [confirmpassword];
 }
 
-class UsernameChanged extends ArtistRegistrationEvent {
+class UsernameChanged extends RegistrationEvent {
   final String username;
 
   const UsernameChanged(this.username);
@@ -43,7 +43,7 @@ class UsernameChanged extends ArtistRegistrationEvent {
   List<Object> get props => [username];
 }
 
-class TermsAndConditionsAgreed extends ArtistRegistrationEvent {
+class TermsAndConditionsAgreed extends RegistrationEvent {
   final bool termsAndConditionsAgreed;
 
   const TermsAndConditionsAgreed(this.termsAndConditionsAgreed);
@@ -52,4 +52,5 @@ class TermsAndConditionsAgreed extends ArtistRegistrationEvent {
   List<Object> get props => [termsAndConditionsAgreed];
 }
 
-class OnArtistRegistrationEvent extends ArtistRegistrationEvent {}
+class OnUserRegistrationEvent extends RegistrationEvent {}
+

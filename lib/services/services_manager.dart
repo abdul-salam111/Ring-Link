@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:ring_link/models/artists/get_models/get_artist_details.dart';
+import 'package:ring_link/models/trainers/get_models/get_trainer_details_model.dart';
 import 'package:ring_link/services/storage.dart';
 
 class SessionController {
   GetArtistDetails getArtistDetails = GetArtistDetails();
+  GetTrainerDetailsModel getTrainerDetailsModel = GetTrainerDetailsModel();
   static final SessionController _session = SessionController._internal();
   bool islogin = false;
   SessionController._internal();
@@ -15,21 +17,34 @@ class SessionController {
     return _session;
   }
 
-  Future<void> saveUserInStorage(GetArtistDetails user) async {
-    await storage.setValues(StorageKeys.artistDetails, jsonEncode(user));
-
+  Future<void> saveUserInStorage(dynamic user) async {
+    final usertype = await storage.userType;
+    if (usertype == UserType.artist.name) {
+      await storage.setValues(StorageKeys.artistDetails, jsonEncode(user));
+    } else {
+      await storage.setValues(StorageKeys.trainerDetails, jsonEncode(user));
+    }
     await storage.setValues(StorageKeys.loggedIn, 'true');
   }
 
   Future<void> getUserfromSharedpref() async {
     try {
-      final userData = await storage.readValues(StorageKeys.artistDetails);
+      final usertype = await storage.userType;
+      if (usertype == UserType.artist.name) {
+        final userData = await storage.readValues(StorageKeys.artistDetails);
+        if (userData != null) {
+          SessionController().getArtistDetails =
+              GetArtistDetails.fromJson(jsonDecode(userData));
+        }
+      } else {
+        final userData = await storage.readValues(StorageKeys.trainerDetails);
+        if (userData != null) {
+          SessionController().getTrainerDetailsModel =
+              GetTrainerDetailsModel.fromJson(jsonDecode(userData));
+        }
+      }
       final isLoggedIn = await storage.readValues(StorageKeys.loggedIn);
 
-      if (userData != null) {
-        SessionController().getArtistDetails =
-            GetArtistDetails.fromJson(jsonDecode(userData));
-      }
       SessionController().islogin = (isLoggedIn == 'true' ? true : false);
     } catch (e) {
       print(e);
