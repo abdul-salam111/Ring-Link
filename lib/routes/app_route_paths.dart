@@ -16,4 +16,6 @@ class AppRoutePaths {
   static const String artistDetails = '/artistDetails';
   static const String trainerProfileScreenForArtist =
       '/trainerProfileScreenForArtist';
+  static const String artistProfileScreen = '/artistProfileScreen';
+  static const String artistManuScreen = '/artistManuScreen';
 }

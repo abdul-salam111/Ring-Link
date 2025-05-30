@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ring_link/pages/artist_pages/artist_details_screen/artist_details_screen.dart';
 import 'package:ring_link/pages/artist_pages/artist_home_screen/artist_home_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_manu_screen/artist_manu_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_profile_screen/artist_profile_screen.dart';
 import 'package:ring_link/pages/artist_pages/trainer_profile_screen_for_artist/trainer_profile_screen.dart';
 import 'package:ring_link/pages/common_pages/choose_role_screen/choose_role_screen.dart';
 import 'package:ring_link/pages/common_pages/email_vefication_screen/email_verification_screen.dart';
@@ -17,7 +19,7 @@ import 'package:ring_link/routes/app_route_paths.dart';
 import '../pages/common_pages/login_screen/login_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutePaths.singleChatScreen,
+  initialLocation: AppRoutePaths.notificationScreen,
   routes: [
     GoRoute(
       path: AppRoutePaths.onBoarding,
@@ -98,6 +100,16 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutePaths.notificationScreen,
       name: AppRouteNames.notificationScreen,
       builder: (context, state) => NotificationScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.artistProfileScreen,
+      name: AppRouteNames.artistProfileScreen,
+      builder: (context, state) => ArtistProfileScreen(),
+    ),
+    GoRoute(
+      path: AppRoutePaths.artistManuScreen,
+      name: AppRouteNames.artistManuScreen,
+      builder: (context, state) => ArtistManuScreen(),
     ),
   ],
 );
