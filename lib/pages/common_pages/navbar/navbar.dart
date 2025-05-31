@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/common_blocs/navbarBloc/bloc/navbar_bloc.dart';
 import 'package:ring_link/pages/artist_pages/artist_home_screen/artist_home_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_profile/artist_profile.dart';
 import 'package:ring_link/pages/trainer_pages/trainer_home_screen/trainer_home_screen.dart';
 
 import 'package:ring_link/utils/colors.dart';
@@ -31,15 +32,14 @@ class _NavBarState extends State<NavBar> {
 
   List<Widget> artistScreens = [
     ArtistHomeScreen(),
-   
-    // const SearchScreen(),
+
+    const ArtistProfile(),
     // const BookingScreen(),
     // const MessageScreen(),
     // const ProfileScreen(),
   ];
   List<Widget> trainerScreens = [
     TrainerHomeScreen(),
- 
 
     // const SearchScreen(),
     // const BookingScreen(),

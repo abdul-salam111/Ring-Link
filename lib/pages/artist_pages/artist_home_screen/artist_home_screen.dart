@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -160,7 +158,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                           extra: state.allTrainersData[index]);
                                     },
                                     child: Hero(
-                                      tag: 'artist',
+                                      tag: trainer.trainerId ?? "",
                                       child: Container(
                                         margin:
                                             const EdgeInsets.only(right: 15),
@@ -180,7 +178,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                               child: CachedNetworkImage(
                                                 imageUrl: trainer
                                                         .trainerProfilePicture ??
-                                                    "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                                                    "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg",
                                                 fit: BoxFit.cover,
                                                 height:
                                                     context.screenHeight * 0.15,
@@ -201,8 +199,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                             ),
                                             15.heightBox,
                                             Text(
-                                              trainer.trainerUsername ??
-                                                  "Unknown",
+                                              trainer.trainerUsername ?? "",
                                               style:
                                                   context.bodyMedium!.copyWith(
                                                 fontWeight: FontWeight.w600,
@@ -223,7 +220,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                                     5.widthBox,
                                                     Text(
                                                       trainer.trainerTagline ??
-                                                          "Jiu-Jitsu",
+                                                          "",
                                                       style: context
                                                                   .screenWidth >
                                                               420
@@ -241,7 +238,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                                         size: 18),
                                                     5.widthBox,
                                                     Text(
-                                                      "Pakistan", // You can replace with dynamic location if available
+                                                      "Pakistan", 
                                                       style: context
                                                                   .screenWidth >
                                                               420

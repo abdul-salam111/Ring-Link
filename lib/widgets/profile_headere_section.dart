@@ -16,22 +16,30 @@ class TrainerProfileHeaderCard extends StatelessWidget {
   final VoidCallback onShare;
   final VoidCallback onFeedback;
   final VoidCallback onpress;
+  final VoidCallback onMoreBtnPress;
   final String? price;
   final String screenTitle;
   final String mainButtonText;
+  final bool isShowShareButtton;
+  final bool isShowFeedbackButtton;
+  final bool isProfileScreen;
 
   const TrainerProfileHeaderCard(
       {super.key,
       this.isTrainerProfile = false,
       required this.profilePic,
+      required this.onMoreBtnPress,
       required this.name,
       required this.subtitle,
       required this.onpress,
+      this.isProfileScreen = false,
+      this.isShowFeedbackButtton = true,
       this.price,
       required this.rating,
       required this.location,
       required this.experience,
       required this.onShare,
+      this.isShowShareButtton = true,
       required this.onFeedback,
       required this.screenTitle,
       required this.mainButtonText});
@@ -53,6 +61,7 @@ class TrainerProfileHeaderCard extends StatelessWidget {
             50.heightBox,
             CustomAppBarSec(
               title: screenTitle,
+              onMore: onMoreBtnPress,
             ),
             20.heightBox,
             Row(
@@ -60,7 +69,7 @@ class TrainerProfileHeaderCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundImage: CachedNetworkImageProvider(profilePic),
-                  radius: 30,
+                  radius: isProfileScreen ? 35 : 30,
                 ),
                 10.widthBox,
                 Column(
@@ -71,7 +80,7 @@ class TrainerProfileHeaderCard extends StatelessWidget {
                       name,
                       style: context.bodyLarge!.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: isProfileScreen ? 16 : 14,
                       ),
                     ),
                     3.heightBox,
@@ -157,27 +166,28 @@ class TrainerProfileHeaderCard extends StatelessWidget {
                   ),
               ],
             ),
-            20.heightBox,
+            30.heightBox,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  width: 45,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff212429),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: IconButton(
-                      onPressed: onFeedback,
-                      icon: const Icon(Iconsax.message_text, size: 20),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
+                if (isShowFeedbackButtton)
+                  Container(
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: const Color(0xff212429),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: IconButton(
+                        onPressed: onFeedback,
+                        icon: const Icon(Iconsax.message_text, size: 20),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
                     ),
                   ),
-                ),
                 SizedBox(
                   width: context.screenWidth * 0.5,
                   height: 45,
@@ -187,23 +197,24 @@ class TrainerProfileHeaderCard extends StatelessWidget {
                     backgroundColor: AppColors.secondaryColor,
                   ),
                 ),
-                Container(
-                  width: 45,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff212429),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: IconButton(
-                      onPressed: onShare,
-                      icon: const Icon(Iconsax.share, size: 20),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
+                if (isShowShareButtton)
+                  Container(
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: const Color(0xff212429),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: IconButton(
+                        onPressed: onShare,
+                        icon: const Icon(Iconsax.share, size: 20),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             30.heightBox,

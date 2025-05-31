@@ -37,6 +37,7 @@ class _ArtistProfileForTrainerState extends State<ArtistProfileForTrainer> {
             children: [
               10.heightBox,
               TrainerProfileHeaderCard(
+                onMoreBtnPress: (){},
                 mainButtonText: "Send Training Offer",
                 onpress: () {},
                 isTrainerProfile: false,

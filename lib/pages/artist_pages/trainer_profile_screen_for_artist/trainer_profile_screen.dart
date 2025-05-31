@@ -73,6 +73,7 @@ class _TrainerProfileScreenForArtistState
             crossAxisAlignment: crossAxisStart,
             children: [
               TrainerProfileHeaderCard(
+                onMoreBtnPress: (){},
                 mainButtonText: "Book a Session",
                 price: widget.getTrainerDetailsModel!.trainerPrice.toString(),
                 onpress: () {},

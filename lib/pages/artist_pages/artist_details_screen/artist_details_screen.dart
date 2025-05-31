@@ -17,7 +17,7 @@ class ArtistDetailsScreen extends StatelessWidget {
         body: Stack(
       children: [
         Hero(
-          tag: 'artist',
+          tag: getTrainerDetailsModel?.trainerId ?? "",
           child: CachedNetworkImage(
               height: context.screenHeight * 0.6,
               width: double.infinity,
