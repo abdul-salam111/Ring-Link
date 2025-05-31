@@ -43,7 +43,6 @@ class AuthRepository {
     }
   }
 
-//login artist
   Future<dynamic> signInArtistWithEmailAndPassword({
     required String email,
     required String password,
@@ -55,93 +54,96 @@ class AuthRepository {
       );
 
       final user = response.user;
+      if (user == null) throw Exception('User not found. Please try again.');
 
       final usertype = await storage.userType;
 
-      if (usertype == UserType.artist.name) {
-        if (user != null && user.emailVerified) {
-          final userDoc = await firebaseFirestore
-              .collection(artistCollection)
-              .doc(user.uid)
-              .get();
-          GetArtistDetails? createArtistModel = GetArtistDetails.fromJson(
-            jsonDecode(
-                await storage.readValues(StorageKeys.artistDetails) ?? '{}'),
-          );
-
-          await storage.setValues(StorageKeys.userId, user.uid);
-
-          createArtistModel.artistUserId = user.uid;
-
-          if (!userDoc.exists) {
-            await firebaseFirestore
-                .collection(artistCollection)
-                .doc(user.uid)
-                .set(createArtistModel.toJson());
-          }
-          final docSnapshot = await firebaseFirestore
-              .collection(artistCollection)
-              .doc(user.uid)
-              .get();
-
-          if (docSnapshot.exists) {
-            final data = docSnapshot.data();
-            if (data != null) {
-              createArtistModel = GetArtistDetails.fromJson(data);
-              await storage.setValues(
-                  StorageKeys.artistDetails, jsonEncode(createArtistModel));
-              return createArtistModel;
-            }
-          }
-          return createArtistModel;
-        }
-      } else if (user != null && !user.emailVerified) {
+      // Check email verification first
+      if (!user.emailVerified) {
         await firebaseAuth.signOut();
         throw NotFoundException("Please verify your email address.");
-      } else {
-        if (user != null && user.emailVerified) {
-          final userDoc = await firebaseFirestore
-              .collection(trainerCollection)
-              .doc(user.uid)
-              .get();
-          GetTrainerDetailsModel? trainerDetailsModel =
-              GetTrainerDetailsModel.fromJson(
-            jsonDecode(
-                await storage.readValues(StorageKeys.trainerDetails) ?? '{}'),
-          );
-
-          await storage.setValues(StorageKeys.userId, user.uid);
-
-          trainerDetailsModel.trainerId = user.uid;
-
-          if (!userDoc.exists) {
-            await firebaseFirestore
-                .collection(trainerCollection)
-                .doc(user.uid)
-                .set(trainerDetailsModel.toJson());
-          }
-          final docSnapshot = await firebaseFirestore
-              .collection(trainerCollection)
-              .doc(user.uid)
-              .get();
-
-          if (docSnapshot.exists) {
-            final data = docSnapshot.data();
-            if (data != null) {
-              trainerDetailsModel = GetTrainerDetailsModel.fromJson(data);
-              await storage.setValues(
-                  StorageKeys.artistDetails, jsonEncode(trainerDetailsModel));
-              return trainerDetailsModel;
-            }
-          }
-          return trainerDetailsModel;
-        }
       }
 
-      throw Exception('User not found. Please try again.');
+      // Handle Artist
+      if (usertype == UserType.artist.name) {
+        final userDoc = await firebaseFirestore
+            .collection(artistCollection)
+            .doc(user.uid)
+            .get();
+
+        GetArtistDetails? createArtistModel = GetArtistDetails.fromJson(
+          jsonDecode(
+              await storage.readValues(StorageKeys.artistDetails) ?? '{}'),
+        );
+
+        await storage.setValues(StorageKeys.userId, user.uid);
+        createArtistModel.artistUserId = user.uid;
+
+        if (!userDoc.exists) {
+          await firebaseFirestore
+              .collection(artistCollection)
+              .doc(user.uid)
+              .set(createArtistModel.toJson());
+        }
+
+        final docSnapshot = await firebaseFirestore
+            .collection(artistCollection)
+            .doc(user.uid)
+            .get();
+
+        if (docSnapshot.exists) {
+          final data = docSnapshot.data();
+          if (data != null) {
+            createArtistModel = GetArtistDetails.fromJson(data);
+            await storage.setValues(
+                StorageKeys.artistDetails, jsonEncode(createArtistModel));
+          }
+        }
+        return createArtistModel;
+      }
+      // Handle Trainer
+      else {
+        final userDoc = await firebaseFirestore
+            .collection(trainerCollection)
+            .doc(user.uid)
+            .get();
+
+        GetTrainerDetailsModel? trainerDetailsModel =
+            GetTrainerDetailsModel.fromJson(
+          jsonDecode(
+              await storage.readValues(StorageKeys.trainerDetails) ?? '{}'),
+        );
+
+        await storage.setValues(StorageKeys.userId, user.uid);
+        trainerDetailsModel.trainerId = user.uid;
+
+        if (!userDoc.exists) {
+          await firebaseFirestore
+              .collection(trainerCollection)
+              .doc(user.uid)
+              .set(trainerDetailsModel.toJson());
+        }
+
+        final docSnapshot = await firebaseFirestore
+            .collection(trainerCollection)
+            .doc(user.uid)
+            .get();
+
+        if (docSnapshot.exists) {
+          final data = docSnapshot.data();
+          if (data != null) {
+            trainerDetailsModel = GetTrainerDetailsModel.fromJson(data);
+            await storage.setValues(
+                StorageKeys.trainerDetails, jsonEncode(trainerDetailsModel));
+          }
+        }
+        return trainerDetailsModel;
+      }
     } on FirebaseAuthException catch (e) {
+
       throw handleFirebaseAuthException(e);
     } catch (e) {
+
       throw Exception('Sign-in failed. Please try again.');
     }
   }

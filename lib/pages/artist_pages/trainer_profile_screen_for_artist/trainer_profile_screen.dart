@@ -5,16 +5,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ring_link/blocs/artist_blocs/trainer_profile_for_artist/trainer_profile_artist/bloc/trainer_profile_artist_bloc.dart';
+import 'package:ring_link/utils/date_ext.dart';
 import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
 import 'package:ring_link/widgets/outlineWidgets.dart';
 
+import '../../../models/trainers/get_models/get_trainer_details_model.dart';
+
 class TrainerProfileScreenForArtist extends StatefulWidget {
-  const TrainerProfileScreenForArtist({super.key});
+  final GetTrainerDetailsModel? getTrainerDetailsModel;
+  const TrainerProfileScreenForArtist({super.key, this.getTrainerDetailsModel});
 
   @override
   State<TrainerProfileScreenForArtist> createState() =>
@@ -29,12 +32,11 @@ class _TrainerProfileScreenForArtistState
   void initState() {
     super.initState();
     trainerProfileArtistBloc = TrainerProfileArtistBloc();
-    addMarkerAtAddress("2nd Ave, Airline Society, Lahore, Pakistan");
-  }
-
-  Future<LatLng> getCoordinatesFromAddress(String address) async {
-    List<Location> locations = await locationFromAddress(address);
-    return LatLng(locations[0].latitude, locations[0].longitude);
+    if (widget.getTrainerDetailsModel?.trainerLocation != null) {
+      final geoPoint = widget.getTrainerDetailsModel!.trainerLocation!;
+      final LatLng position = LatLng(geoPoint.latitude, geoPoint.longitude);
+      addMarkerAtPosition(position);
+    }
   }
 
   final Set<Marker> _markers = {};
@@ -45,23 +47,20 @@ class _TrainerProfileScreenForArtistState
     zoom: 14.4746,
   );
 
-  void addMarkerAtAddress(String address) async {
-    LatLng position = await getCoordinatesFromAddress(address);
-
-    // Add Marker
+  void addMarkerAtPosition(LatLng position) async {
     setState(() {
+      _markers.clear();
       _markers.add(
         Marker(
-          markerId: MarkerId("marker_1"),
+          markerId: const MarkerId("trainer_location"),
           position: position,
-          infoWindow: InfoWindow(title: "Selected Address"),
+          infoWindow: const InfoWindow(title: "Trainer Location"),
         ),
       );
     });
 
-    // Move Camera
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newLatLng(position));
+    controller.animateCamera(CameraUpdate.newLatLngZoom(position, 15));
   }
 
   @override
@@ -75,18 +74,23 @@ class _TrainerProfileScreenForArtistState
             children: [
               TrainerProfileHeaderCard(
                 mainButtonText: "Book a Session",
+                price: widget.getTrainerDetailsModel!.trainerPrice.toString(),
                 onpress: () {},
                 isTrainerProfile: true,
                 profilePic:
-                    "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
-                name: "Stephanie Nicol",
-                subtitle: "Jiu-Jitsu",
-                rating: 5.0,
+                    widget.getTrainerDetailsModel?.trainerProfilePicture ?? "",
+                name: widget.getTrainerDetailsModel?.trainerUsername ?? "",
+                subtitle: widget.getTrainerDetailsModel?.trainerTagline ?? "",
+                rating: double.parse(
+                    widget.getTrainerDetailsModel?.trainerRating ?? "0.0"),
                 location: "Brazilian",
-                experience: "10+ years",
-                screenTitle: "Stephanie",
+                experience: widget.getTrainerDetailsModel?.trainerExpereince ??
+                    "0 Years",
+                screenTitle:
+                    widget.getTrainerDetailsModel?.trainerUsername ?? "",
                 onShare: () {},
                 onFeedback: () {},
+                
               ),
               20.heightBox,
               Padding(
@@ -125,7 +129,7 @@ class _TrainerProfileScreenForArtistState
                           ),
                           10.heightBox,
                           Text(
-                            "Meet Stephanie Nico With over 6 years of experience in [MMA specialization], [Trainer Name] has trained fighters from beginners to pros, helping them sharpen their skills and build confidence inside the cage.",
+                            widget.getTrainerDetailsModel?.trainerBio ?? "",
                             style: context.bodyMedium,
                             textAlign: textAlignJustify,
                           ),
@@ -144,7 +148,8 @@ class _TrainerProfileScreenForArtistState
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: CachedNetworkImage(
-                                  imageUrl:
+                                  imageUrl: widget.getTrainerDetailsModel
+                                          ?.trainerProfilePicture ??
                                       "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
                                   height: 80,
                                   width: 80,
@@ -203,7 +208,7 @@ class _TrainerProfileScreenForArtistState
                               ),
                               10.heightBox,
                               Text(
-                                "\$50/hr",
+                                "\$${widget.getTrainerDetailsModel?.trainerPrice}",
                                 style: context.headlineSmall!
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
@@ -213,15 +218,34 @@ class _TrainerProfileScreenForArtistState
                                 style: context.bodyLarge!
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
-                              Wrap(
-                                spacing: 5,
-                                runSpacing: 5,
-                                children: [
-                                  OutlinedButtonWidget(title: "Individual Session"),
-                                  OutlinedButtonWidget(title: "Group Training"),
-                                  OutlinedButtonWidget(title: "Virtual Training"),
-                                ],
-                              ),
+                              widget.getTrainerDetailsModel!.trainerSessionType!
+                                      .isNotEmpty
+                                  ? Wrap(
+                                      spacing: 5,
+                                      runSpacing: 5,
+                                      children: List.generate(
+                                          widget
+                                                  .getTrainerDetailsModel
+                                                  ?.trainerSessionType!
+                                                  .length ??
+                                              0, (index) {
+                                        return OutlinedButtonWidget(
+                                            title: widget.getTrainerDetailsModel
+                                                        ?.trainerSessionType?[
+                                                    index] ??
+                                                "");
+                                      }),
+                                    )
+                                  : Center(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Text(
+                                          "No Session Type Available",
+                                          style: context.bodySmall,
+                                        ),
+                                      ),
+                                    ),
                               20.heightBox,
                               Text(
                                 "Available Slots",
@@ -229,12 +253,26 @@ class _TrainerProfileScreenForArtistState
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
                               5.heightBox,
-                              Text(
-                                "Sunady, Wednesday, 5 PM - 7 PM",
-                                style: context.bodySmall!
-                                    .copyWith(color: Colors.grey),
-                                textAlign: TextAlign.center,
-                              ),
+                              widget.getTrainerDetailsModel!
+                                      .trainerAvailableSlots!.isNotEmpty
+                                  ? Text(
+                                      widget.getTrainerDetailsModel
+                                              ?.trainerAvailableSlots?.first ??
+                                          "",
+                                      style: context.bodySmall!
+                                          .copyWith(color: Colors.grey),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Center(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Text(
+                                          "Not Available",
+                                          style: context.bodySmall,
+                                        ),
+                                      ),
+                                    ),
                               20.heightBox,
                               Text(
                                 "Training Location",
@@ -311,85 +349,103 @@ class _TrainerProfileScreenForArtistState
                                     ),
                                   ],
                                 ),
-                                ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    itemCount: 10,
-                                    itemBuilder: (index, cont) {
-                                      return Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 5),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  AppColors.lightgreycardColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          padding: defaultPadding,
-                                          child: Column(
-                                            crossAxisAlignment: crossAxisStart,
-                                            children: [
-                                              Row(
+                                widget.getTrainerDetailsModel!.trainerReviews!
+                                        .isNotEmpty
+                                    ? ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: widget.getTrainerDetailsModel
+                                            ?.trainerReviews?.length,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: AppColors
+                                                      .lightgreycardColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              padding: defaultPadding,
+                                              child: Column(
                                                 crossAxisAlignment:
-                                                    crossAxisCenter,
+                                                    crossAxisStart,
                                                 children: [
-                                                  CircleAvatar(
-                                                    backgroundImage:
-                                                        CachedNetworkImageProvider(
-                                                            "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
-                                                  ),
-                                                  10.widthBox,
-                                                  Column(
+                                                  Row(
                                                     crossAxisAlignment:
-                                                        crossAxisStart,
+                                                        crossAxisCenter,
                                                     children: [
-                                                      Text(
-                                                        "Abdul Salam",
-                                                        style: context
-                                                            .bodySmall!
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
+                                                      CircleAvatar(
+                                                        backgroundImage:
+                                                            CachedNetworkImageProvider(
+                                                                "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
                                                       ),
-                                                      Row(
+                                                      10.widthBox,
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            crossAxisStart,
                                                         children: [
-                                                          Row(
-                                                            children:
-                                                                List.generate(5,
-                                                                    (index) {
-                                                              return Icon(
-                                                                Icons.star,
-                                                                color: Colors
-                                                                    .amber,
-                                                                size: 15,
-                                                              );
-                                                            }),
-                                                          ),
-                                                          5.widthBox,
                                                           Text(
-                                                            "Mar 5, 2025",
+                                                            "Abdul Salam",
                                                             style: context
-                                                                .bodySmall,
-                                                          )
+                                                                .bodySmall!
+                                                                .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Row(
+                                                                children: List.generate(
+                                                                    double.parse(widget.getTrainerDetailsModel?.trainerReviews?[index].rating ??
+                                                                            "0.0")
+                                                                        .toInt(),
+                                                                    (index) {
+                                                                  return Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .amber,
+                                                                    size: 15,
+                                                                  );
+                                                                }),
+                                                              ),
+                                                              5.widthBox,
+                                                              Text(
+                                                                "${widget.getTrainerDetailsModel?.trainerReviews?[index].createdAt?.toSimpleDate()}",
+                                                                style: context
+                                                                    .bodySmall,
+                                                              )
+                                                            ],
+                                                          ),
                                                         ],
                                                       ),
                                                     ],
                                                   ),
+                                                  10.heightBox,
+                                                  Text(
+                                                    "${widget.getTrainerDetailsModel?.trainerReviews?[index].reviewText}",
+                                                    style: context.bodySmall,
+                                                    textAlign: textAlignJustify,
+                                                  ),
                                                 ],
                                               ),
-                                              10.heightBox,
-                                              Text(
-                                                "Great coach! Very patient and explains techniques well. Only wish the gym had more equipment.",
-                                                style: context.bodySmall,
-                                                textAlign: textAlignJustify,
-                                              ),
-                                            ],
+                                            ),
+                                          );
+                                        })
+                                    : Center(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 30),
+                                          child: Text(
+                                            "No reviews given yet!",
+                                            style: context.bodySmall!
+                                                .copyWith(color: Colors.white),
                                           ),
                                         ),
-                                      );
-                                    })
+                                      )
                               ],
                             ),
                           ),
@@ -403,6 +459,4 @@ class _TrainerProfileScreenForArtistState
       ),
     );
   }
-
- 
 }

@@ -2,14 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/common_blocs/navbarBloc/bloc/navbar_bloc.dart';
 import 'package:ring_link/pages/artist_pages/artist_home_screen/artist_home_screen.dart';
+import 'package:ring_link/pages/trainer_pages/trainer_home_screen/trainer_home_screen.dart';
+
 import 'package:ring_link/utils/colors.dart';
 import 'package:ring_link/utils/library.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  final bool isArtist;
+  const NavBar({super.key, required this.isArtist});
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -17,6 +21,7 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   late NavbarBloc navBarBloc;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -24,8 +29,18 @@ class _NavBarState extends State<NavBar> {
     navBarBloc = NavbarBloc();
   }
 
-  List<Widget> screens = [
-    const ArtistHomeScreen(),
+  List<Widget> artistScreens = [
+    ArtistHomeScreen(),
+   
+    // const SearchScreen(),
+    // const BookingScreen(),
+    // const MessageScreen(),
+    // const ProfileScreen(),
+  ];
+  List<Widget> trainerScreens = [
+    TrainerHomeScreen(),
+ 
+
     // const SearchScreen(),
     // const BookingScreen(),
     // const MessageScreen(),
@@ -88,9 +103,13 @@ class _NavBarState extends State<NavBar> {
         ),
         body: BlocBuilder<NavbarBloc, NavbarState>(
           builder: (context, state) {
-            return screens.asMap().containsKey(state.currentIndex)
-                ? screens[state.currentIndex]
-                : Center(child: Text("Invalid index"));
+            return widget.isArtist
+                ? artistScreens.asMap().containsKey(state.currentIndex)
+                    ? artistScreens[state.currentIndex]
+                    : Center(child: Text("Invalid index"))
+                : trainerScreens.asMap().containsKey(state.currentIndex)
+                    ? trainerScreens[state.currentIndex]
+                    : Center(child: Text("Invalid index"));
           },
         ),
       ),

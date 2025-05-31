@@ -20,18 +20,17 @@ class SplashServices {
   Future<void> checkLoginStatus(BuildContext context) async {
     await SessionController().getUserfromSharedpref();
     final userType = await storage.readValues(StorageKeys.userType);
-    Timer(Duration(seconds: 2), () async {
-      final onboardingDone =
-          await storage.readValues(StorageKeys.onboardingCompleted);
-      if (SessionController().islogin == true) {
-        context.goNamed(AppRouteNames.navbar);
-      } else if (onboardingDone != 'true' || onboardingDone == null) {
-        context.goNamed(AppRouteNames.onBoarding);
-      } else if (userType == null || userType.isEmpty) {
-        context.goNamed(AppRouteNames.chooserole);
-      } else {
-        context.goNamed(AppRouteNames.login);
-      }
-    });
+
+    final onboardingDone =
+        await storage.readValues(StorageKeys.onboardingCompleted);
+    if (SessionController().islogin == true) {
+      context.goNamed(AppRouteNames.navbar, extra: await context.isArtist);
+    } else if (onboardingDone != 'true' || onboardingDone == null) {
+      context.goNamed(AppRouteNames.onBoarding);
+    } else if (userType == null || userType.isEmpty) {
+      context.goNamed(AppRouteNames.chooserole);
+    } else {
+      context.goNamed(AppRouteNames.login);
+    }
   }
 }

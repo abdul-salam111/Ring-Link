@@ -15,3 +15,5 @@ class ChangeTrainerProfileTab extends TrainerProfileArtistEvent {
   @override
   List<Object> get props => [currentTabIndex];
 }
+
+

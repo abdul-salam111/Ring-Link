@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ring_link/models/artists/get_models/get_artist_details.dart';
+import 'package:ring_link/models/trainers/get_models/get_trainer_details_model.dart';
 import 'package:ring_link/pages/artist_pages/artist_details_screen/artist_details_screen.dart';
 import 'package:ring_link/pages/artist_pages/artist_home_screen/artist_home_screen.dart';
 import 'package:ring_link/pages/artist_pages/trainer_profile_screen_for_artist/trainer_profile_screen.dart';
@@ -11,6 +13,7 @@ import 'package:ring_link/pages/common_pages/onboarding&Splash/onboarding_screen
 import 'package:ring_link/pages/common_pages/onboarding&Splash/splash_screen.dart';
 import 'package:ring_link/pages/common_pages/registration_screen/registration_screen.dart';
 import 'package:ring_link/pages/trainer_pages/artist_profile_for_trainer/artist_profile_for_trainer.dart';
+import 'package:ring_link/pages/trainer_pages/trainer_details_screen/trainer_details_screen.dart';
 import 'package:ring_link/pages/trainer_pages/trainer_home_screen/trainer_home_screen.dart';
 import 'package:ring_link/routes/app_route_names.dart';
 import 'package:ring_link/routes/app_route_paths.dart';
@@ -58,7 +61,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutePaths.navbar,
       name: AppRouteNames.navbar,
-      builder: (context, state) => NavBar(),
+      builder: (context, state) {
+        final bool isArtist = state.extra as bool;
+        return NavBar(isArtist: isArtist);
+      },
     ),
     GoRoute(
       path: AppRoutePaths.trainerFilter,
@@ -83,12 +89,31 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutePaths.artistDetails,
       name: AppRouteNames.artistDetails,
-      builder: (context, state) => ArtistDetailsScreen(),
+      builder: (context, state) {
+        final GetTrainerDetailsModel getTrainerDetailsModel =
+            state.extra as GetTrainerDetailsModel;
+        return ArtistDetailsScreen(
+            getTrainerDetailsModel: getTrainerDetailsModel);
+      },
     ),
     GoRoute(
       path: AppRoutePaths.trainerProfileScreenForArtist,
       name: AppRouteNames.trainerProfileScreenForArtist,
-      builder: (context, state) => TrainerProfileScreenForArtist(),
+      builder: (context, state) {
+        final GetTrainerDetailsModel getTrainerDetailsModel =
+            state.extra as GetTrainerDetailsModel;
+        return TrainerProfileScreenForArtist(
+            getTrainerDetailsModel: getTrainerDetailsModel);
+      },
+    ),
+    GoRoute(
+      path: AppRoutePaths.trainerDetails,
+      name: AppRouteNames.trainerDetails,
+      builder: (context, state) {
+        final GetArtistDetails getArtistDetails =
+            state.extra as GetArtistDetails;
+        return TrainerDetailsScreen(getArtistDetails: getArtistDetails);
+      },
     ),
     GoRoute(
       path: AppRoutePaths.inboxScreen,
@@ -103,7 +128,11 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutePaths.artistProfileForTrainer,
       name: AppRouteNames.artistProfileForTrainer,
-      builder: (context, state) => ArtistProfileForTrainer(),
+      builder: (context, state) {
+        final GetArtistDetails getArtistDetails =
+            state.extra as GetArtistDetails;
+        return ArtistProfileForTrainer(getArtistDetails: getArtistDetails);
+      },
     ),
   ],
 );

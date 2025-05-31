@@ -1,15 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ring_link/models/trainers/get_models/get_trainer_details_model.dart';
+
+import 'package:ring_link/models/artists/get_models/get_artist_details.dart';
 import 'package:ring_link/routes/routes.dart';
+
 import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
 
-class ArtistDetailsScreen extends StatelessWidget {
-  final GetTrainerDetailsModel? getTrainerDetailsModel;
-  const ArtistDetailsScreen({super.key, this.getTrainerDetailsModel});
+class TrainerDetailsScreen extends StatelessWidget {
+  final GetArtistDetails? getArtistDetails;
+  const TrainerDetailsScreen({super.key, this.getArtistDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +19,12 @@ class ArtistDetailsScreen extends StatelessWidget {
         body: Stack(
       children: [
         Hero(
-          tag: 'artist',
+          tag: getArtistDetails?.artistUserId??"",
           child: CachedNetworkImage(
               height: context.screenHeight * 0.6,
               width: double.infinity,
               fit: BoxFit.cover,
-              imageUrl: getTrainerDetailsModel?.trainerProfilePicture ??
+              imageUrl: getArtistDetails?.artistProfileImage ??
                   "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
         ),
         Align(
@@ -56,7 +58,7 @@ class ArtistDetailsScreen extends StatelessWidget {
                         ),
                         2.widthBox,
                         Text(
-                          getTrainerDetailsModel?.trainerTagline ?? "",
+                          getArtistDetails?.artistTagline ?? "",
                           style: context.screenWidth > 420
                               ? context.bodyLarge!.copyWith(
                                   color: AppColors.secondaryColor,
@@ -73,16 +75,11 @@ class ArtistDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: mainAxisSpaceBetween,
                     children: [
                       Text(
-                        getTrainerDetailsModel?.trainerUsername ?? "",
+                        getArtistDetails?.artistName ?? "",
                         style: context.bodyLarge!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-                      ),
-                      Text(
-                        "\$${getTrainerDetailsModel?.trainerPrice ?? ""}",
-                        style: context.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ],
                   ),
@@ -99,7 +96,7 @@ class ArtistDetailsScreen extends StatelessWidget {
                           ),
                           5.widthBox,
                           Text(
-                            getTrainerDetailsModel?.trainerExpereince ?? "",
+                            getArtistDetails?.artistLevel ?? "",
                             style: context.bodyLarge!.copyWith(
                                 fontSize:
                                     (context.screenWidth <= 420) ? 14 : 16),
@@ -122,30 +119,6 @@ class ArtistDetailsScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      Row(
-                        children: [
-                          Row(
-                            children: List.generate(
-                                double.parse(
-                                        getTrainerDetailsModel?.trainerRating ??
-                                            "0.0")
-                                    .toInt(),
-                                (index) => Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: (context.screenWidth <= 420)
-                                          ? 14
-                                          : 22,
-                                    )),
-                          ),
-                          Text(
-                            "${getTrainerDetailsModel?.trainerRating}",
-                            style: context.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xffBCBABA)),
-                          )
-                        ],
-                      )
                     ],
                   ),
                   15.heightBox,
@@ -156,62 +129,11 @@ class ArtistDetailsScreen extends StatelessWidget {
                   ),
                   10.heightBox,
                   Text(
-                    "${getTrainerDetailsModel?.trainerBio}",
+                    "${getArtistDetails?.artistBio}",
                     style: context.bodyMedium,
                     textAlign: textAlignJustify,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                  ),
-                  20.heightBox,
-                  Text(
-                    "Credentials",
-                    style: context.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  20.heightBox,
-                  Row(
-                    crossAxisAlignment: crossAxisStart,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
-                          height: 80,
-                          width: 80,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      10.widthBox,
-                      Column(
-                        crossAxisAlignment: crossAxisStart,
-                        children: [
-                          Text(
-                            "Certified UFC Coach",
-                            style: context.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          5.heightBox,
-                          Text(
-                            "Black Belt in BJJ",
-                            style: context.bodySmall!.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                          5.heightBox,
-                          Text(
-                            "${getTrainerDetailsModel?.trainerExpereince} Experience",
-                            style: context.bodySmall!.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
                   20.heightBox,
                   Row(
@@ -224,8 +146,8 @@ class ArtistDetailsScreen extends StatelessWidget {
                           text: "View Profile",
                           onPressed: () {
                             context.pushNamed(
-                                AppRouteNames.trainerProfileScreenForArtist,
-                                extra: getTrainerDetailsModel);
+                                AppRouteNames.artistProfileForTrainer,
+                                extra: getArtistDetails);
                           },
                           backgroundColor: AppColors.lightgreycardColor,
                         ),
@@ -272,7 +194,7 @@ class ArtistDetailsScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                getTrainerDetailsModel?.trainerUsername ?? "",
+                getArtistDetails?.artistName ?? "",
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!

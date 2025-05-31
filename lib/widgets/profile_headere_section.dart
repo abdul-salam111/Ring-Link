@@ -16,6 +16,7 @@ class TrainerProfileHeaderCard extends StatelessWidget {
   final VoidCallback onShare;
   final VoidCallback onFeedback;
   final VoidCallback onpress;
+  final String? price;
   final String screenTitle;
   final String mainButtonText;
 
@@ -26,6 +27,7 @@ class TrainerProfileHeaderCard extends StatelessWidget {
       required this.name,
       required this.subtitle,
       required this.onpress,
+      this.price,
       required this.rating,
       required this.location,
       required this.experience,
@@ -49,7 +51,9 @@ class TrainerProfileHeaderCard extends StatelessWidget {
         child: Column(
           children: [
             50.heightBox,
-            CustomAppBarSec(title: screenTitle),
+            CustomAppBarSec(
+              title: screenTitle,
+            ),
             20.heightBox,
             Row(
               crossAxisAlignment: crossAxisCenter,
@@ -84,7 +88,7 @@ class TrainerProfileHeaderCard extends StatelessWidget {
                 const Spacer(),
                 if (isTrainerProfile)
                   Text(
-                    "\$50/hr",
+                    "\$$price",
                     style: context.headlineSmall!
                         .copyWith(fontWeight: FontWeight.bold),
                   )

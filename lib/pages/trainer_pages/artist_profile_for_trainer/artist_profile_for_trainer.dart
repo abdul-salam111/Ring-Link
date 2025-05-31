@@ -2,13 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ring_link/blocs/trainer_blocs/artist_profile_for_trainer/bloc/artist_profile_trainer_bloc.dart';
+import 'package:ring_link/models/artists/get_models/get_artist_details.dart';
+import 'package:ring_link/utils/date_ext.dart';
 import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import '../../../widgets/components.dart';
 import '../../../widgets/outlineWidgets.dart';
 
 class ArtistProfileForTrainer extends StatefulWidget {
-  const ArtistProfileForTrainer({super.key});
+  final GetArtistDetails getArtistDetails;
+  const ArtistProfileForTrainer({super.key, required this.getArtistDetails});
 
   @override
   State<ArtistProfileForTrainer> createState() =>
@@ -37,14 +40,14 @@ class _ArtistProfileForTrainerState extends State<ArtistProfileForTrainer> {
                 mainButtonText: "Send Training Offer",
                 onpress: () {},
                 isTrainerProfile: false,
-                profilePic:
-                    "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
-                name: "Stephanie Nicol",
-                subtitle: "Jiu-Jitsu",
+                profilePic: widget.getArtistDetails.artistProfileImage ?? "",
+                name: widget.getArtistDetails.artistName ?? "",
+                subtitle: widget.getArtistDetails.artistTagline ?? "",
                 rating: 5.0,
                 location: "Brazilian",
-                experience: "10+ years",
-                screenTitle: "Stephanie",
+                experience: widget.getArtistDetails.artistLevel ??
+                    "", //in artist case this represents level of artist
+                screenTitle: widget.getArtistDetails.artistName ?? "",
                 onShare: () {},
                 onFeedback: () {},
               ),
@@ -87,7 +90,7 @@ class _ArtistProfileForTrainerState extends State<ArtistProfileForTrainer> {
                                   ),
                                   10.heightBox,
                                   Text(
-                                    "Meet Stephanie Nico With over 6 years of experience in [MMA specialization], [Trainer Name] has trained fighters from beginners to pros, helping them sharpen their skills and build confidence inside the cage.",
+                                    widget.getArtistDetails.artistBio ?? "",
                                     style: context.bodyMedium,
                                     textAlign: textAlignJustify,
                                   ),
@@ -100,7 +103,9 @@ class _ArtistProfileForTrainerState extends State<ArtistProfileForTrainer> {
                                   ),
                                   10.heightBox,
                                   Text(
-                                    "Improving my wrestling for upcoming amateur fights",
+                                    widget.getArtistDetails
+                                            .artistTrainingGoal ??
+                                        "",
                                     style: context.bodyMedium,
                                     textAlign: textAlignJustify,
                                   ),
@@ -112,18 +117,34 @@ class _ArtistProfileForTrainerState extends State<ArtistProfileForTrainer> {
                                         color: Colors.white),
                                   ),
                                   5.heightBox,
-                                  Wrap(
-                                    spacing: 5,
-                                    runSpacing: 5,
-                                    children: [
-                                      OutlinedButtonWidget(
-                                          title: "Individual Session"),
-                                      OutlinedButtonWidget(
-                                          title: "Group Training"),
-                                      OutlinedButtonWidget(
-                                          title: "Virtual Training"),
-                                    ],
-                                  ),
+                                  widget.getArtistDetails
+                                              .artistPreferredTrainingStyle !=
+                                          null
+                                      ? Wrap(
+                                          spacing: 5,
+                                          runSpacing: 5,
+                                          children: List.generate(
+                                              widget
+                                                  .getArtistDetails
+                                                  .artistPreferredTrainingStyle!
+                                                  .length, (index) {
+                                            return OutlinedButtonWidget(
+                                                title: widget.getArtistDetails
+                                                        .artistPreferredTrainingStyle![
+                                                    index]);
+                                          }),
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Center(
+                                            child: Text(
+                                              "Not selected yet!",
+                                              style: context.bodyMedium!
+                                                  .copyWith(
+                                                      color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
                                 ],
                               )
                             : SizedBox.shrink();
@@ -139,74 +160,122 @@ class _ArtistProfileForTrainerState extends State<ArtistProfileForTrainer> {
                                     title: "Training History",
                                     onSeeAllTap: () {},
                                   ),
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.zero,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: 5,
-                                      itemBuilder: (index, cont) {
-                                        return Container(
-                                          padding: defaultPadding,
-                                          margin: defaultPadding,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: AppColors.lightGrey)),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                padding: defaultPadding,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                        color: AppColors
-                                                            .lightGrey)),
-                                                child: CachedNetworkImage(
-                                                    width: 50,
-                                                    height: 50,
-                                                    imageUrl:
-                                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8locnHjRQZMRz5NOvSxo0v9CnTWvMIJKfyw&s"),
-                                              ),
-                                              10.widthBox,
-                                              Column(
-                                                crossAxisAlignment:
-                                                    crossAxisStart,
+                                  widget.getArtistDetails.trainingHistory !=
+                                          null
+                                      ? ListView.builder(
+                                          shrinkWrap: true,
+                                          padding: EdgeInsets.zero,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: widget.getArtistDetails
+                                              .trainingHistory!.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              padding: defaultPadding,
+                                              margin: defaultPadding,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                      color:
+                                                          AppColors.lightGrey)),
+                                              child: Row(
                                                 children: [
-                                                  Text(
-                                                    "Striking Drills with Coach Mike",
-                                                    style: context.bodyMedium!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal),
-                                                  ),
-                                                  Text(
-                                                    "(One to One)",
-                                                    style: context.bodyMedium!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                  Text(
-                                                    "10 Mar, 2025",
-                                                    style: context.bodyMedium!
-                                                        .copyWith(
+                                                  Container(
+                                                    padding: defaultPadding,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
                                                             color: AppColors
-                                                                .lightGrey,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal),
+                                                                .lightGrey)),
+                                                    child: CachedNetworkImage(
+                                                        width: 50,
+                                                        height: 50,
+                                                        imageUrl:
+                                                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8locnHjRQZMRz5NOvSxo0v9CnTWvMIJKfyw&s"),
                                                   ),
+                                                  10.widthBox,
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        crossAxisStart,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: context
+                                                                    .screenWidth >
+                                                                420
+                                                            ? context
+                                                                    .screenWidth *
+                                                                0.8
+                                                            : context
+                                                                    .screenWidth *
+                                                                0.6,
+                                                        child: Text(
+                                                          widget
+                                                                  .getArtistDetails
+                                                                  .trainingHistory![
+                                                                      index]
+                                                                  .trainingTitle ??
+                                                              "",
+                                                          style: context
+                                                              .bodySmall!
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        widget
+                                                                .getArtistDetails
+                                                                .trainingHistory![
+                                                                    index]
+                                                                .trainingType ??
+                                                            "",
+                                                        style: context
+                                                            .bodyMedium!
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                      Text(
+                                                        widget
+                                                            .getArtistDetails
+                                                            .trainingHistory![
+                                                                index]
+                                                            .trainingDate!
+                                                            .toSimpleDate(),
+                                                        style: context
+                                                            .bodyMedium!
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightGrey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal),
+                                                      ),
+                                                    ],
+                                                  )
                                                 ],
-                                              )
+                                              ),
+                                            );
+                                          })
+                                      : Center(
+                                          child: Column(
+                                            children: [
+                                              (context.screenHeight * 0.2)
+                                                  .heightBox,
+                                              Text(
+                                                "No training history available",
+                                                style: context.bodyMedium!
+                                                    .copyWith(
+                                                        color: Colors.white),
+                                              ),
                                             ],
                                           ),
-                                        );
-                                      })
+                                        )
                                 ],
                               )
                             : SizedBox.shrink();

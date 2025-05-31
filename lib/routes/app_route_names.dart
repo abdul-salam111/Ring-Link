@@ -21,6 +21,7 @@ class AppRouteNames {
   //trainer pages
   static const String trainerHomeScreen = 'trainerHomeScreen';
   static const String artistProfileForTrainer = 'artistProfileForTrainer';
+  static const String trainerDetails = 'trainerDetails';
   
 
 }

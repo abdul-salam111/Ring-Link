@@ -62,13 +62,13 @@ class InvalidInputException extends AppException {
 
 // Forbidden Exception
 class ForbiddenException extends AppException {
-  ForbiddenException([String? message]) : super(message, "Forbidden Access: ");
+  ForbiddenException([String? message]) : super(message, "");
 }
 
 // Too Many Requests Exception
 class TooManyRequestsException extends AppException {
   TooManyRequestsException([String? message])
-      : super(message, "Too Many Requests: ");
+      : super(message, "Too Many Requests");
 }
 
 // Method Not Allowed Exception

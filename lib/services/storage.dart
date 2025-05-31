@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class LocalStorage {
   // Make the class a singleton
@@ -14,8 +16,8 @@ class LocalStorage {
     return true;
   }
 
-  Future<String?> readValues(String key) async {
-    return await _storage.read(key: key);
+  readValues(String key) {
+    return _storage.read(key: key);
   }
 
   Future<bool> clearValues(String key) async {
@@ -49,5 +51,18 @@ extension LocalStorageGetters on LocalStorage {
 
   Future<String?> get userId async {
     return await readValues(StorageKeys.userId);
+  }
+}
+
+extension UserTypeExtension on BuildContext {
+  Future<bool> get isArtist async {
+    final type = await storage.userType;
+    
+    return type == UserType.artist.name;
+  }
+
+  Future<bool> get isTrainer async {
+    final type = await storage.userType;
+    return type == UserType.trainer.name;
   }
 }

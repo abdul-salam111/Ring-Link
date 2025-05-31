@@ -4,7 +4,6 @@ import 'package:ring_link/services/splash_services.dart';
 
 import 'package:ring_link/utils/library.dart';
 
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -17,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       splashServices.isLoggedIn(context);
     });
   }

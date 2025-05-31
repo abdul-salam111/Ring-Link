@@ -1,9 +1,15 @@
+
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/artist_blocs/artist_home_bloc/bloc/artist_home_bloc.dart';
+import 'package:ring_link/main.dart';
+import 'package:ring_link/services/services_manager.dart';
+
+import 'package:ring_link/utils/enums.dart';
 import 'package:ring_link/utils/library.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
@@ -21,7 +27,8 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
   @override
   void initState() {
     super.initState();
-    artistHomeBloc = ArtistHomeBloc();
+    artistHomeBloc = ArtistHomeBloc(getIt());
+    artistHomeBloc.add(FetchAllTrainerEvent());
   }
 
   @override
@@ -42,8 +49,10 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                     10.heightBox,
                     WelcomeHeader(
                       subtitle: "Ready to level up your training",
-                      imageUrl:
-                          "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                      imageUrl: SessionController()
+                              .getArtistDetails
+                              .artistProfileImage ??
+                          "",
                       onNotificationTap: () {},
                     ),
                     20.heightBox,
@@ -51,6 +60,10 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                       children: [
                         Expanded(
                           child: TextField(
+                            onChanged: (value) {
+                              artistHomeBloc
+                                  .add(SearchTrainerEvent(searchQuery: value));
+                            },
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Iconsax.search_normal_1),
                                 fillColor: AppColors.lightgreycardColor,
@@ -112,119 +125,203 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                       onSeeAllTap: () {},
                     ),
                     20.heightBox,
-                    SizedBox(
-                      height: context.screenWidth > 420
-                          ? context.screenHeight * 0.36
-                          : context.screenHeight * 0.38,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: EdgeInsets.only(right: 15),
-                              width: context.screenWidth * 0.6,
-                              padding: padding14,
-                              decoration: BoxDecoration(
-                                color: AppColors.lightgreycardColor,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: crossAxisStart,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                    BlocBuilder<ArtistHomeBloc, ArtistHomeState>(
+                      buildWhen: (previous, current) =>
+                          previous.apiStatus != current.apiStatus ||
+                          previous.allTrainersData != current.allTrainersData,
+                      builder: (context, state) {
+                        switch (state.apiStatus) {
+                          case ApiStatus.initial:
+                            return const Center(child: LoadingIndicator());
+                          case ApiStatus.loading:
+                            return const Center(child: LoadingIndicator());
+                          case ApiStatus.error:
+                            return Center(child: Text(state.message));
+                          case ApiStatus.success:
+                            final trainers = state.allTrainersData;
+                            if (trainers.isEmpty) {
+                              return const Center(
+                                  child: Text("No trainers found."));
+                            }
+                            return SizedBox(
+                              height: context.screenWidth > 420
+                                  ? context.screenHeight * 0.36
+                                  : context.screenHeight * 0.38,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: trainers.length,
+                                itemBuilder: (context, index) {
+                                  final trainer = trainers[index];
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      context.pushNamed(
+                                          AppRouteNames.artistDetails,
+                                          extra: state.allTrainersData[index]);
+                                    },
+                                    child: Hero(
+                                      tag: 'artist',
+                                      child: Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 15),
+                                        width: context.screenWidth * 0.6,
+                                        padding: padding14,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.lightgreycardColor,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: crossAxisStart,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: CachedNetworkImage(
+                                                imageUrl: trainer
+                                                        .trainerProfilePicture ??
+                                                    "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                                                fit: BoxFit.cover,
+                                                height:
+                                                    context.screenHeight * 0.15,
+                                                width: double.infinity,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Container(
+                                                  color: Colors.grey[300],
+                                                  height: 100,
+                                                  width: double.infinity,
+                                                  child: const Icon(
+                                                    Icons.error,
+                                                    color: Colors.redAccent,
+                                                    size: 40,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            15.heightBox,
+                                            Text(
+                                              trainer.trainerUsername ??
+                                                  "Unknown",
+                                              style:
+                                                  context.bodyMedium!.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            5.heightBox,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons.tag,
+                                                        color: AppColors
+                                                            .secondaryColor,
+                                                        size: 18),
+                                                    5.widthBox,
+                                                    Text(
+                                                      trainer.trainerTagline ??
+                                                          "Jiu-Jitsu",
+                                                      style: context
+                                                                  .screenWidth >
+                                                              420
+                                                          ? context.bodyMedium
+                                                          : context
+                                                              .displayLarge,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Icon(Iconsax.location,
+                                                        color: AppColors
+                                                            .secondaryColor,
+                                                        size: 18),
+                                                    5.widthBox,
+                                                    Text(
+                                                      "Pakistan", // You can replace with dynamic location if available
+                                                      style: context
+                                                                  .screenWidth >
+                                                              420
+                                                          ? context.bodyMedium
+                                                          : context
+                                                              .displayLarge,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            5.heightBox,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Row(
+                                                        children: List.generate(
+                                                            double.parse(trainer
+                                                                        .trainerRating ??
+                                                                    "0.0")
+                                                                .toInt(),
+                                                            (index) {
+                                                      return Icon(Icons.star,
+                                                          color: AppColors
+                                                              .secondaryColor,
+                                                          size: 18);
+                                                    })),
+                                                    5.widthBox,
+                                                    Text(
+                                                      "${trainer.trainerRating}",
+                                                      style: context
+                                                                  .screenWidth >
+                                                              420
+                                                          ? context.bodyMedium
+                                                          : context
+                                                              .displayLarge,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  "\$${trainer.trainerPrice}",
+                                                  style: context.bodyMedium!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )
+                                              ],
+                                            ),
+                                            Spacer(),
+                                            SizedBox(
+                                              width: double.infinity,
+                                              height: context.screenWidth > 420
+                                                  ? 45
+                                                  : 35,
+                                              child: RoundButton(
+                                                fontsize:
+                                                    context.screenWidth > 420
+                                                        ? 19
+                                                        : 14,
+                                                radius: 15,
+                                                text: "Book Now",
+                                                onPressed: () {},
+                                                backgroundColor:
+                                                    AppColors.secondaryColor,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  15.heightBox,
-                                  Text("Stephanie Nicol",
-                                      style: context.bodyMedium!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                      )),
-                                  5.heightBox,
-                                  Row(
-                                    mainAxisAlignment: mainAxisSpaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Iconsax.star5,
-                                            color: AppColors.secondaryColor,
-                                            size: 18,
-                                          ),
-                                          5.widthBox,
-                                          Text(
-                                            "Jiu-Jitsu",
-                                            style: context.screenWidth > 420
-                                                ? context.bodyMedium
-                                                : context.displayLarge,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Iconsax.location,
-                                            color: AppColors.secondaryColor,
-                                            size: 18,
-                                          ),
-                                          5.widthBox,
-                                          Text(
-                                            "Pakistan",
-                                            style: context.screenWidth > 420
-                                                ? context.bodyMedium
-                                                : context.displayLarge,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  5.heightBox,
-                                  Row(
-                                    mainAxisAlignment: mainAxisSpaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Iconsax.calendar,
-                                            color: AppColors.secondaryColor,
-                                            size: 18,
-                                          ),
-                                          5.widthBox,
-                                          Text(
-                                            "Availability",
-                                            style: context.screenWidth > 420
-                                                ? context.bodyMedium
-                                                : context.displayLarge,
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        "\$50/hr",
-                                        style: context.bodyMedium!.copyWith(
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  10.heightBox,
-                                  SizedBox(
-                                    width: double.infinity,
-                                    height: context.screenWidth > 420 ? 45 : 35,
-                                    child: RoundButton(
-                                      fontsize:
-                                          context.screenWidth > 420 ? 19 : 14,
-                                      radius: 15,
-                                      text: "Book Now",
-                                      onPressed: () {},
-                                      backgroundColor: AppColors.secondaryColor,
-                                    ),
-                                  )
-                                ],
+                                  );
+                                },
                               ),
                             );
-                          }),
+                        }
+                      },
                     ),
                     30.heightBox,
                     Row(
@@ -358,7 +455,7 @@ class _TrainerFilterState extends State<TrainerFilter> {
   @override
   void initState() {
     super.initState();
-    artistHomeBloc = ArtistHomeBloc();
+    artistHomeBloc = ArtistHomeBloc(getIt());
   }
 
   final expertiesLevels = {"Beginner", "Intermediate", "Advanced"};
