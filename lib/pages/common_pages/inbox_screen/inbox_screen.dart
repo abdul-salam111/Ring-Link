@@ -45,7 +45,7 @@ class InboxScreen extends StatelessWidget {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUbxBmNuEWRnSeavusNsXAJQY-tSNCA7Qr_A&s',
+                                              defaultImage,
                                             ),
                                             fit: BoxFit.cover)),
                                   ),

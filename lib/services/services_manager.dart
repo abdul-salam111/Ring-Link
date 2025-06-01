@@ -9,7 +9,7 @@ class SessionController {
   GetTrainerDetailsModel getTrainerDetailsModel = GetTrainerDetailsModel();
   static final SessionController _session = SessionController._internal();
   bool islogin = false;
-  
+  bool isArtist = false;
   SessionController._internal();
 
   static SessionController get instance => _session;
@@ -36,7 +36,7 @@ class SessionController {
 
   Future<void> getUserfromSharedpref() async {
     try {
-      final userType =await storage.readValues(StorageKeys.userType);
+      final userType = await storage.readValues(StorageKeys.userType);
       if (userType == UserType.artist.name) {
         final userData = await storage.readValues(StorageKeys.artistDetails);
         if (userData != null) {
@@ -51,7 +51,9 @@ class SessionController {
         }
       }
       final isLoggedIn = await storage.readValues(StorageKeys.loggedIn);
-
+      final getuserType = await storage.readValues(StorageKeys.userType);
+      SessionController().isArtist =
+          getuserType == UserType.artist.name ? true : false;
       SessionController().islogin = (isLoggedIn == 'true' ? true : false);
     } catch (e) {
       print(e);

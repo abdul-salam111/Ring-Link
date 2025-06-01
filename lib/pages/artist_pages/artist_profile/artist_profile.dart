@@ -10,6 +10,7 @@ import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/utils/paddings.dart';
 import 'package:ring_link/widgets/profile_headere_section.dart';
 
+import '../../../utils/images.dart';
 import '../../../widgets/outlineWidgets.dart';
 
 class ArtistProfile extends StatefulWidget {
@@ -41,13 +42,13 @@ class _ArtistProfileState extends State<ArtistProfile> {
               screenTitle: "My Profile",
               mainButtonText: "Edit Profile",
               profilePic:
-                  SessionController().getArtistDetails.artistProfileImage ?? "",
+                  SessionController().getArtistDetails.artistProfileImage ?? defaultImage,
               name: SessionController().getArtistDetails.artistName ?? "",
               subtitle:
                   SessionController().getArtistDetails.artistTagline ?? "",
               onpress: () {},
               rating: 0.0,
-              location: "",
+              location: SessionController().getArtistDetails.artistAddress??"",
               experience:
                   SessionController().getArtistDetails.artistLevel ?? "",
             ),

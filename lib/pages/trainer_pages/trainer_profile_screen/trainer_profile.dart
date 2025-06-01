@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:iconsax/iconsax.dart';
-import 'package:ring_link/pages/artist_pages/artist_profile/artist_profile_menu_screen.dart';
-
+import 'package:ring_link/pages/trainer_pages/trainer_profile_screen/trainer_profile_menu_screen.dart';
 import 'package:ring_link/services/services_manager.dart';
 import 'package:ring_link/utils/alignments.dart';
 import 'package:ring_link/utils/context_ext.dart';
+import 'package:ring_link/utils/images.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/utils/paddings.dart';
 import 'package:ring_link/widgets/profile_headere_section.dart';
@@ -24,18 +23,22 @@ class _ArtistProfileState extends State<TrainerProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: ArtistMenuDrawer(),
+      endDrawer: TrainerMenuDrawer(),
       key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: crossAxisStart,
           children: [
             TrainerProfileHeaderCard(
+              isTrainerProfile: true,
               onMoreBtnPress: () => _scaffoldKey.currentState!.openEndDrawer(),
               isProfileScreen: true,
               isShowFeedbackButtton: false,
               onmoreIcon: Iconsax.menu_1,
               isShowShareButtton: false,
+              price:SessionController()
+                      .getTrainerDetailsModel
+                      .trainerPrice??"0.0" ,
               onShare: () {},
               onFeedback: () {},
               screenTitle: "My Profile",
@@ -43,7 +46,7 @@ class _ArtistProfileState extends State<TrainerProfile> {
               profilePic: SessionController()
                       .getTrainerDetailsModel
                       .trainerProfilePicture ??
-                  "",
+                  defaultImage,
               name:
                   SessionController().getTrainerDetailsModel.trainerUsername ??
                       "",
@@ -54,7 +57,7 @@ class _ArtistProfileState extends State<TrainerProfile> {
               rating: double.parse(
                   SessionController().getTrainerDetailsModel.trainerRating ??
                       "0.0"),
-              location: "",
+              location: SessionController().getTrainerDetailsModel.trainerAddress??"" ,
               experience: SessionController()
                       .getTrainerDetailsModel
                       .trainerExpereince ??

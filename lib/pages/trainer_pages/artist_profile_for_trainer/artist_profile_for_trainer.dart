@@ -45,7 +45,7 @@ class _ArtistProfileForTrainerState extends State<ArtistProfileForTrainer> {
                 name: widget.getArtistDetails.artistName ?? "",
                 subtitle: widget.getArtistDetails.artistTagline ?? "",
                 rating: 5.0,
-                location: "Brazilian",
+                location: widget.getArtistDetails.artistAddress??"",
                 experience: widget.getArtistDetails.artistLevel ??
                     "", //in artist case this represents level of artist
                 screenTitle: widget.getArtistDetails.artistName ?? "",

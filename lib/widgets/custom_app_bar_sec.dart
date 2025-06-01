@@ -8,12 +8,12 @@ class CustomAppBarSec extends StatelessWidget {
   final IconData? onmoreIcon;
 
   const CustomAppBarSec({
-    Key? key,
+    super.key,
     required this.title,
     this.onBack,
     this.onMore,
     this.onmoreIcon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

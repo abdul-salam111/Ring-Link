@@ -8,14 +8,13 @@ import 'package:ring_link/blocs/common_blocs/loginBloc/bloc/login_bloc.dart';
 import 'package:ring_link/main.dart';
 import 'package:ring_link/routes/routes.dart';
 import 'package:ring_link/services/services_manager.dart';
-import 'package:ring_link/services/storage.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
 import '../../../utils/enums.dart';
 import '../../../utils/library.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -158,16 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   previous.apiStatus != current.apiStatus,
                               listener: (context, state) async {
                                 if (state.apiStatus == ApiStatus.success) {
-                                  final String role =await
-                                      storage.readValues(StorageKeys.userType);
-                                  final bool isArtist =
-                                      role == UserType.artist.name
-                                          ? true
-                                          : false;
-                                  
-                                  context.pushReplacementNamed(
+                               
+                                
+                                  context.goNamed(
                                       AppRouteNames.navbar,
-                                      extra: isArtist);
+                                      extra: SessionController().isArtist);
                                 }
                                 if (state.apiStatus == ApiStatus.error) {
                                   Utils.anotherFlushbar(

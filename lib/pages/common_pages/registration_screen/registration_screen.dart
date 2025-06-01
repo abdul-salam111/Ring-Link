@@ -13,7 +13,7 @@ import 'package:ring_link/widgets/components.dart';
 import '../../../utils/library.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  RegistrationScreen({super.key});
+  const RegistrationScreen({super.key});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -258,7 +258,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         if (formkey.currentState!.validate()) {
                                           if (await storage.readValues(
                                                   StorageKeys.chooseRoleDone) ==
-                                              null) {
+                                              null || await storage.readValues(
+                                                  StorageKeys.userType)==null) {
                                             context.pushNamed(
                                                 AppRouteNames.chooserole);
                                           } else {

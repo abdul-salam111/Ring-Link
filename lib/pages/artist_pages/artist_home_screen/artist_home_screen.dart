@@ -50,7 +50,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                       imageUrl: SessionController()
                               .getArtistDetails
                               .artistProfileImage ??
-                          "",
+                          defaultImage,
                       onNotificationTap: () {},
                     ),
                     20.heightBox,
@@ -178,7 +178,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                               child: CachedNetworkImage(
                                                 imageUrl: trainer
                                                         .trainerProfilePicture ??
-                                                    "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg",
+                                                    defaultImage,
                                                 fit: BoxFit.cover,
                                                 height:
                                                     context.screenHeight * 0.15,
@@ -359,7 +359,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                     height: context.screenHeight * 0.12,
                                     fit: BoxFit.cover,
                                     imageUrl:
-                                        "https://img.freepik.com/free-photo/handsome-carefree-guy-dancing-hip-hop-having-fun_176420-21699.jpg?semt=ais_hybrid&w=740",
+                                        defaultImage,
                                   ),
                                 ),
                                 10.widthBox,

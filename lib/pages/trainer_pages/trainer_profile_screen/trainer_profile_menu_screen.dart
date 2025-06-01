@@ -12,8 +12,8 @@ import 'package:ring_link/utils/num_txt.dart';
 
 import 'package:ring_link/widgets/menu_widget.dart';
 
-class ArtistMenuDrawer extends StatelessWidget {
-  const ArtistMenuDrawer({super.key});
+class TrainerMenuDrawer extends StatelessWidget {
+  const TrainerMenuDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +33,8 @@ class ArtistMenuDrawer extends StatelessWidget {
                       radius: 35,
                       backgroundImage: CachedNetworkImageProvider(
                         SessionController()
-                                .getArtistDetails
-                                .artistProfileImage ??
+                                .getTrainerDetailsModel
+                                .trainerProfilePicture ??
                             defaultImage,
                       )),
                   10.widthBox,
@@ -42,12 +42,12 @@ class ArtistMenuDrawer extends StatelessWidget {
                     crossAxisAlignment: crossAxisStart,
                     children: [
                       Text(
-                        SessionController().getArtistDetails.artistName ?? "",
+                        SessionController().getTrainerDetailsModel.trainerUsername ?? "",
                         style: context.bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        SessionController().getArtistDetails.userType ?? "",
+                        SessionController().getTrainerDetailsModel.userType ?? "",
                         style: context.bodyMedium!
                             .copyWith(fontWeight: FontWeight.normal),
                       ),

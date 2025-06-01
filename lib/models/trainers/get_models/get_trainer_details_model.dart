@@ -24,6 +24,9 @@ class GetTrainerDetailsModel {
   String? trainerProfilePicture;
   String? userType;
   DateTime? createdAt;
+   String? trainerAddress;
+
+  
 
   GetTrainerDetailsModel({
     this.trainerUsername,
@@ -41,6 +44,7 @@ class GetTrainerDetailsModel {
     this.trainerProfilePicture,
     this.userType,
     this.createdAt,
+    this.trainerAddress
   });
 
   factory GetTrainerDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -88,6 +92,7 @@ class GetTrainerDetailsModel {
       trainerProfilePicture: json["trainer_profile_picture"],
       userType: json["userType"],
       createdAt: parseDateTime(json["createdAt"]),
+      trainerAddress: json['trainer_address']
     );
   }
 
@@ -117,6 +122,7 @@ class GetTrainerDetailsModel {
       "trainer_profile_picture": trainerProfilePicture,
       "userType": userType,
       "createdAt": createdAt?.toIso8601String(),
+      "trainer_address":trainerAddress,
     };
   }
 }

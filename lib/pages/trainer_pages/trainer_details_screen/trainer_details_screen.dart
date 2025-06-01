@@ -112,7 +112,7 @@ class TrainerDetailsScreen extends StatelessWidget {
                           ),
                           5.widthBox,
                           Text(
-                            "Brazalian",
+                            getArtistDetails?.artistAddress??"",
                             style: context.bodyLarge!.copyWith(
                                 fontSize:
                                     (context.screenWidth <= 420) ? 14 : 16),

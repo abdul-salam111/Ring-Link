@@ -8,6 +8,7 @@ import 'package:ring_link/main.dart';
 import 'package:ring_link/routes/routes.dart';
 import 'package:ring_link/services/services_manager.dart';
 import 'package:ring_link/utils/enums.dart';
+
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
 import '../../../utils/library.dart';
@@ -21,7 +22,7 @@ class TrainerHomeScreen extends StatefulWidget {
 
 class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
   late TrainerHomeScreenBloc trainerHomeScreenBloc;
-
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -30,6 +31,8 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
     trainerHomeScreenBloc.add(FetchAllArtistEvent());
   }
 
+  
+   
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -51,7 +54,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                       imageUrl: SessionController()
                               .getTrainerDetailsModel
                               .trainerProfilePicture ??
-                          "",
+                          defaultImage,
                       onNotificationTap: () {},
                     ),
                     20.heightBox,
@@ -146,7 +149,9 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                   scrollDirection: Axis.horizontal,
                                   itemCount: state.allArtistData.length,
                                   itemBuilder: (context, index) {
+
                                     final artist = state.allArtistData[index];
+                           
                                     return GestureDetector(
                                       onTap: () {
                                         context.pushNamed(
@@ -177,7 +182,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                                   width: double.infinity,
                                                   imageUrl: artist
                                                           .artistProfileImage ??
-                                                      "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                                                      defaultImage,
                                                 ),
                                               ),
                                               15.heightBox,
@@ -222,7 +227,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                                       ),
                                                       5.widthBox,
                                                       Text(
-                                                        "Pakistan",
+                                                      artist.artistAddress??"",
                                                         style: context
                                                                     .screenWidth >
                                                                 420
@@ -314,7 +319,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                     height: context.screenHeight * 0.12,
                                     fit: BoxFit.cover,
                                     imageUrl:
-                                        "https://img.freepik.com/free-photo/handsome-carefree-guy-dancing-hip-hop-having-fun_176420-21699.jpg?semt=ais_hybrid&w=740",
+                                        defaultImage,
                                   ),
                                 ),
                                 10.widthBox,

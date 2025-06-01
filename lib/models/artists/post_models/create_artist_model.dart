@@ -14,6 +14,7 @@ class CreateArtistModel {
   final String? artistTrainingGoal;
   final List<String>? artistPreferredTrainingStyle;
   final List<TrainingHistory>? trainingHistory;
+  final String? artistAddress;
 
   CreateArtistModel({
     this.artistName,
@@ -29,6 +30,7 @@ class CreateArtistModel {
     this.artistTrainingGoal,
     this.artistPreferredTrainingStyle,
     this.trainingHistory,
+    this.artistAddress,
   });
 
   factory CreateArtistModel.fromJson(Map<String, dynamic> json) {
@@ -74,6 +76,7 @@ class CreateArtistModel {
           ? List<TrainingHistory>.from(
               json["training_history"].map((x) => TrainingHistory.fromJson(x)))
           : null,
+      artistAddress: json["artist_address"],
     );
   }
 
@@ -101,6 +104,8 @@ class CreateArtistModel {
       "artist_training_goal": artistTrainingGoal,
       "artist_preferred_training_style": artistPreferredTrainingStyle,
       "training_history": trainingHistory?.map((x) => x.toJson()).toList(),
+      "artist_address": artistAddress,
+
     };
   }
 }
@@ -131,6 +136,7 @@ class TrainingHistory {
       'training_title': trainingTitle,
       'training_date': trainingDate?.toIso8601String(),
       'training_type': trainingType,
+      
     };
   }
 }

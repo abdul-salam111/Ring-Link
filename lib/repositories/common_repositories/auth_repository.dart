@@ -59,7 +59,7 @@ class AuthRepository {
       // Check email verification first
       if (!user.emailVerified) {
         await firebaseAuth.signOut();
-        throw Exception("Please verify your email address.");
+        throw UnauthorizedException("Please verify your email address.");
       }
 
       // Read user type from storage
@@ -170,6 +170,8 @@ class AuthRepository {
       }
     } on FirebaseAuthException catch (e) {
       throw handleFirebaseAuthException(e);
+    } on UnauthorizedException {
+      rethrow;
     } catch (e) {
       throw Exception('Sign-in failed. Please try again.');
     }

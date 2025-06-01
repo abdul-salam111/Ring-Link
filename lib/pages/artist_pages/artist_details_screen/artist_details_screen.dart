@@ -23,7 +23,7 @@ class ArtistDetailsScreen extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.cover,
               imageUrl: getTrainerDetailsModel?.trainerProfilePicture ??
-                  "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740"),
+                  defaultImage),
         ),
         Align(
           alignment: bottomCenter,
@@ -178,7 +178,7 @@ class ArtistDetailsScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         child: CachedNetworkImage(
                           imageUrl:
-                              "https://img.freepik.com/premium-photo/young-man-isolated-blue_1368-124991.jpg?semt=ais_hybrid&w=740",
+                            defaultImage,
                           height: 80,
                           width: 80,
                           fit: BoxFit.cover,

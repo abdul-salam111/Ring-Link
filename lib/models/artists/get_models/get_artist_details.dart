@@ -49,6 +49,8 @@ class GetArtistDetails {
   final String? artistTrainingGoal;
   final List<String>? artistPreferredTrainingStyle;
   final List<TrainingHistory>? trainingHistory;
+   String? artistAddress;
+
 
   GetArtistDetails({
     this.artistName,
@@ -64,6 +66,7 @@ class GetArtistDetails {
     this.artistTrainingGoal,
     this.artistPreferredTrainingStyle,
     this.trainingHistory,
+    this.artistAddress,
   });
 
   factory GetArtistDetails.fromJson(Map<String, dynamic> json) {
@@ -104,6 +107,7 @@ class GetArtistDetails {
       trainingHistory: json["training_history"] != null
           ? List<TrainingHistory>.from(json["training_history"].map((x) => TrainingHistory.fromJson(x)))
           : null,
+          artistAddress: json["artist_address"],
     );
   }
 
@@ -130,6 +134,8 @@ class GetArtistDetails {
       "artist_training_goal": artistTrainingGoal,
       "artist_preferred_training_style": artistPreferredTrainingStyle,
       "training_history": trainingHistory?.map((x) => x.toJson()).toList(),
+      "artist_address": artistAddress,
+
     };
   }
 }
