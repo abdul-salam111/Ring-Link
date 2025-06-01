@@ -22,7 +22,7 @@ class TrainerHomeScreen extends StatefulWidget {
 
 class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
   late TrainerHomeScreenBloc trainerHomeScreenBloc;
-  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -31,8 +31,6 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
     trainerHomeScreenBloc.add(FetchAllArtistEvent());
   }
 
-  
-   
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -55,7 +53,9 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                               .getTrainerDetailsModel
                               .trainerProfilePicture ??
                           defaultImage,
-                      onNotificationTap: () {},
+                      onNotificationTap: () {
+                        context.pushNamed(AppRouteNames.notificationScreen);
+                      },
                     ),
                     20.heightBox,
                     Row(
@@ -146,12 +146,12 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                   ? context.screenHeight * 0.36
                                   : context.screenHeight * 0.38,
                               child: ListView.builder(
+                        
                                   scrollDirection: Axis.horizontal,
                                   itemCount: state.allArtistData.length,
                                   itemBuilder: (context, index) {
-
                                     final artist = state.allArtistData[index];
-                           
+
                                     return GestureDetector(
                                       onTap: () {
                                         context.pushNamed(
@@ -227,7 +227,8 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                                       ),
                                                       5.widthBox,
                                                       Text(
-                                                      artist.artistAddress??"",
+                                                        artist.artistAddress ??
+                                                            "",
                                                         style: context
                                                                     .screenWidth >
                                                                 420
@@ -318,8 +319,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                     width: context.screenWidth * 0.25,
                                     height: context.screenHeight * 0.12,
                                     fit: BoxFit.cover,
-                                    imageUrl:
-                                        defaultImage,
+                                    imageUrl: defaultImage,
                                   ),
                                 ),
                                 10.widthBox,

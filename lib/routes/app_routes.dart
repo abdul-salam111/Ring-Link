@@ -10,6 +10,7 @@ import 'package:ring_link/pages/common_pages/email_vefication_screen/email_verif
 import 'package:ring_link/pages/common_pages/inbox_screen/inbox_screen.dart';
 import 'package:ring_link/pages/common_pages/messages_screen/messages_screen.dart';
 import 'package:ring_link/pages/common_pages/navbar/navbar.dart';
+import 'package:ring_link/pages/common_pages/notification_screen/notification_screen.dart';
 import 'package:ring_link/pages/common_pages/onboarding&Splash/onboarding_screen.dart';
 import 'package:ring_link/pages/common_pages/onboarding&Splash/splash_screen.dart';
 import 'package:ring_link/pages/common_pages/registration_screen/registration_screen.dart';
@@ -145,10 +146,10 @@ final GoRouter appRouter = GoRouter(
     //   name: AppRouteNames.artistManuScreen,
     //   builder: (context, state) => ArtistManuScreen(),
     // ),
-    // GoRoute(
-    //   path: AppRoutePaths.notificationScreen,
-    //   name: AppRouteNames.notificationScreen,
-    //   builder: (context, state) => notific(),
-    // ),
+    GoRoute(
+      path: AppRoutePaths.notificationScreen,
+      name: AppRouteNames.notificationScreen,
+      builder: (context, state) => NotificationScreen(),
+    ),
   ],
 );
