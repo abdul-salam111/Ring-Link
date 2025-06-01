@@ -7,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/common_blocs/loginBloc/bloc/login_bloc.dart';
 import 'package:ring_link/main.dart';
 import 'package:ring_link/routes/routes.dart';
+import 'package:ring_link/services/services_manager.dart';
 import 'package:ring_link/services/storage.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
@@ -157,9 +158,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   previous.apiStatus != current.apiStatus,
                               listener: (context, state) async {
                                 if (state.apiStatus == ApiStatus.success) {
+                                  final String role =await
+                                      storage.readValues(StorageKeys.userType);
+                                  final bool isArtist =
+                                      role == UserType.artist.name
+                                          ? true
+                                          : false;
+                                  
                                   context.pushReplacementNamed(
                                       AppRouteNames.navbar,
-                                      extra: await context.isArtist);
+                                      extra: isArtist);
                                 }
                                 if (state.apiStatus == ApiStatus.error) {
                                   Utils.anotherFlushbar(

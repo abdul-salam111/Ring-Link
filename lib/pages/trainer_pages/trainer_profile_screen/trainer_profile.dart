@@ -12,14 +12,14 @@ import 'package:ring_link/widgets/profile_headere_section.dart';
 
 import '../../../widgets/outlineWidgets.dart';
 
-class ArtistProfile extends StatefulWidget {
-  const ArtistProfile({super.key});
+class TrainerProfile extends StatefulWidget {
+  const TrainerProfile({super.key});
 
   @override
-  State<ArtistProfile> createState() => _ArtistProfileState();
+  State<TrainerProfile> createState() => _ArtistProfileState();
 }
 
-class _ArtistProfileState extends State<ArtistProfile> {
+class _ArtistProfileState extends State<TrainerProfile> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -40,16 +40,25 @@ class _ArtistProfileState extends State<ArtistProfile> {
               onFeedback: () {},
               screenTitle: "My Profile",
               mainButtonText: "Edit Profile",
-              profilePic:
-                  SessionController().getArtistDetails.artistProfileImage ?? "",
-              name: SessionController().getArtistDetails.artistName ?? "",
+              profilePic: SessionController()
+                      .getTrainerDetailsModel
+                      .trainerProfilePicture ??
+                  "",
+              name:
+                  SessionController().getTrainerDetailsModel.trainerUsername ??
+                      "",
               subtitle:
-                  SessionController().getArtistDetails.artistTagline ?? "",
+                  SessionController().getTrainerDetailsModel.trainerTagline ??
+                      "",
               onpress: () {},
-              rating: 0.0,
+              rating: double.parse(
+                  SessionController().getTrainerDetailsModel.trainerRating ??
+                      "0.0"),
               location: "",
-              experience:
-                  SessionController().getArtistDetails.artistLevel ?? "",
+              experience: SessionController()
+                      .getTrainerDetailsModel
+                      .trainerExpereince ??
+                  "",
             ),
             20.heightBox,
             Padding(
@@ -64,20 +73,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
                   ),
                   10.heightBox,
                   Text(
-                    SessionController().getArtistDetails.artistBio ?? "",
-                    style: context.bodyMedium,
-                    textAlign: textAlignJustify,
-                  ),
-                  20.heightBox,
-                  Text(
-                    "Training Goal",
-                    style: context.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  10.heightBox,
-                  Text(
-                    SessionController().getArtistDetails.artistTrainingGoal ??
-                        "",
+                    SessionController().getTrainerDetailsModel.trainerBio ?? "",
                     style: context.bodyMedium,
                     textAlign: textAlignJustify,
                   ),
@@ -89,22 +85,22 @@ class _ArtistProfileState extends State<ArtistProfile> {
                   ),
                   10.heightBox,
                   SessionController()
-                              .getArtistDetails
-                              .artistPreferredTrainingStyle !=
+                              .getTrainerDetailsModel
+                              .trainerSessionType !=
                           null
                       ? Wrap(
                           spacing: 5,
                           runSpacing: 5,
                           children: List.generate(
                               SessionController()
-                                      .getArtistDetails
-                                      .artistPreferredTrainingStyle
+                                      .getTrainerDetailsModel
+                                      .trainerSessionType
                                       ?.length ??
                                   0, (index) {
                             return OutlinedButtonWidget(
                                 title: SessionController()
-                                        .getArtistDetails
-                                        .artistPreferredTrainingStyle?[index] ??
+                                        .getTrainerDetailsModel
+                                        .trainerSessionType?[index] ??
                                     "");
                           }),
                         )

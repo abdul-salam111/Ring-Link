@@ -18,18 +18,29 @@ class SplashServices {
   }
 
   Future<void> checkLoginStatus(BuildContext context) async {
-    await SessionController().getUserfromSharedpref();
-    final userType = await storage.readValues(StorageKeys.userType);
+    try {
+      await SessionController().getUserfromSharedpref();
+      final userTypeString = await storage.readValues(StorageKeys.userType);
+      final chooseRoleDone = await storage.readValues(StorageKeys.chooseRoleDone);
 
-    final onboardingDone =
-        await storage.readValues(StorageKeys.onboardingCompleted);
-    if (SessionController().islogin == true) {
-      context.goNamed(AppRouteNames.navbar, extra: await context.isArtist);
-    } else if (onboardingDone != 'true' || onboardingDone == null) {
-      context.goNamed(AppRouteNames.onBoarding);
-    } else if (userType == null || userType.isEmpty) {
-      context.goNamed(AppRouteNames.chooserole);
-    } else {
+      final onboardingDone =
+          await storage.readValues(StorageKeys.onboardingCompleted);
+
+      if (SessionController().islogin == true) {
+        final isArtist = userTypeString == UserType.artist.name ? true : false;
+        context.goNamed(AppRouteNames.navbar, extra: isArtist);
+      } else if (onboardingDone != 'true' || onboardingDone == null) {
+        context.goNamed(AppRouteNames.onBoarding);
+      } else if (chooseRoleDone == null ||
+          chooseRoleDone.isEmpty ||
+          chooseRoleDone != 'true') {
+        context.goNamed(AppRouteNames.chooserole);
+      } else {
+        context.goNamed(AppRouteNames.login);
+      }
+    } catch (e) {
+      debugPrint('Error in checkLoginStatus: $e');
+   
       context.goNamed(AppRouteNames.login);
     }
   }

@@ -22,7 +22,7 @@ class AuthRepository {
         password: userPassword,
       );
 
-      final usertype = await storage.userType;
+      final usertype = await storage.readValues(StorageKeys.userType);
       if (usertype == UserType.artist.name) {
         await storage.setValues(
             StorageKeys.artistDetails, jsonEncode(createArtist!.toJson()));
@@ -56,12 +56,38 @@ class AuthRepository {
       final user = response.user;
       if (user == null) throw Exception('User not found. Please try again.');
 
-      final usertype = await storage.userType;
-
       // Check email verification first
       if (!user.emailVerified) {
         await firebaseAuth.signOut();
-        throw NotFoundException("Please verify your email address.");
+        throw Exception("Please verify your email address.");
+      }
+
+      // Read user type from storage
+      String? usertype = await storage.readValues(StorageKeys.userType);
+
+      // If usertype is null, try to determine it from Firestore
+      if (usertype == null) {
+        final artistDoc = await firebaseFirestore
+            .collection(artistCollection)
+            .doc(user.uid)
+            .get();
+
+        if (artistDoc.exists) {
+          usertype = UserType.artist.name;
+          await storage.setValues(StorageKeys.userType, usertype);
+        } else {
+          final trainerDoc = await firebaseFirestore
+              .collection(trainerCollection)
+              .doc(user.uid)
+              .get();
+
+          if (trainerDoc.exists) {
+            usertype = UserType.trainer.name;
+            await storage.setValues(StorageKeys.userType, usertype);
+          } else {
+            throw Exception("User record not found in any collection.");
+          }
+        }
       }
 
       // Handle Artist
@@ -99,8 +125,10 @@ class AuthRepository {
                 StorageKeys.artistDetails, jsonEncode(createArtistModel));
           }
         }
+
         return createArtistModel;
       }
+
       // Handle Trainer
       else {
         final userDoc = await firebaseFirestore
@@ -137,13 +165,12 @@ class AuthRepository {
                 StorageKeys.trainerDetails, jsonEncode(trainerDetailsModel));
           }
         }
+
         return trainerDetailsModel;
       }
     } on FirebaseAuthException catch (e) {
-
       throw handleFirebaseAuthException(e);
     } catch (e) {
-
       throw Exception('Sign-in failed. Please try again.');
     }
   }

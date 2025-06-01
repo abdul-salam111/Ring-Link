@@ -5,12 +5,14 @@ class CustomAppBarSec extends StatelessWidget {
   final String title;
   final VoidCallback? onBack;
   final VoidCallback? onMore;
+  final IconData? onmoreIcon;
 
   const CustomAppBarSec({
     Key? key,
     required this.title,
     this.onBack,
     this.onMore,
+    this.onmoreIcon,
   }) : super(key: key);
 
   @override
@@ -30,7 +32,7 @@ class CustomAppBarSec extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.bold),
         ),
         _iconButton(
-          icon: Icons.more_vert,
+          icon: onmoreIcon ?? Icons.more_vert,
           onPressed: onMore ?? () => context.pop(),
         ),
       ],

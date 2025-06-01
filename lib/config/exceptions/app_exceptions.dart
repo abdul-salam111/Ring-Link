@@ -40,10 +40,10 @@ class BadRequestException extends AppException {
 
 // Resource Not Found Exception
 class NotFoundException extends AppException {
-  NotFoundException([String? message]) : super(message, "Resource Not Found: ");
+  NotFoundException([String? message]) : super(message, "");
 }
 
-// Internal Server Error Exception
+// Internal Server Error Exceptionr
 class InternalServerErrorException extends AppException {
   InternalServerErrorException([String? message])
       : super(message, "Internal Server Error: ");

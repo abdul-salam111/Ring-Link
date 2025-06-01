@@ -8,6 +8,7 @@ import 'package:ring_link/pages/artist_pages/trainer_profile_screen_for_artist/t
 import 'package:ring_link/pages/common_pages/choose_role_screen/choose_role_screen.dart';
 import 'package:ring_link/pages/common_pages/email_vefication_screen/email_verification_screen.dart';
 import 'package:ring_link/pages/common_pages/inbox_screen/inbox_screen.dart';
+import 'package:ring_link/pages/common_pages/messages_screen/messages_screen.dart';
 import 'package:ring_link/pages/common_pages/navbar/navbar.dart';
 import 'package:ring_link/pages/common_pages/onboarding&Splash/onboarding_screen.dart';
 import 'package:ring_link/pages/common_pages/onboarding&Splash/splash_screen.dart';
@@ -134,5 +135,20 @@ final GoRouter appRouter = GoRouter(
         return ArtistProfileForTrainer(getArtistDetails: getArtistDetails);
       },
     ),
+    GoRoute(
+      path: AppRoutePaths.messagesScreen,
+      name: AppRouteNames.messagesScreen,
+      builder: (context, state) => MessagesScreen(),
+    ),
+    // GoRoute(
+    //   path: AppRoutePaths.artistManuScreen,
+    //   name: AppRouteNames.artistManuScreen,
+    //   builder: (context, state) => ArtistManuScreen(),
+    // ),
+    // GoRoute(
+    //   path: AppRoutePaths.notificationScreen,
+    //   name: AppRouteNames.notificationScreen,
+    //   builder: (context, state) => notific(),
+    // ),
   ],
 );

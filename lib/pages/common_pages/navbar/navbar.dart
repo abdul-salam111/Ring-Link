@@ -7,7 +7,11 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/common_blocs/navbarBloc/bloc/navbar_bloc.dart';
 import 'package:ring_link/pages/artist_pages/artist_home_screen/artist_home_screen.dart';
 import 'package:ring_link/pages/artist_pages/artist_profile/artist_profile.dart';
+import 'package:ring_link/pages/common_pages/booking_screen/booking_screen.dart';
+import 'package:ring_link/pages/common_pages/inbox_screen/inbox_screen.dart';
+import 'package:ring_link/pages/common_pages/search_screen/search_screen.dart';
 import 'package:ring_link/pages/trainer_pages/trainer_home_screen/trainer_home_screen.dart';
+import 'package:ring_link/pages/trainer_pages/trainer_profile_screen/trainer_profile.dart';
 
 import 'package:ring_link/utils/colors.dart';
 import 'package:ring_link/utils/library.dart';
@@ -32,19 +36,19 @@ class _NavBarState extends State<NavBar> {
 
   List<Widget> artistScreens = [
     ArtistHomeScreen(),
+    SearchScreen(),
+    BookingScreen(),
+    InboxScreen(),
+    ArtistProfile(),
 
-    const ArtistProfile(),
-    // const BookingScreen(),
-    // const MessageScreen(),
-    // const ProfileScreen(),
   ];
   List<Widget> trainerScreens = [
     TrainerHomeScreen(),
-
-    // const SearchScreen(),
-    // const BookingScreen(),
-    // const MessageScreen(),
-    // const ProfileScreen(),
+    SearchScreen(),
+    BookingScreen(),
+    InboxScreen(),
+    TrainerProfile()
+   
   ];
   @override
   Widget build(BuildContext context) {

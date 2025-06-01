@@ -8,20 +8,19 @@ class AppRoutePaths {
   static const String chooserole = '/chooserole';
   static const String inboxScreen = '/inboxScreen';
 
+  static const String messagesScreen = '/messagesScreen';
+  static const String notificationScreen = '/notificationScreen';
+
   //artists pages
   static const String artistHomeScreen = '/artistHomeScreen';
   static const String trainerFilter = '/trainerFilter';
   static const String artistDetails = '/artistDetails';
-  static const String trainerProfileScreenForArtist = '/trainerProfileScreenForArtist';
-
-
+  static const String trainerProfileScreenForArtist =
+      '/trainerProfileScreenForArtist';
+        static const String artistManuScreen = '/artistManuScreen';
 
   //trainer pages
   static const String trainerHomeScreen = '/trainerHomeScreen';
   static const String artistProfileForTrainer = '/artistProfileForTrainer';
   static const String trainerDetails = '/trainerDetails';
-
-
-
-  
 }

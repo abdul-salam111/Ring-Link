@@ -181,6 +181,9 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                     onPressed: () async {
                       await storage.setValues(
                           StorageKeys.userType, state.chooseRole.name);
+                      await storage.setValues(
+                          StorageKeys.chooseRoleDone, true.toString());
+
                       context.pushNamed(AppRouteNames.login);
                     },
                     fontsize: 16,

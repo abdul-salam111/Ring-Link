@@ -8,6 +8,8 @@ class AppRouteNames {
   static const String emailverification = 'emailverification';
   static const String chooserole = 'chooserole';
   static const String inboxScreen = 'inboxScreen';
+  static const String messagesScreen = 'messagesScreen';
+  static const String notificationScreen = 'notificationScreen';
 
 
 
@@ -16,6 +18,7 @@ class AppRouteNames {
   static const String trainerFilter = 'trainerFilter';
   static const String artistDetails = 'artistDetails';
   static const String trainerProfileScreenForArtist = 'trainerProfileScreenForArtist';
+    static const String artistManuScreen = 'artistManuScreen';
   
 
   //trainer pages

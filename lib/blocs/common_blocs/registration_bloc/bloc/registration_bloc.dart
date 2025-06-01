@@ -47,7 +47,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   Future<void> onArtistRegistrationEvent(
       OnUserRegistrationEvent event, Emitter<RegistrationState> emit) async {
     try {
-      final usertype = await storage.userType;
+      final usertype = await storage.readValues(StorageKeys.userType);
       emit(state.copyWith(apiStatus: ApiStatus.loading));
       if (usertype == UserType.artist.name) {
         final createArtistModel = CreateArtistModel(

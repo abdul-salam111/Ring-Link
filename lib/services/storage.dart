@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
 class LocalStorage {
   // Make the class a singleton
   static final LocalStorage _instance = LocalStorage._internal();
@@ -36,6 +35,7 @@ class StorageKeys {
   static const String token = "token";
   static const String userId = 'userId';
   static const String userType = 'userType';
+  static const String chooseRoleDone = 'chooseRoleDone';
   static const String onboardingCompleted = 'onboardingCompleted';
 }
 
@@ -45,24 +45,11 @@ enum UserType {
 }
 
 extension LocalStorageGetters on LocalStorage {
-  Future<String?> get userType async {
-    return await readValues(StorageKeys.userType);
-  }
-
   Future<String?> get userId async {
     return await readValues(StorageKeys.userId);
   }
 }
 
 extension UserTypeExtension on BuildContext {
-  Future<bool> get isArtist async {
-    final type = await storage.userType;
-    
-    return type == UserType.artist.name;
-  }
 
-  Future<bool> get isTrainer async {
-    final type = await storage.userType;
-    return type == UserType.trainer.name;
-  }
 }

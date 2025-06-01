@@ -23,6 +23,7 @@ class TrainerProfileHeaderCard extends StatelessWidget {
   final bool isShowShareButtton;
   final bool isShowFeedbackButtton;
   final bool isProfileScreen;
+  final IconData? onmoreIcon;
 
   const TrainerProfileHeaderCard(
       {super.key,
@@ -31,9 +32,11 @@ class TrainerProfileHeaderCard extends StatelessWidget {
       required this.onMoreBtnPress,
       required this.name,
       required this.subtitle,
+      this.onmoreIcon,
       required this.onpress,
       this.isProfileScreen = false,
       this.isShowFeedbackButtton = true,
+
       this.price,
       required this.rating,
       required this.location,
@@ -62,13 +65,14 @@ class TrainerProfileHeaderCard extends StatelessWidget {
             CustomAppBarSec(
               title: screenTitle,
               onMore: onMoreBtnPress,
+              onmoreIcon:onmoreIcon ,
             ),
             20.heightBox,
             Row(
               crossAxisAlignment: crossAxisCenter,
               children: [
                 CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(profilePic),
+                  backgroundImage: CachedNetworkImageProvider(profilePic,),
                   radius: isProfileScreen ? 35 : 30,
                 ),
                 10.widthBox,

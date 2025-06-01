@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/common_blocs/registration_bloc/bloc/registration_bloc.dart';
 import 'package:ring_link/main.dart';
 import 'package:ring_link/routes/app_route_names.dart';
+import 'package:ring_link/services/storage.dart';
 import 'package:ring_link/utils/enums.dart';
 import 'package:ring_link/utils/num_txt.dart';
 import 'package:ring_link/widgets/components.dart';
@@ -253,11 +254,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               ? true
                                               : false,
                                       text: "Create An Account",
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (formkey.currentState!.validate()) {
-                                          context
-                                              .read<RegistrationBloc>()
-                                              .add(OnUserRegistrationEvent());
+                                          if (await storage.readValues(
+                                                  StorageKeys.chooseRoleDone) ==
+                                              null) {
+                                            context.pushNamed(
+                                                AppRouteNames.chooserole);
+                                          } else {
+                                            context
+                                                .read<RegistrationBloc>()
+                                                .add(OnUserRegistrationEvent());
+                                          }
                                         }
                                       },
                                       fontsize: 18,

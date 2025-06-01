@@ -9,6 +9,7 @@ class SessionController {
   GetTrainerDetailsModel getTrainerDetailsModel = GetTrainerDetailsModel();
   static final SessionController _session = SessionController._internal();
   bool islogin = false;
+  
   SessionController._internal();
 
   static SessionController get instance => _session;
@@ -17,20 +18,26 @@ class SessionController {
     return _session;
   }
 
-  Future<void> saveUserInStorage(dynamic user) async {
-    final usertype = await storage.userType;
+  Future<void> saveUserInStorage(
+    dynamic user,
+  ) async {
+    final String usertype = await storage.readValues(
+      StorageKeys.userType,
+    );
     if (usertype == UserType.artist.name) {
       await storage.setValues(StorageKeys.artistDetails, jsonEncode(user));
+      await storage.setValues(StorageKeys.userType, UserType.artist.name);
     } else {
       await storage.setValues(StorageKeys.trainerDetails, jsonEncode(user));
+      await storage.setValues(StorageKeys.userType, UserType.trainer.name);
     }
     await storage.setValues(StorageKeys.loggedIn, 'true');
   }
 
   Future<void> getUserfromSharedpref() async {
     try {
-      final usertype = await storage.userType;
-      if (usertype == UserType.artist.name) {
+      final userType =await storage.readValues(StorageKeys.userType);
+      if (userType == UserType.artist.name) {
         final userData = await storage.readValues(StorageKeys.artistDetails);
         if (userData != null) {
           SessionController().getArtistDetails =
