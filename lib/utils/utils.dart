@@ -200,4 +200,6 @@ void openGmail() {
   } else {
     print('Opening Gmail is not supported on iOS.');
   }
+
+  
 }

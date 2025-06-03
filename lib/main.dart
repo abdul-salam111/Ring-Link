@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ring_link/config/theme/theme.dart';
@@ -7,6 +8,7 @@ import 'package:ring_link/repositories/artist_repositories/artist_home_screen/ar
 import 'package:ring_link/repositories/trainer_repsitories/trainer_homescreen_repository.dart';
 import 'package:ring_link/routes/app_routes.dart';
 import 'repositories/common_repositories/auth_repository.dart';
+
 
 final getIt = GetIt.instance;
 void main() async {
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
 void serviceslocator() {
   // auth repo
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
-  getIt.registerLazySingleton<ArtistHomeScreenRepository>(() => ArtistHomeScreenRepository());
-  getIt.registerLazySingleton<TrainerHomescreenRepository>(() => TrainerHomescreenRepository());
+  getIt.registerLazySingleton<ArtistHomeScreenRepository>(
+      () => ArtistHomeScreenRepository());
+  getIt.registerLazySingleton<TrainerHomescreenRepository>(
+      () => TrainerHomescreenRepository());
 }
