@@ -37,6 +37,7 @@ class StorageKeys {
   static const String userType = 'userType';
   static const String chooseRoleDone = 'chooseRoleDone';
   static const String onboardingCompleted = 'onboardingCompleted';
+  static const String deviceToken = 'deviceToken';
 }
 
 enum UserType {

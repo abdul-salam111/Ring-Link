@@ -47,6 +47,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   Future<void> onArtistRegistrationEvent(
       OnUserRegistrationEvent event, Emitter<RegistrationState> emit) async {
     try {
+      final deviceToken= await storage.readValues(StorageKeys.deviceToken);
       final usertype = await storage.readValues(StorageKeys.userType);
       emit(state.copyWith(apiStatus: ApiStatus.loading));
       if (usertype == UserType.artist.name) {
@@ -55,6 +56,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
           artistEmail: state.email.toString().trim(),
           userType: usertype.toString(),
           createdAt: DateTime.now(),
+          artist_device_token:deviceToken,
         );
         await artistAuthRepository.signUpUserWithEmailAndPassword(
             userEmail: state.email.toString().trim(),
@@ -66,6 +68,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
           trainerEmail: state.email.toString().trim(),
           userType: usertype.toString(),
           createdAt: DateTime.now(),
+          trainer_device_token: deviceToken,
         );
         await artistAuthRepository.signUpUserWithEmailAndPassword(
             userEmail: state.email.toString().trim(),
