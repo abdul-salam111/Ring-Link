@@ -19,12 +19,14 @@ class AppRouteNames {
   static const String artistDetails = 'artistDetails';
   static const String trainerProfileScreenForArtist = 'trainerProfileScreenForArtist';
     static const String artistManuScreen = 'artistManuScreen';
+    static const String editArtistProfile = 'editArtistProfile';
   
 
   //trainer pages
   static const String trainerHomeScreen = 'trainerHomeScreen';
   static const String artistProfileForTrainer = 'artistProfileForTrainer';
   static const String trainerDetails = 'trainerDetails';
+  static const String editTrainerProfile = 'editTrainerProfile';
   
 
 }

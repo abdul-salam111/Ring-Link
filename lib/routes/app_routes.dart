@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ring_link/models/artists/get_models/get_artist_details.dart';
 import 'package:ring_link/models/trainers/get_models/get_trainer_details_model.dart';
 import 'package:ring_link/pages/artist_pages/artist_details_screen/artist_details_screen.dart';
+import 'package:ring_link/pages/artist_pages/artist_edit_profile/artist_edit_profile.dart';
 import 'package:ring_link/pages/artist_pages/artist_home_screen/artist_home_screen.dart';
 import 'package:ring_link/pages/artist_pages/trainer_profile_screen_for_artist/trainer_profile_screen.dart';
 import 'package:ring_link/pages/common_pages/choose_role_screen/choose_role_screen.dart';
@@ -16,6 +17,7 @@ import 'package:ring_link/pages/common_pages/onboarding&Splash/splash_screen.dar
 import 'package:ring_link/pages/common_pages/registration_screen/registration_screen.dart';
 import 'package:ring_link/pages/trainer_pages/artist_profile_for_trainer/artist_profile_for_trainer.dart';
 import 'package:ring_link/pages/trainer_pages/trainer_details_screen/trainer_details_screen.dart';
+import 'package:ring_link/pages/trainer_pages/trainer_edit_profile/trainer_edit_profile.dart';
 import 'package:ring_link/pages/trainer_pages/trainer_home_screen/trainer_home_screen.dart';
 import 'package:ring_link/routes/app_route_names.dart';
 import 'package:ring_link/routes/app_route_paths.dart';
@@ -150,6 +152,16 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutePaths.notificationScreen,
       name: AppRouteNames.notificationScreen,
       builder: (context, state) => NotificationScreen(),
+    ),
+     GoRoute(
+      path: AppRoutePaths.editArtistProfile,
+      name: AppRouteNames.editArtistProfile,
+      builder: (context, state) => ArtistEditProfile(),
+    ),
+      GoRoute(
+      path: AppRoutePaths.editTrainerProfile,
+      name: AppRouteNames.editTrainerProfile,
+      builder: (context, state) => TrainerEditProfile(),
     ),
   ],
 );

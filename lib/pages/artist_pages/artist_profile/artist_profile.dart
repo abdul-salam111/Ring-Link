@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/pages/artist_pages/artist_profile/artist_profile_menu_screen.dart';
+import 'package:ring_link/routes/routes.dart';
 
 import 'package:ring_link/services/services_manager.dart';
 import 'package:ring_link/utils/alignments.dart';
@@ -42,13 +44,17 @@ class _ArtistProfileState extends State<ArtistProfile> {
               screenTitle: "My Profile",
               mainButtonText: "Edit Profile",
               profilePic:
-                  SessionController().getArtistDetails.artistProfileImage ?? defaultImage,
+                  SessionController().getArtistDetails.artistProfileImage ??
+                      defaultImage,
               name: SessionController().getArtistDetails.artistName ?? "",
               subtitle:
                   SessionController().getArtistDetails.artistTagline ?? "",
-              onpress: () {},
+              onpress: () {
+                context.pushNamed(AppRouteNames.editArtistProfile);
+              },
               rating: 0.0,
-              location: SessionController().getArtistDetails.artistAddress??"",
+              location:
+                  SessionController().getArtistDetails.artistAddress ?? "",
               experience:
                   SessionController().getArtistDetails.artistLevel ?? "",
             ),

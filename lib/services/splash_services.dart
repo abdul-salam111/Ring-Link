@@ -5,9 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ring_link/routes/routes.dart';
-import 'package:ring_link/services/notification_services/fcm_services.dart';
+import 'package:ring_link/services/notification_services/get_server_key.dart';
 import 'package:ring_link/services/storage.dart';
-
 import '../routes/app_route_names.dart';
 import 'notification_services/notifications_services.dart';
 import 'services_manager.dart';
@@ -20,6 +19,7 @@ class SplashServices {
   }
 
   NotificationsServices notificationsServices = NotificationsServices();
+
   Future<void> checkLoginStatus(BuildContext context) async {
     try {
       await SessionController().getUserfromSharedpref();
@@ -31,7 +31,9 @@ class SplashServices {
           await storage.readValues(StorageKeys.onboardingCompleted);
       notificationsServices.notificationPermissionRequest(context);
       await notificationsServices.getToken();
-      // FcmServices.firebaseInit();
+      notificationsServices.firebaseInit(context);
+      notificationsServices.setupInteractiveMessage(context);
+      GetServerKey().getServerToken();
       if (SessionController().islogin == true) {
         final isArtist = userTypeString == UserType.artist.name ? true : false;
         context.goNamed(AppRouteNames.navbar, extra: isArtist);

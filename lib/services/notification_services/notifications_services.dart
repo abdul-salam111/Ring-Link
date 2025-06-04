@@ -12,6 +12,7 @@ import 'package:ring_link/routes/routes.dart';
 import 'package:ring_link/services/storage.dart';
 
 import 'package:ring_link/utils/flutter_toast.dart';
+import 'package:ring_link/utils/library.dart';
 
 class NotificationsServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -31,20 +32,13 @@ class NotificationsServices {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      CustomToast.show(
-        message: "Please, allow notification permissions",
-        gravity: ToastGravity.BOTTOM,
-      );
-      print("full granted");
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
-      print("provisinoal granted");
     } else {
-      print("not allowed");
       CustomToast.show(
-        message: "Please, allow notification permissions",
-        gravity: ToastGravity.BOTTOM,
-      );
+          message: "Please, allow notification permissions",
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: AppColors.halfwhiteColor);
       Future.delayed(Duration(seconds: 2), () {
         AppSettings.openAppSettings(type: AppSettingsType.notification);
       });
@@ -57,12 +51,9 @@ class NotificationsServices {
     String? currentToken = await messaging.getToken();
     if (currentToken == null) throw Exception("FCM token is null");
 
-    print("🎯 Current FCM Token: $currentToken");
-
     final oldToken = await storage.readValues(StorageKeys.deviceToken);
 
     if (oldToken != currentToken) {
-      print("🔁 Token updated locally");
       await storage.setValues(StorageKeys.deviceToken, currentToken);
     }
 
@@ -85,21 +76,25 @@ class NotificationsServices {
       android: androidInitSettings,
       iOS: iosInitSettings,
     );
-    await _flutterLocalNotificationsPlugin.initialize(initializationSetting,
-        onDidReceiveBackgroundNotificationResponse: (payload) {});
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSetting,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        handleMessage(context, message);
+      },
+    );
   }
 
 //foreground message when app in running mode
   void firebaseInit(BuildContext context) {
     FirebaseMessaging.onMessage.listen((message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      // RemoteNotification? notification = message.notification;
+      // AndroidNotification? android = message.notification?.android;
       if (Platform.isIOS) {
         iosForgroundMessage();
       }
       if (Platform.isAndroid) {
         initLocalNotification(context, message);
-        handleMessage(context, message);
+        showNotifications(message);
       }
     });
   }
@@ -148,6 +143,35 @@ class NotificationsServices {
     );
 
     AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(androidNotificationChannel.id, androidNotificationChannel.name);
+        AndroidNotificationDetails(
+      androidNotificationChannel.id,
+      androidNotificationChannel.name,
+      channelDescription: "channel description",
+      importance: Importance.high,
+      priority: Priority.high,
+      playSound: true,
+      sound: androidNotificationChannel.sound,
+    );
+
+    DarwinNotificationDetails darwinNotificationDetails =
+        DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+      iOS: darwinNotificationDetails,
+    );
+
+    Future.delayed(Duration.zero, () {
+      _flutterLocalNotificationsPlugin.show(
+          0,
+          message.notification!.title.toString(),
+          message.notification!.body.toString(),
+          notificationDetails,
+          payload: "my data");
+    });
   }
 }
