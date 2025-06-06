@@ -10,12 +10,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ring_link/blocs/trainer_blocs/trainer_profile_bloc/bloc/trainer_profile_bloc.dart';
 import 'package:ring_link/pages/trainer_pages/trainer_profile_screen/trainer_profile_menu_screen.dart';
 import 'package:ring_link/services/services_manager.dart';
-import 'package:ring_link/utils/alignments.dart';
-import 'package:ring_link/utils/context_ext.dart';
 import 'package:ring_link/utils/date_ext.dart';
-import 'package:ring_link/utils/images.dart';
 import 'package:ring_link/utils/num_txt.dart';
-import 'package:ring_link/utils/paddings.dart';
 import 'package:ring_link/widgets/custom_tab_bar.dart';
 import 'package:ring_link/widgets/profile_headere_section.dart';
 

@@ -31,6 +31,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return GestureDetector(
       onTap: () {
         context.focusScope.unfocus();
@@ -238,7 +239,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                                         size: 18),
                                                     5.widthBox,
                                                     Text(
-                                                      "Pakistan", 
+                                                      "Pakistan",
                                                       style: context
                                                                   .screenWidth >
                                                               420
@@ -358,8 +359,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                     width: context.screenWidth * 0.25,
                                     height: context.screenHeight * 0.12,
                                     fit: BoxFit.cover,
-                                    imageUrl:
-                                        defaultImage,
+                                    imageUrl: defaultImage,
                                   ),
                                 ),
                                 10.widthBox,

@@ -9,6 +9,7 @@ import 'package:ring_link/repositories/artist_repositories/artist_home_screen/ar
 import 'package:ring_link/repositories/trainer_repsitories/trainer_homescreen_repository.dart';
 import 'package:ring_link/routes/app_routes.dart';
 
+import 'repositories/artist_repositories/artist_profile_repo/artist_profile_repo.dart';
 import 'repositories/common_repositories/auth_repository.dart';
 
 final getIt = GetIt.instance;
@@ -52,4 +53,6 @@ void serviceslocator() {
       () => ArtistHomeScreenRepository());
   getIt.registerLazySingleton<TrainerHomescreenRepository>(
       () => TrainerHomescreenRepository());
+       getIt.registerLazySingleton<ArtistProfileRepository>(
+      () => ArtistProfileRepository());
 }

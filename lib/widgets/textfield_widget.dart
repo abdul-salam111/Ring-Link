@@ -26,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool isrequired;
   final int labelfontSize;
   final bool readonly;
+  final double borderRadius;
 
   const CustomTextFormField({
     super.key,
@@ -42,6 +43,7 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.validator,
     this.labelfontSize = 16,
+    this.borderRadius=50,
     this.onChanged,
     this.onTap,
     this.maxLines = 1,
@@ -105,12 +107,12 @@ class CustomTextFormField extends StatelessWidget {
               )
             : null,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         contentPadding:
             EdgeInsets.only(left: 20, top: maxLines > 1 ? 20 : 17, bottom: 17),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
             color: borderColor,
             width: 2,
@@ -118,7 +120,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: borderColor),
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         fillColor: fillColor,
         filled: true,

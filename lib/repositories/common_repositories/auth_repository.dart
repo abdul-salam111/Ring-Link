@@ -173,6 +173,7 @@ class AuthRepository {
     } on UnauthorizedException {
       rethrow;
     } catch (e) {
+
       throw Exception('Sign-in failed. Please try again.');
     }
   }
